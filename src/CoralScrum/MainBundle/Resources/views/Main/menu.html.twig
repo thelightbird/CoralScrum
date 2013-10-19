@@ -1,0 +1,11 @@
+	<div id="menu">
+		<div class="container">
+			<ul>
+				<li class="{% if app.request.get('_route') == 'CSM_' %} selected{% endif %}"><a href="{#{ path('CSM_') }#}">Tasks</a></li>
+				<li class="{% if app.request.get('_route') == 'CSM_' %} selected{% endif %}"><a href="{#{ path('CSM_') }#}">Sprints</a></li>
+				<li class="{% if app.request.get('_route') == 'CSM_' %} selected{% endif %}"><a href="{#{ path('CSM_') }#}">User Stories</a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+

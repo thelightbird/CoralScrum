@@ -1,0 +1,50 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/design.css') }}" type="text/css" media="screen" />
+{% endblock %}
+
+{% block body %}
+
+		<header>
+			<div class="container">
+				<div class="logo">
+					{% include "CoralScrumMainBundle:Main:header/logo.html.twig" %}
+				</div>
+				<div id="infos">
+					
+				</div>
+			</div>
+		</header>
+		
+		{#% include "CoralScrumMainBundle:Main:menu.html.twig" %#}
+
+		<div id="mainContainer">
+			<div class="container">
+
+			{% include "CoralScrumMainBundle:Scrum:task.html.twig" %}
+			{% include "CoralScrumMainBundle:Scrum:sprint.html.twig" %}
+			{% include "CoralScrumMainBundle:Scrum:userstory.html.twig" %}
+
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="footer">
+			{% include "CoralScrumMainBundle:Main:footer.html.twig" %}
+		</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('js/jquery.tablesorter.min.js') }}" type="text/javascript"></script>
+	<script>
+		$(document).ready(function() {
+			$(".tablesorter").tablesorter(); 
+		});
+	</script>
+{% endblock %}
+

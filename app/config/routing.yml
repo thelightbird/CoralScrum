@@ -1,0 +1,4 @@
+coral_scrum_main:
+    resource: "@CoralScrumMainBundle/Resources/config/routing.yml"
+    prefix:   /
+
