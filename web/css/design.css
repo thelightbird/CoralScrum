@@ -79,9 +79,9 @@ h1, h2, h3, h4, h5, h6 {
 	font-family:"Segoe UI";
 } 
 h1 {
-	font-size: 16px;
-	line-height: 16px;
-	margin-bottom: 10px;
+	font-size: 22px;
+	line-height: 22px;
+	margin: 20px 50px 30px 30px;
 }
 h2 {
 	font-size: 14px;
@@ -101,30 +101,37 @@ h5 {
 a {
 	color: #509BE5;
 }
-/*
+
 input {
 	border: 1px solid #DEDEDE;
 	background-color: #FCFCFC;
 }
 
 form {
+	width:550px !important;
+	margin:auto !important;
+}
+form {
 	margin-top:20px;
 	margin-left: 20px;
 }
 form label {
-	width: 300px;
+	width: 150px;
 	line-height: 20px;
 	float: left;
 	margin: 5px;
 	font-size:13px;
 }
-form input {
+form input, form textarea {
 	border: 1px solid #DEDEDE;
 	background-color: #FCFCFC;
 	width: 220px;
 	padding: 5px;
 	margin-top:2px;
 	margin-bottom:2px;
+}
+form input[type=checkbox] {
+	margin: 6px 0px
 }
 form input[type=submit] {
 	border: 1px solid lightgrey;
@@ -147,6 +154,15 @@ form select {
 	width: 232px;
 	padding: 5px;
 }
+form select[id*=day],
+form select[id*=month],
+form select[id*=year] {
+	width:75px;
+}
+form select[id*=day],
+form select[id*=month] {
+	margin-right: 3px;
+}
 form select option {
 	height:20px;
 	line-height:20px;
@@ -164,7 +180,7 @@ form .submit {
 	margin-top:10px;
 	margin-bottom:10px;
 }
-*/
+
 hr {
 	margin:20px;
 	background: transparent;
@@ -172,6 +188,11 @@ hr {
 	height:1px;
 	box-shadow: 0px 1px 0px #f0f0f0,
 				0px 2px 0px #cfcfcf;
+}
+
+
+div.message {
+	margin:20px;
 }
 
 table.defaultTab {
@@ -809,4 +830,35 @@ header div.infos span.notif {
 	font-size:16px;
 	font-weight:normal;
 	color: black;
+}
+
+
+#mainContainer ul.squareLi {
+	text-align: center;
+	margin:50px;
+}
+#mainContainer ul.squareLi li {
+	display: inline-block;
+	text-align: center;
+	margin: 30px;
+}
+
+#mainContainer ul.squareLi li a {
+	line-height: 200px;
+	display: block;
+	width:200px;
+	height:200px;
+	border-radius: 3px;
+	border: 1px solid #D6D6D6;
+	background-color: #E6E6E6;
+}
+#mainContainer ul.squareLi li a span {
+	width:200px;
+	line-height: 12px;
+	display: inline-block;
+	vertical-align:middle;
+	word-wrap: break-word;
+}
+#mainContainer ul.squareLi li a:hover {
+	background-color: #efefef;
 }

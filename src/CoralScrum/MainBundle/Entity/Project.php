@@ -21,8 +21,11 @@ class Project
      */
     private $id;
 
-    /** @ORM\OneToMany(targetEntity="DeveloperProject", mappedBy="project") */
-    private $developerproject;
+    /** @ORM\OneToMany(targetEntity="UserProject", mappedBy="project") */
+    private $userproject;
+
+    /** @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User", inversedBy="project") */
+    private $owner;
 
     /**
      * @var string
@@ -30,6 +33,13 @@ class Project
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isPublic", type="boolean")
+     */
+    private $isPublic;
 
 
     /**
@@ -40,6 +50,26 @@ class Project
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param User $user
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return User $user
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 
     /**
@@ -63,5 +93,28 @@ class Project
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set isPublic
+     *
+     * @param boolean $isPublic
+     * @return Project
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+    
+        return $this;
+    }
+
+    /**
+     * Get isPublic
+     *
+     * @return boolean 
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
     }
 }

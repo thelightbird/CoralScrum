@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
+	public function getVisibleProject($user_id)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+           //->join('p.owner', 'u')
+           //->addSelect('u')
+           ->where('p.owner = 1')
+           ->orWhere('p.isPublic = 1')
+           //->andWhere('p.owner_id = ?', 1)
+            //->setParameter('user_id', $user)
+            //->orderBy('p.blocked', 'ASC')
+            //->addOrderBy('p.pin', 'DESC')
+            //->addOrderBy('u.username', 'ASC')
+            ;
+        return $qb->getQuery()->getResult();
+    }
 }

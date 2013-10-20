@@ -22,7 +22,7 @@ class Task
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="task_id")
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="task")
      */
     private $dependency;
 
@@ -43,13 +43,13 @@ class Task
     private $project;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Developer")
-     * @ORM\JoinTable(name="Task_Developer",
+     * @ORM\ManyToMany(targetEntity="CoralScrum\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="Task_User",
      *          joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
-     *          inverseJoinColumns={@ORM\JoinColumn(name="developer_id", referencedColumnName="id")}
+     *          inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *          )
      */
-    private $developer;
+    private $user;
 
     /**
      * @var UserStory $userStory

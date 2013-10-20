@@ -1,3 +1,38 @@
 CSM_homepage:
     pattern:  /
-    defaults: { _controller: CoralScrumMainBundle:Default:index }
+    defaults: { _controller: CoralScrumMainBundle:Home:index }
+
+
+# --- Project
+
+CSM_project_selection:
+    pattern:  /project
+    defaults: { _controller: CoralScrumMainBundle:Project:selection }
+
+CSM_project_settings:
+    pattern:  /project/{id}/settings
+    defaults: { _controller: CoralScrumMainBundle:Project:settings }
+    requirements:
+        id: \d+
+
+CSM_project_add:
+    pattern:  /addProject
+    defaults: { _controller: CoralScrumMainBundle:Project:add }
+
+# --- Project / Task
+
+CSM_project_task:
+    pattern:  /project/{id}/task
+    defaults: { _controller: CoralScrumMainBundle:Task:list }
+    requirements:
+        id: \d+
+
+CSM_project_task_add:
+    pattern:  /project/{id}/addTask
+    defaults: { _controller: CoralScrumMainBundle:Task:add }
+    requirements:
+        id: \d+
+
+
+
+
