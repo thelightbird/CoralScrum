@@ -1,0 +1,7 @@
+parameters:
+#    coral_scrum_user.example.class: CoralScrum\UserBundle\Example
+
+services:
+#    coral_scrum_user.example:
+#        class: %coral_scrum_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
