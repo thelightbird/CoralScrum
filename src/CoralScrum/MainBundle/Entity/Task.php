@@ -22,8 +22,7 @@ class Task
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="task")
-     * @ORM\JoinColumn(name="userstory_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
      **/
     private $userStory;
 
@@ -37,7 +36,7 @@ class Task
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", inversedBy="dependency")
+     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\Task")
      * @ORM\JoinTable(name="Task_Dependency",
      *          joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
      *          inverseJoinColumns={@ORM\JoinColumn(name="dependency_id", referencedColumnName="id")}
@@ -109,6 +108,11 @@ class Task
     private $commit;
 
 
+    public function __toString()
+    {
+        return "#".$this->id.": ".$this->title;
+    }
+
     /**
      * Constructor
      */
@@ -117,7 +121,7 @@ class Task
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    
     /**
      * Get id
      *
@@ -422,10 +426,5 @@ class Task
     public function getDependency()
     {
         return $this->dependency;
-    }
-
-    public function __toString()
-    {
-        return "#".$this->id.": ".$this->title;
     }
 }

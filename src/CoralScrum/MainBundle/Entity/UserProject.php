@@ -49,6 +49,18 @@ class UserProject
      */
     private $isAccept;
 
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * Set accountType
      *
@@ -93,16 +105,6 @@ class UserProject
     public function getIsAccept()
     {
         return $this->isAccept;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

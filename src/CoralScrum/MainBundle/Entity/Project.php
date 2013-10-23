@@ -27,7 +27,7 @@ class Project
     private $userproject;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User", inversedBy="project")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User")
      */
     private $owner;
 
@@ -53,6 +53,19 @@ class Project
     private $deposit;
 
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->userproject = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -61,26 +74,6 @@ class Project
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set owner
-     *
-     * @param User $user
-     */
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return User $user
-     */
-    public function getOwner()
-    {
-        return $this->owner;
     }
 
     /**
@@ -151,14 +144,7 @@ class Project
     {
         return $this->deposit;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->userproject = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Add userproject
      *
@@ -192,8 +178,26 @@ class Project
         return $this->userproject;
     }
 
-    public function __toString()
+    /**
+     * Set owner
+     *
+     * @param \CoralScrum\UserBundle\Entity\User $owner
+     * @return Project
+     */
+    public function setOwner(\CoralScrum\UserBundle\Entity\User $owner = null)
     {
-        return $this->name;
+        $this->owner = $owner;
+    
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \CoralScrum\UserBundle\Entity\User 
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

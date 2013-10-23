@@ -36,6 +36,7 @@ class Sprint
     private $duration;
 
 
+
     /**
      * Get id
      *

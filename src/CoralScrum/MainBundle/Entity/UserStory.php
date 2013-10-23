@@ -38,16 +38,6 @@ class UserStory
     private $sprint;
 
     /**
-     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", mappedBy="userstory")
-     **/
-    private $task;
-
-    /**
-     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Test", mappedBy="userstory")
-     **/
-    private $test;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -90,6 +80,19 @@ class UserStory
     private $isValidated;
 
 
+    public function __toString()
+    {
+        return "#".$this->id.": ".$this->title;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -145,14 +148,7 @@ class UserStory
     {
         return $this->description;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Set priority
      *
@@ -299,76 +295,5 @@ class UserStory
     public function getSprint()
     {
         return $this->sprint;
-    }
-
-    /**
-     * Add task
-     *
-     * @param \CoralScrum\MainBundle\Entity\Task $task
-     * @return UserStory
-     */
-    public function addTask(\CoralScrum\MainBundle\Entity\Task $task)
-    {
-        $this->task[] = $task;
-    
-        return $this;
-    }
-
-    /**
-     * Remove task
-     *
-     * @param \CoralScrum\MainBundle\Entity\Task $task
-     */
-    public function removeTask(\CoralScrum\MainBundle\Entity\Task $task)
-    {
-        $this->task->removeElement($task);
-    }
-
-    /**
-     * Get task
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTask()
-    {
-        return $this->task;
-    }
-
-    /**
-     * Add test
-     *
-     * @param \CoralScrum\MainBundle\Entity\Test $test
-     * @return UserStory
-     */
-    public function addTest(\CoralScrum\MainBundle\Entity\Test $test)
-    {
-        $this->test[] = $test;
-    
-        return $this;
-    }
-
-    /**
-     * Remove test
-     *
-     * @param \CoralScrum\MainBundle\Entity\Test $test
-     */
-    public function removeTest(\CoralScrum\MainBundle\Entity\Test $test)
-    {
-        $this->test->removeElement($test);
-    }
-
-    /**
-     * Get test
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTest()
-    {
-        return $this->test;
-    }
-
-    public function __toString()
-    {
-        return "#".$this->id.": ".$this->title;
     }
 }

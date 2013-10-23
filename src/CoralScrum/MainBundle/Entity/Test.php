@@ -22,13 +22,12 @@ class Test
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="test")
-     * @ORM\JoinColumn(name="userstory_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
      **/
     private $userStory;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User", inversedBy="test")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User")
      */
     private $tester;
 
@@ -73,6 +72,12 @@ class Test
      * @ORM\Column(name="comment", type="text")
      */
     private $comment;
+
+
+    public function __toString()
+    {
+        return "#".$this->id.": ".$this->title;
+    }
 
 
     /**
@@ -267,10 +272,5 @@ class Test
     public function getTester()
     {
         return $this->tester;
-    }
-
-    public function __toString()
-    {
-        return "#".$this->id.": ".$this->title;
     }
 }
