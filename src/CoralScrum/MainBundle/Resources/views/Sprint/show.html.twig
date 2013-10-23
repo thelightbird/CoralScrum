@@ -1,0 +1,36 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block container -%}
+    <h1>Sprint</h1>
+
+    <table class="record_properties cleanTab">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Startdate</th>
+                <td>{{ entity.startDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ entity.duration }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('sprint') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('sprint_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

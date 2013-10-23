@@ -1,0 +1,30 @@
+sprint:
+    pattern:  /
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:index" }
+
+sprint_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:show" }
+
+sprint_new:
+    pattern:  /new
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:new" }
+
+sprint_create:
+    pattern:  /create
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:create" }
+    requirements: { _method: post }
+
+sprint_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:edit" }
+
+sprint_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:update" }
+    requirements: { _method: post|put }
+
+sprint_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:delete" }
+    requirements: { _method: post|delete }

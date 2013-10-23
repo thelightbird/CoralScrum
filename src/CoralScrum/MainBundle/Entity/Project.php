@@ -48,7 +48,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="deposit", type="string", length=255)
+     * @ORM\Column(name="deposit", type="string", length=255, nullable=true)
      */
     private $deposit;
 
@@ -64,6 +64,7 @@ class Project
     public function __construct()
     {
         $this->userproject = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isPublic = false;
     }
     
     /**

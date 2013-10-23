@@ -5,34 +5,35 @@ CSM_homepage:
 
 # --- Project
 
-CSM_project_selection:
-    pattern:  /project
-    defaults: { _controller: CoralScrumMainBundle:Project:selection }
+CoralScrumMainBundle_project:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/project.yml"
+    prefix:   /project
 
-CSM_project_settings:
-    pattern:  /project/{id}/settings
-    defaults: { _controller: CoralScrumMainBundle:Project:settings }
-    requirements:
-        id: \d+
 
-CSM_project_add:
-    pattern:  /addProject
-    defaults: { _controller: CoralScrumMainBundle:Project:add }
+# --- Project / Sprint
+
+CoralScrumMainBundle_sprint:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/sprint.yml"
+    prefix:   /sprint
+
 
 # --- Project / Task
 
-CSM_project_task:
-    pattern:  /project/{id}/task
-    defaults: { _controller: CoralScrumMainBundle:Task:list }
-    requirements:
-        id: \d+
-
-CSM_project_task_add:
-    pattern:  /project/{id}/addTask
-    defaults: { _controller: CoralScrumMainBundle:Task:add }
-    requirements:
-        id: \d+
+CoralScrumMainBundle_task:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/task.yml"
+    prefix:   /task
 
 
+# --- Project / Test
 
+CoralScrumMainBundle_test:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/test.yml"
+    prefix:   /test
+
+
+# --- Project / UserStory
+
+CoralScrumMainBundle_userstory:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/userstory.yml"
+    prefix:   /userstory
 

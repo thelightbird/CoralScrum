@@ -28,14 +28,6 @@ class UserStory
      */
     private $project;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\Sprint")
-     * @ORM\JoinTable(name="sprint_userstory",
-     *      joinColumns={@ORM\JoinColumn(name="sprint_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="userstory_id", referencedColumnName="id")}
-     *      )
-     **/
-    private $sprint;
 
     /**
      * @var string
@@ -91,6 +83,8 @@ class UserStory
     public function __construct()
     {
         $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isFinished = false;
+        $this->isValidated = false;
     }
     
     /**
@@ -262,38 +256,5 @@ class UserStory
     public function getProject()
     {
         return $this->project;
-    }
-
-    /**
-     * Add sprint
-     *
-     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
-     * @return UserStory
-     */
-    public function addSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
-    {
-        $this->sprint[] = $sprint;
-    
-        return $this;
-    }
-
-    /**
-     * Remove sprint
-     *
-     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
-     */
-    public function removeSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
-    {
-        $this->sprint->removeElement($sprint);
-    }
-
-    /**
-     * Get sprint
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSprint()
-    {
-        return $this->sprint;
     }
 }

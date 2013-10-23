@@ -1,0 +1,30 @@
+test:
+    pattern:  /
+    defaults: { _controller: "CoralScrumMainBundle:Test:index" }
+
+test_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoralScrumMainBundle:Test:show" }
+
+test_new:
+    pattern:  /new
+    defaults: { _controller: "CoralScrumMainBundle:Test:new" }
+
+test_create:
+    pattern:  /create
+    defaults: { _controller: "CoralScrumMainBundle:Test:create" }
+    requirements: { _method: post }
+
+test_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoralScrumMainBundle:Test:edit" }
+
+test_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoralScrumMainBundle:Test:update" }
+    requirements: { _method: post|put }
+
+test_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoralScrumMainBundle:Test:delete" }
+    requirements: { _method: post|delete }

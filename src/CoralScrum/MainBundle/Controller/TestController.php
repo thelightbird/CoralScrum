@@ -5,37 +5,37 @@ namespace CoralScrum\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use CoralScrum\MainBundle\Entity\Task;
-use CoralScrum\MainBundle\Form\TaskType;
+use CoralScrum\MainBundle\Entity\Test;
+use CoralScrum\MainBundle\Form\TestType;
 
 /**
- * Task controller.
+ * Test controller.
  *
  */
-class TaskController extends Controller
+class TestController extends Controller
 {
 
     /**
-     * Lists all Task entities.
+     * Lists all Test entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Task')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:Test')->findAll();
 
-        return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:index.html.twig', array(
             'entities' => $entities,
         ));
     }
     /**
-     * Creates a new Task entity.
+     * Creates a new Test entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Task();
+        $entity = new Test();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -44,26 +44,26 @@ class TaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('test_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a Task entity.
+    * Creates a form to create a Test entity.
     *
-    * @param Task $entity The entity
+    * @param Test $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Task $entity)
+    private function createCreateForm(Test $entity)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_create'),
+        $form = $this->createForm(new TestType(), $entity, array(
+            'action' => $this->generateUrl('test_create'),
             'method' => 'POST',
         ));
 
@@ -73,59 +73,59 @@ class TaskController extends Controller
     }
 
     /**
-     * Displays a form to create a new Task entity.
+     * Displays a form to create a new Test entity.
      *
      */
     public function newAction()
     {
-        $entity = new Task();
+        $entity = new Test();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Task entity.
+     * Finds and displays a Test entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Test entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('CoralScrumMainBundle:Task:show.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
-     * Displays a form to edit an existing Task entity.
+     * Displays a form to edit an existing Test entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Test entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -133,16 +133,16 @@ class TaskController extends Controller
     }
 
     /**
-    * Creates a form to edit a Task entity.
+    * Creates a form to edit a Test entity.
     *
-    * @param Task $entity The entity
+    * @param Test $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Task $entity)
+    private function createEditForm(Test $entity)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new TestType(), $entity, array(
+            'action' => $this->generateUrl('test_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -151,17 +151,17 @@ class TaskController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Task entity.
+     * Edits an existing Test entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Test entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -171,17 +171,17 @@ class TaskController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('test_edit', array('id' => $id)));
         }
 
-        return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Test:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Task entity.
+     * Deletes a Test entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -191,21 +191,21 @@ class TaskController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+            $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Task entity.');
+                throw $this->createNotFoundException('Unable to find Test entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('task'));
+        return $this->redirect($this->generateUrl('test'));
     }
 
     /**
-     * Creates a form to delete a Task entity by id.
+     * Creates a form to delete a Test entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -214,7 +214,7 @@ class TaskController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('task_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('test_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

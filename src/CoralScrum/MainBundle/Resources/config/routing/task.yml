@@ -1,0 +1,30 @@
+task:
+    pattern:  /
+    defaults: { _controller: "CoralScrumMainBundle:Task:index" }
+
+task_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoralScrumMainBundle:Task:show" }
+
+task_new:
+    pattern:  /new
+    defaults: { _controller: "CoralScrumMainBundle:Task:new" }
+
+task_create:
+    pattern:  /create
+    defaults: { _controller: "CoralScrumMainBundle:Task:create" }
+    requirements: { _method: post }
+
+task_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoralScrumMainBundle:Task:edit" }
+
+task_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoralScrumMainBundle:Task:update" }
+    requirements: { _method: post|put }
+
+task_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoralScrumMainBundle:Task:delete" }
+    requirements: { _method: post|delete }

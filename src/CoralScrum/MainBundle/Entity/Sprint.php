@@ -22,6 +22,15 @@ class Sprint
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
+     * @ORM\JoinTable(name="sprint_userstories",
+     *      joinColumns={@ORM\JoinColumn(name="sprint_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="userstory_id", referencedColumnName="id")}
+     *      )
+     **/
+    private $userstory;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="startDate", type="date")
@@ -91,5 +100,46 @@ class Sprint
     public function getDuration()
     {
         return $this->duration;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->userstory = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add userstory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userstory
+     * @return Sprint
+     */
+    public function addUserstory(\CoralScrum\MainBundle\Entity\UserStory $userstory)
+    {
+        $this->userstory[] = $userstory;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userstory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userstory
+     */
+    public function removeUserstory(\CoralScrum\MainBundle\Entity\UserStory $userstory)
+    {
+        $this->userstory->removeElement($userstory);
+    }
+
+    /**
+     * Get userstory
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserstory()
+    {
+        return $this->userstory;
     }
 }

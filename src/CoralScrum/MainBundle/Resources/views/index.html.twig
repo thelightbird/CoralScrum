@@ -28,11 +28,8 @@
 				<ul class="squareLi">
 					<li><a href="{{ path('fos_user_registration_register') }}">Create an account</a></li>
 					<li><a href="{{ path('fos_user_security_login') }}">Log In</a></li>
-					<li><a href="{{ path('CSM_project_add') }}">Add project</a></li>
-					<li><a href="{{ path('CSM_project_selection') }}">Select project</a></li>
-					<li><a href="{{ path('CSM_project_task', {'id': 1}) }}">Task list</a></li>
-					<li><a href="{{ path('CSM_project_task_add', {'id': 1}) }}">Add task</a></li>
 				</ul>
+				
 				{#% include "CoralScrumMainBundle:Scrum:task.html.twig" %#}
 				{#% include "CoralScrumMainBundle:Scrum:sprint.html.twig" %#}
 				{#% include "CoralScrumMainBundle:Scrum:userstory.html.twig" %#}

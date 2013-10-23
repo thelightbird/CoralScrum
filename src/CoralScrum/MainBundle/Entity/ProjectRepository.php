@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
+    public function getVisibleProject($user)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->where('p.owner = :user_id')
+           ->setParameter('user_id', $user->getId())
+           ->orWhere('p.isPublic = 1')
+           ;
+        return $qb->getQuery()->getResult();
+    }
 }

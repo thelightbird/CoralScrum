@@ -120,6 +120,7 @@ class Task
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creationDate = new \DateTime();
     }
     
     /**

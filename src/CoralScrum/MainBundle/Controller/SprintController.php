@@ -5,37 +5,37 @@ namespace CoralScrum\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use CoralScrum\MainBundle\Entity\Task;
-use CoralScrum\MainBundle\Form\TaskType;
+use CoralScrum\MainBundle\Entity\Sprint;
+use CoralScrum\MainBundle\Form\SprintType;
 
 /**
- * Task controller.
+ * Sprint controller.
  *
  */
-class TaskController extends Controller
+class SprintController extends Controller
 {
 
     /**
-     * Lists all Task entities.
+     * Lists all Sprint entities.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Task')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:Sprint')->findAll();
 
-        return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:index.html.twig', array(
             'entities' => $entities,
         ));
     }
     /**
-     * Creates a new Task entity.
+     * Creates a new Sprint entity.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Task();
+        $entity = new Sprint();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -44,26 +44,26 @@ class TaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('sprint_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a Task entity.
+    * Creates a form to create a Sprint entity.
     *
-    * @param Task $entity The entity
+    * @param Sprint $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Task $entity)
+    private function createCreateForm(Sprint $entity)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_create'),
+        $form = $this->createForm(new SprintType(), $entity, array(
+            'action' => $this->generateUrl('sprint_create'),
             'method' => 'POST',
         ));
 
@@ -73,59 +73,59 @@ class TaskController extends Controller
     }
 
     /**
-     * Displays a form to create a new Task entity.
+     * Displays a form to create a new Sprint entity.
      *
      */
     public function newAction()
     {
-        $entity = new Task();
+        $entity = new Sprint();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Task entity.
+     * Finds and displays a Sprint entity.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('CoralScrumMainBundle:Task:show.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
-     * Displays a form to edit an existing Task entity.
+     * Displays a form to edit an existing Sprint entity.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -133,16 +133,16 @@ class TaskController extends Controller
     }
 
     /**
-    * Creates a form to edit a Task entity.
+    * Creates a form to edit a Sprint entity.
     *
-    * @param Task $entity The entity
+    * @param Sprint $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Task $entity)
+    private function createEditForm(Sprint $entity)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new SprintType(), $entity, array(
+            'action' => $this->generateUrl('sprint_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -151,17 +151,17 @@ class TaskController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Task entity.
+     * Edits an existing Sprint entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -171,17 +171,17 @@ class TaskController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('sprint_edit', array('id' => $id)));
         }
 
-        return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:Sprint:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Task entity.
+     * Deletes a Sprint entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -191,21 +191,21 @@ class TaskController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+            $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Task entity.');
+                throw $this->createNotFoundException('Unable to find Sprint entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('task'));
+        return $this->redirect($this->generateUrl('sprint'));
     }
 
     /**
-     * Creates a form to delete a Task entity by id.
+     * Creates a form to delete a Sprint entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -214,7 +214,7 @@ class TaskController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('task_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('sprint_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

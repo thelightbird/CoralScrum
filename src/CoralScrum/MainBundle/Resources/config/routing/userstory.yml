@@ -1,0 +1,30 @@
+userstory:
+    pattern:  /
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:index" }
+
+userstory_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:show" }
+
+userstory_new:
+    pattern:  /new
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:new" }
+
+userstory_create:
+    pattern:  /create
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:create" }
+    requirements: { _method: post }
+
+userstory_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:edit" }
+
+userstory_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:update" }
+    requirements: { _method: post|put }
+
+userstory_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoralScrumMainBundle:UserStory:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,10 @@
+userproject:
+    pattern:  /
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:index" }
+
+userproject_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:show" }
+
+
+

@@ -1,0 +1,15 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block container -%}
+    <h1>Sprint creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('sprint') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
