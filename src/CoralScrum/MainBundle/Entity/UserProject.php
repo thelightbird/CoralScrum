@@ -24,7 +24,7 @@ class UserProject
     /**
      * @var Project $project
      *
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="userproject")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project", inversedBy="userproject")
      */
     private $project;
 
@@ -93,5 +93,61 @@ class UserProject
     public function getIsAccept()
     {
         return $this->isAccept;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \CoralScrum\MainBundle\Entity\Project $project
+     * @return UserProject
+     */
+    public function setProject(\CoralScrum\MainBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \CoralScrum\MainBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \CoralScrum\UserBundle\Entity\User $user
+     * @return UserProject
+     */
+    public function setUser(\CoralScrum\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \CoralScrum\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -22,25 +22,10 @@ class Task
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="task")
-     */
-    private $dependency;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Task", inversedBy="dependency")
-     * @ORM\JoinTable(name="Task_Dependency",
-     *          joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
-     *          inverseJoinColumns={@ORM\JoinColumn(name="dependency_id", referencedColumnName="id")}
-     *          )
-     */
-    private $task;
-
-    /**
-     * @var Project $project
-     *
-     * @ORM\ManyToOne(targetEntity="Project")
-     */
-    private $project;
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="task")
+     * @ORM\JoinColumn(name="userstory_id", referencedColumnName="id")
+     **/
+    private $userStory;
 
     /**
      * @ORM\ManyToMany(targetEntity="CoralScrum\UserBundle\Entity\User")
@@ -52,18 +37,13 @@ class Task
     private $user;
 
     /**
-     * @var UserStory $userStory
-     *
-     * @ORM\ManyToOne(targetEntity="UserStory")
+     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", inversedBy="dependency")
+     * @ORM\JoinTable(name="Task_Dependency",
+     *          joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
+     *          inverseJoinColumns={@ORM\JoinColumn(name="dependency_id", referencedColumnName="id")}
+     *          )
      */
-    private $userStory;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="priority", type="integer")
-     */
-    private $priority;
+    private $dependency;
 
     /**
      * @var string
@@ -115,19 +95,28 @@ class Task
     private $endDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="testDate", type="date")
-     */
-    private $testDate;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="isBug", type="boolean")
      */
     private $isBug;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commit", type="string", length=255)
+     */
+    private $commit;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -137,29 +126,6 @@ class Task
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set priority
-     *
-     * @param integer $priority
-     * @return Task
-     */
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-    
-        return $this;
-    }
-
-    /**
-     * Get priority
-     *
-     * @return integer 
-     */
-    public function getPriority()
-    {
-        return $this->priority;
     }
 
     /**
@@ -324,29 +290,6 @@ class Task
     }
 
     /**
-     * Set testDate
-     *
-     * @param \DateTime $testDate
-     * @return Task
-     */
-    public function setTestDate($testDate)
-    {
-        $this->testDate = $testDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get testDate
-     *
-     * @return \DateTime 
-     */
-    public function getTestDate()
-    {
-        return $this->testDate;
-    }
-
-    /**
      * Set isBug
      *
      * @param boolean $isBug
@@ -367,5 +310,122 @@ class Task
     public function getIsBug()
     {
         return $this->isBug;
+    }
+
+    /**
+     * Set commit
+     *
+     * @param string $commit
+     * @return Task
+     */
+    public function setCommit($commit)
+    {
+        $this->commit = $commit;
+    
+        return $this;
+    }
+
+    /**
+     * Get commit
+     *
+     * @return string 
+     */
+    public function getCommit()
+    {
+        return $this->commit;
+    }
+
+    /**
+     * Set userStory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userStory
+     * @return Task
+     */
+    public function setUserStory(\CoralScrum\MainBundle\Entity\UserStory $userStory = null)
+    {
+        $this->userStory = $userStory;
+    
+        return $this;
+    }
+
+    /**
+     * Get userStory
+     *
+     * @return \CoralScrum\MainBundle\Entity\UserStory 
+     */
+    public function getUserStory()
+    {
+        return $this->userStory;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \CoralScrum\UserBundle\Entity\User $user
+     * @return Task
+     */
+    public function addUser(\CoralScrum\UserBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \CoralScrum\UserBundle\Entity\User $user
+     */
+    public function removeUser(\CoralScrum\UserBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add dependency
+     *
+     * @param \CoralScrum\MainBundle\Entity\Task $dependency
+     * @return Task
+     */
+    public function addDependency(\CoralScrum\MainBundle\Entity\Task $dependency)
+    {
+        $this->dependency[] = $dependency;
+    
+        return $this;
+    }
+
+    /**
+     * Remove dependency
+     *
+     * @param \CoralScrum\MainBundle\Entity\Task $dependency
+     */
+    public function removeDependency(\CoralScrum\MainBundle\Entity\Task $dependency)
+    {
+        $this->dependency->removeElement($dependency);
+    }
+
+    /**
+     * Get dependency
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDependency()
+    {
+        return $this->dependency;
+    }
+
+    public function __toString()
+    {
+        return "#".$this->id.": ".$this->title;
     }
 }

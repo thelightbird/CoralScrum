@@ -21,10 +21,14 @@ class Project
      */
     private $id;
 
-    /** @ORM\OneToMany(targetEntity="UserProject", mappedBy="project") */
+    /**
+      * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserProject", mappedBy="project")
+      */
     private $userproject;
 
-    /** @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User", inversedBy="project") */
+    /**
+     * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User", inversedBy="project")
+     */
     private $owner;
 
     /**
@@ -40,6 +44,13 @@ class Project
      * @ORM\Column(name="isPublic", type="boolean")
      */
     private $isPublic;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deposit", type="string", length=255)
+     */
+    private $deposit;
 
 
     /**
@@ -116,5 +127,73 @@ class Project
     public function getIsPublic()
     {
         return $this->isPublic;
+    }
+
+    /**
+     * Set deposit
+     *
+     * @param string $deposit
+     * @return Project
+     */
+    public function setDeposit($deposit)
+    {
+        $this->deposit = $deposit;
+    
+        return $this;
+    }
+
+    /**
+     * Get deposit
+     *
+     * @return string 
+     */
+    public function getDeposit()
+    {
+        return $this->deposit;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->userproject = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add userproject
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserProject $userproject
+     * @return Project
+     */
+    public function addUserproject(\CoralScrum\MainBundle\Entity\UserProject $userproject)
+    {
+        $this->userproject[] = $userproject;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userproject
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserProject $userproject
+     */
+    public function removeUserproject(\CoralScrum\MainBundle\Entity\UserProject $userproject)
+    {
+        $this->userproject->removeElement($userproject);
+    }
+
+    /**
+     * Get userproject
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserproject()
+    {
+        return $this->userproject;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -23,7 +23,9 @@ class User extends BaseUser
      */
     protected $id;
 
-     /** @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserProject", mappedBy="user") */
+     /** 
+      * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserProject", mappedBy="user")
+      */
     private $userproject;
 
     /**
@@ -43,16 +45,16 @@ class User extends BaseUser
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastConnectedDate", type="datetime")
+     * @ORM\Column(name="registrationDate", type="datetime")
      */
-    private $lastConnectedDate;
+    private $registrationDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="registrationDate", type="datetime")
+     * @ORM\Column(name="lastConnectedDate", type="datetime")
      */
-    private $registrationDate;
+    private $lastConnectedDate;
 
     /**
      * @var string
@@ -202,29 +204,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set lastConnectedDate
-     *
-     * @param \DateTime $lastConnectedDate
-     * @return User
-     */
-    public function setLastConnectedDate($lastConnectedDate)
-    {
-        $this->lastConnectedDate = $lastConnectedDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get lastConnectedDate
-     *
-     * @return \DateTime 
-     */
-    public function getLastConnectedDate()
-    {
-        return $this->lastConnectedDate;
-    }
-
-    /**
      * Set registrationDate
      *
      * @param \DateTime $registrationDate
@@ -245,6 +224,29 @@ class User extends BaseUser
     public function getRegistrationDate()
     {
         return $this->registrationDate;
+    }
+
+    /**
+     * Set lastConnectedDate
+     *
+     * @param \DateTime $lastConnectedDate
+     * @return User
+     */
+    public function setLastConnectedDate($lastConnectedDate)
+    {
+        $this->lastConnectedDate = $lastConnectedDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastConnectedDate
+     *
+     * @return \DateTime 
+     */
+    public function getLastConnectedDate()
+    {
+        return $this->lastConnectedDate;
     }
 
     /**
@@ -325,5 +327,38 @@ class User extends BaseUser
         $this->lastConnectionIp = "127.0.0.1";
         $this->lastConnectedDate = new \Datetime();
         parent::__construct();
+    }
+
+    /**
+     * Add userproject
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserProject $userproject
+     * @return User
+     */
+    public function addUserproject(\CoralScrum\MainBundle\Entity\UserProject $userproject)
+    {
+        $this->userproject[] = $userproject;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userproject
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserProject $userproject
+     */
+    public function removeUserproject(\CoralScrum\MainBundle\Entity\UserProject $userproject)
+    {
+        $this->userproject->removeElement($userproject);
+    }
+
+    /**
+     * Get userproject
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserproject()
+    {
+        return $this->userproject;
     }
 }

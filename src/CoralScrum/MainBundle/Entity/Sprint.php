@@ -22,29 +22,6 @@ class Sprint
     private $id;
 
     /**
-     * @var Project $project
-     *
-     * @ORM\ManyToOne(targetEntity="Project")
-     */
-    private $project;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Task")
-     * @ORM\JoinTable(name="Sprint_Task",
-     *          joinColumns={@ORM\JoinColumn(name="sprint_id", referencedColumnName="id")},
-     *          inverseJoinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")}
-     *          )
-     */
-    private $task;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="startDate", type="date")
@@ -67,29 +44,6 @@ class Sprint
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Sprint
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**
