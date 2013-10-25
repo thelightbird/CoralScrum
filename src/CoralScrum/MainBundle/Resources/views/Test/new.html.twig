@@ -5,11 +5,6 @@
 
     {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('test') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <a class="button" href="{{ path('test', { 'projectId': projectId }) }}">Back to Tests</a>
+    
 {% endblock %}

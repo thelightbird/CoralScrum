@@ -14,7 +14,7 @@ CoralScrumMainBundle_project:
 
 CoralScrumMainBundle_sprint:
     resource: "@CoralScrumMainBundle/Resources/config/routing/sprint.yml"
-    prefix:   /sprint
+    prefix:   /project/{projectId}/sprint
 
 
 # --- Project / Task
@@ -28,12 +28,12 @@ CoralScrumMainBundle_task:
 
 CoralScrumMainBundle_test:
     resource: "@CoralScrumMainBundle/Resources/config/routing/test.yml"
-    prefix:   /test
+    prefix:   /project/{projectId}/test
 
 
 # --- Project / UserStory
 
 CoralScrumMainBundle_userstory:
     resource: "@CoralScrumMainBundle/Resources/config/routing/userstory.yml"
-    prefix:   /userstory
+    prefix:   /project/{projectId}/userstory
 

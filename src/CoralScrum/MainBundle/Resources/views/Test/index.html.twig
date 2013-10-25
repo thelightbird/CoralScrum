@@ -1,16 +1,25 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>Test list</h1>
 
-    <table class="records_list cleanTab">
+    <a class="button" href="{{ path('test_new', { 'projectId': projectId }) }}">Create a new Test</a>
+
+    <table class="defaultTab">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
+                <th>User Story</th>
                 <th>Title</th>
                 <th>Input</th>
-                <th>Testcase</th>
-                <th>Expectedresult</th>
+                <th>Test Case</th>
+                <th>Expected Result</th>
+                <th>State</th>
+                <th>Tester</th>
                 <th>Date</th>
                 <th>Comment</th>
                 <th>Actions</th>
@@ -19,33 +28,31 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('test_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('test_show', { 'projectId': projectId, 'id': entity.id }) }}">#{{ entity.id }}</a></td>
+                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': entity.userstory.getId() }) }}">{{ entity.userstory }}</a></td>
                 <td>{{ entity.title }}</td>
                 <td>{{ entity.input }}</td>
                 <td>{{ entity.testCase }}</td>
                 <td>{{ entity.expectedResult }}</td>
+                <td>
+                    {%- if entity.state == 0 -%}
+                    <img title="Not tested" src="{{ asset('img/forbidden.png') }}" alt=""/>
+                    {%- elseif entity.state == 1 -%}
+                    <img title="Test passed" src="{{ asset('img/valid.png') }}" alt=""/>
+                    {%- elseif entity.state == 2 -%}
+                    <img title="Test failed" src="{{ asset('img/error.png') }}" alt=""/>
+                    {%- endif -%}
+                </td>
+                <td>{{ entity.tester }}</td>
                 <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.comment }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('test_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('test_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <a class="edit" href="{{ path('test_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    <a class="delete" href=""></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('test_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

@@ -7,6 +7,8 @@
 {% block container -%}
 
     <h1>{{ entity.name }}</h1>
+    
+    <a class="button" href="{{ path('project_edit', { 'projectId': entity.id }) }}">Edit</a>
 
     <table class="cleanTab projectDetails">
         <tbody>
@@ -27,6 +29,6 @@
         </tbody>
     </table>
 
-    <a class="button" href="{{ path('project') }}">Back to Projects</a>
-    
+    {{ form(delete_form) }}
+
 {% endblock %}

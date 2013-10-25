@@ -19,24 +19,25 @@ class SprintController extends Controller
      * Lists all Sprint entities.
      *
      */
-    public function indexAction()
+    public function indexAction($projectId)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:Sprint')->findAll();
 
         return $this->render('CoralScrumMainBundle:Sprint:index.html.twig', array(
-            'entities' => $entities,
+            'entities'  => $entities,
+            'projectId' => $projectId,
         ));
     }
     /**
      * Creates a new Sprint entity.
      *
      */
-    public function createAction(Request $request)
+    public function createAction($projectId, Request $request)
     {
         $entity = new Sprint();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($projectId, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -44,12 +45,16 @@ class SprintController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('sprint_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('sprint_show', array(
+                'projectId' => $projectId,
+                'id'        => $entity->getId(),
+            )));
         }
 
         return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity'    => $entity,
+            'projectId' => $projectId,
+            'form'      => $form->createView(),
         ));
     }
 
@@ -60,11 +65,13 @@ class SprintController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Sprint $entity)
+    private function createCreateForm($projectId, Sprint $entity)
     {
         $form = $this->createForm(new SprintType(), $entity, array(
-            'action' => $this->generateUrl('sprint_create'),
-            'method' => 'POST',
+            'action'    => $this->generateUrl('sprint_create', array(
+                'projectId' => $projectId,
+            )),
+            'method'    => 'POST',
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -76,14 +83,15 @@ class SprintController extends Controller
      * Displays a form to create a new Sprint entity.
      *
      */
-    public function newAction()
+    public function newAction($projectId)
     {
         $entity = new Sprint();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity'    => $entity,
+            'projectId' => $projectId,
+            'form'      => $form->createView(),
         ));
     }
 
@@ -91,7 +99,7 @@ class SprintController extends Controller
      * Finds and displays a Sprint entity.
      *
      */
-    public function showAction($id)
+    public function showAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -101,18 +109,20 @@ class SprintController extends Controller
             throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
 
         return $this->render('CoralScrumMainBundle:Sprint:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'projectId'   => $projectId,
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
      * Displays a form to edit an existing Sprint entity.
      *
      */
-    public function editAction($id)
+    public function editAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -122,11 +132,12 @@ class SprintController extends Controller
             throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($projectId, $entity);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
 
         return $this->render('CoralScrumMainBundle:Sprint:edit.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -139,10 +150,13 @@ class SprintController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Sprint $entity)
+    private function createEditForm($projectId, Sprint $entity)
     {
         $form = $this->createForm(new SprintType(), $entity, array(
-            'action' => $this->generateUrl('sprint_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('sprint_update', array(
+                'projectId' => $projectId,
+                'id'        => $entity->getId()
+            )),
             'method' => 'PUT',
         ));
 
@@ -154,7 +168,7 @@ class SprintController extends Controller
      * Edits an existing Sprint entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction($projectId, Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -164,18 +178,22 @@ class SprintController extends Controller
             throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
+        $editForm = $this->createEditForm($projectId, $entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('sprint_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('sprint_edit', array(
+                'id'        => $id,
+                'projectId' => $projectId,
+            )));
         }
 
         return $this->render('CoralScrumMainBundle:Sprint:edit.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -184,9 +202,9 @@ class SprintController extends Controller
      * Deletes a Sprint entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($projectId, Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($projectId, $id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -201,7 +219,9 @@ class SprintController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('sprint'));
+        return $this->redirect($this->generateUrl('sprint', array(
+            'projectId' => $projectId,
+        )));
     }
 
     /**
@@ -211,10 +231,13 @@ class SprintController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($projectId, $id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('sprint_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('sprint_delete', array(
+                'id' => $id,
+                'projectId' => $projectId,
+            )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

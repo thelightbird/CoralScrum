@@ -3,8 +3,12 @@ project:
     defaults: { _controller: "CoralScrumMainBundle:Project:index" }
 
 project_show:
-    pattern:  /{id}/show
+    pattern:  /{projectId}/show
     defaults: { _controller: "CoralScrumMainBundle:Project:show" }
+
+project_settings:
+    pattern:  /{projectId}/settings
+    defaults: { _controller: "CoralScrumMainBundle:Project:settings" }
 
 project_new:
     pattern:  /new
@@ -16,15 +20,15 @@ project_create:
     requirements: { _method: post }
 
 project_edit:
-    pattern:  /{id}/edit
+    pattern:  /{projectId}/edit
     defaults: { _controller: "CoralScrumMainBundle:Project:edit" }
 
 project_update:
-    pattern:  /{id}/update
+    pattern:  /{projectId}/update
     defaults: { _controller: "CoralScrumMainBundle:Project:update" }
     requirements: { _method: post|put }
 
 project_delete:
-    pattern:  /{id}/delete
+    pattern:  /{projectId}/delete
     defaults: { _controller: "CoralScrumMainBundle:Project:delete" }
     requirements: { _method: post|delete }

@@ -19,7 +19,9 @@
 			</div>
 		</header>
 		
+		{% block menu %}
 		{#% include "CoralScrumMainBundle:Main:menu.html.twig" %#}
+		{% endblock %}
 
 		<div id="mainContainer">
 			<div class="container">
@@ -28,6 +30,7 @@
 				<ul class="squareLi">
 					<li><a href="{{ path('fos_user_registration_register') }}">Create an account</a></li>
 					<li><a href="{{ path('fos_user_security_login') }}">Log In</a></li>
+					<li><a href="{{ path('project') }}">View projects</a></li>
 				</ul>
 				
 				{#% include "CoralScrumMainBundle:Scrum:task.html.twig" %#}

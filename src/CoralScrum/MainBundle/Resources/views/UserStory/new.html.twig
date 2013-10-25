@@ -1,15 +1,13 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>UserStory creation</h1>
 
     {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('userstory') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <a class="button" href="{{ path('userstory', { 'projectId': projectId }) }}">Back to Backlog</a>
 {% endblock %}

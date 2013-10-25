@@ -1,12 +1,16 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>UserStory</h1>
 
-    <table class="record_properties cleanTab">
+    <table class="cleanTab">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
@@ -36,17 +40,8 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('userstory') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('userstory_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <a class="button" href="{{ path('userstory', { 'projectId': projectId }) }}">Back to Backlog</a>
+    <a class="button" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
+    {{ form(delete_form) }}
+
 {% endblock %}

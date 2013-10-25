@@ -3,43 +3,32 @@
 {% block container -%}
     <h1>Project list</h1>
 
-    <table class="records_list cleanTab">
+    <a class="button" href="{{ path('project_new') }}">Create a new Project</a>
+
+    <table class="defaultTab">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Name</th>
-                <th>Ispublic</th>
-                <th>Deposit</th>
+                <th>Public</th>
+                <th>Repository</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('project_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('project_show', { 'projectId': entity.id }) }}">#{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.isPublic }}</td>
-                <td>{{ entity.deposit }}</td>
+                <td><a target="_blank" href="{{ entity.repository }}">{{ entity.repository }}</a></td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('project_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <a class="edit" href="{{ path('project_edit', { 'projectId': entity.id }) }}"></a>
+                    <a class="delete" href=""></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('project_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

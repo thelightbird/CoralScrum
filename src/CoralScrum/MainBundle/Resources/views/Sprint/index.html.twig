@@ -1,13 +1,20 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>Sprint list</h1>
 
-    <table class="records_list cleanTab">
+    <a class="button" href="{{ path('sprint_new', { 'projectId': projectId }) }}">Create a new Sprint</a>
+
+    <table class="defaultTab">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Startdate</th>
+                <th>ID</th>
+                <th>User Stories</th>
+                <th>Start Date</th>
                 <th>Duration</th>
                 <th>Actions</th>
             </tr>
@@ -15,29 +22,23 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('sprint_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('sprint_show', { 'projectId': projectId, 'id': entity.id }) }}">#{{ entity.id }}</a></td>
+                <td>
+                    <ul class="list">
+                    {% for userstory in entity.userstory %}
+                        <li><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': userstory.getId() }) }}">{{ userstory }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </td>
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.duration }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('sprint_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('sprint_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    <a class="delete" href=""></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('sprint_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

@@ -57,7 +57,7 @@ class ProjectController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('project_show', array(
-                'id' => $project->getId())
+                'projectId' => $project->getId())
             ));
         }
 
@@ -111,20 +111,43 @@ class ProjectController extends Controller
      * Finds and displays a Project entity.
      *
      */
-    public function showAction($id)
+    public function showAction($projectId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($projectId);
 
         return $this->render('CoralScrumMainBundle:Project:show.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
+            'delete_form' => $deleteForm->createView(),        ));
+    }
+
+    /**
+     * Finds and displays a Project entity.
+     *
+     */
+    public function settingsAction($projectId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($projectId);
+
+        return $this->render('CoralScrumMainBundle:Project:settings.html.twig', array(
+            'entity'      => $entity,
+            'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
@@ -132,7 +155,7 @@ class ProjectController extends Controller
      * Displays a form to edit an existing Project entity.
      *
      */
-    public function editAction($id)
+    public function editAction($projectId)
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
         if (!is_object($user)) {
@@ -140,7 +163,7 @@ class ProjectController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($id);
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -151,10 +174,11 @@ class ProjectController extends Controller
         }
 
         $editForm = $this->createEditForm($project);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($projectId);
 
         return $this->render('CoralScrumMainBundle:Project:edit.html.twig', array(
             'entity'      => $project,
+            'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -170,7 +194,7 @@ class ProjectController extends Controller
     private function createEditForm(Project $entity)
     {
         $form = $this->createForm(new ProjectType(), $entity, array(
-            'action' => $this->generateUrl('project_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('project_update', array('projectId' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -182,28 +206,29 @@ class ProjectController extends Controller
      * Edits an existing Project entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $projectId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($projectId);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('project_edit', array('projectId' => $projectId)));
         }
 
         return $this->render('CoralScrumMainBundle:Project:edit.html.twig', array(
             'entity'      => $entity,
+            'projectId' => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -212,19 +237,19 @@ class ProjectController extends Controller
      * Deletes a Project entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $projectId)
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
         if (!is_object($user)) {
             throw new AccessDeniedException('You are not logged in.');
         }
 
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($projectId);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $project = $em->getRepository('CoralScrumMainBundle:Project')->find($id);
+            $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
             if (!$project) {
                 throw $this->createNotFoundException('Unable to find Project entity.');
@@ -248,10 +273,10 @@ class ProjectController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($projectId)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('project_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('project_delete', array('projectId' => $projectId)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
