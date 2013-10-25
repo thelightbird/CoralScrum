@@ -73,6 +73,17 @@ class Test
      */
     private $comment;
 
+    /**
+     * 0 : not tested
+     * 1 : test passed
+     * 2 : test failed
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="integer")
+     */
+    private $state;
+
 
     public function __toString()
     {
@@ -226,6 +237,29 @@ class Test
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * Set state
+     *
+     * @param integer $state
+     * @return Test
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer 
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 
     /**

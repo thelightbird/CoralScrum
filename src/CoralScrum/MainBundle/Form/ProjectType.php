@@ -19,7 +19,7 @@ class ProjectType extends AbstractType
             ->add('isPublic', 'checkbox', array(
                 'required'  => false,
             ))
-            ->add('deposit', 'text', array(
+            ->add('repository', 'text', array(
                 'required'  => false,
             ))
             //->add('owner')

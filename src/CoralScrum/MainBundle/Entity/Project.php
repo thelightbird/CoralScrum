@@ -48,9 +48,9 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="deposit", type="string", length=255, nullable=true)
+     * @ORM\Column(name="repository", type="string", length=255, nullable=true)
      */
-    private $deposit;
+    private $repository;
 
 
     public function __toString()
@@ -124,26 +124,26 @@ class Project
     }
 
     /**
-     * Set deposit
+     * Set repository
      *
-     * @param string $deposit
+     * @param string $repository
      * @return Project
      */
-    public function setDeposit($deposit)
+    public function setRepository($repository)
     {
-        $this->deposit = $deposit;
+        $this->repository = $repository;
     
         return $this;
     }
 
     /**
-     * Get deposit
+     * Get repository
      *
      * @return string 
      */
-    public function getDeposit()
+    public function getRepository()
     {
-        return $this->deposit;
+        return $this->repository;
     }
 
     /**

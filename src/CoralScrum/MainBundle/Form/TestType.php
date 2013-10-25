@@ -23,6 +23,12 @@ class TestType extends AbstractType
             ->add('comment')
             ->add('userStory')
             ->add('tester')
+            ->add('state', 'choice', array(
+                'choices'  => array(
+                    '0' => 'Not tested',
+                    '1' => 'Test passed',
+                    '2' => 'Test failed'),
+                'required' => true))
         ;
     }
     
