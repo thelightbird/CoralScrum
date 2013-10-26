@@ -1,9 +1,13 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>Task</h1>
 
-    <table class="record_properties cleanTab">
+    <table class="cleanTab">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -27,15 +31,15 @@
             </tr>
             <tr>
                 <th>Creationdate</th>
-                <td>{{ entity.creationDate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.creationDate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Startdate</th>
-                <td>{{ entity.startDate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.startDate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Enddate</th>
-                <td>{{ entity.endDate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.endDate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Isbug</th>
@@ -48,17 +52,8 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('task') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('task_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        <a class="button" href="{{ path('task', { 'projectId': projectId }) }}">Back to Tasks</a>
+        <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
+        {{ form(delete_form) }}
+
 {% endblock %}

@@ -22,7 +22,7 @@ class Test
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="test")
      **/
     private $userStory;
 
@@ -89,7 +89,6 @@ class Test
     {
         return "#".$this->id.": ".$this->title;
     }
-
 
     /**
      * Get id

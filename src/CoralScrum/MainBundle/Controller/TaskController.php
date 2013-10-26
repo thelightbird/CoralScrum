@@ -19,24 +19,25 @@ class TaskController extends Controller
      * Lists all Task entities.
      *
      */
-    public function indexAction()
+    public function indexAction($projectId)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:Task')->findAll();
 
         return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
-            'entities' => $entities,
+            'entities'  => $entities,
+            'projectId' => $projectId,
         ));
     }
     /**
      * Creates a new Task entity.
      *
      */
-    public function createAction(Request $request)
+    public function createAction($projectId, Request $request)
     {
         $entity = new Task();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($projectId, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -44,12 +45,16 @@ class TaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('task_show', array(
+                'id'        => $entity->getId(),
+                'projectId' => $projectId,
+            )));
         }
 
         return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity'    => $entity,
+            'projectId' => $projectId,
+            'form'      => $form->createView(),
         ));
     }
 
@@ -60,10 +65,12 @@ class TaskController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Task $entity)
+    private function createCreateForm($projectId, Task $entity)
     {
         $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_create'),
+            'action' => $this->generateUrl('task_create', array(
+                'projectId' => $projectId,
+            )),
             'method' => 'POST',
         ));
 
@@ -76,14 +83,18 @@ class TaskController extends Controller
      * Displays a form to create a new Task entity.
      *
      */
-    public function newAction()
+    public function newAction($projectId)
     {
         $entity = new Task();
-        $form   = $this->createCreateForm($entity);
+        $entity->setCreationDate(new \Datetime());
+        $entity->setStartDate(new \Datetime());
+        $entity->setEndDate(new \Datetime());
+        $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity'    => $entity,
+            'projectId' => $projectId,
+            'form'      => $form->createView(),
         ));
     }
 
@@ -91,7 +102,7 @@ class TaskController extends Controller
      * Finds and displays a Task entity.
      *
      */
-    public function showAction($id)
+    public function showAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -101,10 +112,11 @@ class TaskController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
 
         return $this->render('CoralScrumMainBundle:Task:show.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
@@ -112,7 +124,7 @@ class TaskController extends Controller
      * Displays a form to edit an existing Task entity.
      *
      */
-    public function editAction($id)
+    public function editAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -122,11 +134,12 @@ class TaskController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($projectId, $entity);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
 
         return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -139,10 +152,13 @@ class TaskController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Task $entity)
+    private function createEditForm($projectId, Task $entity)
     {
         $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('task_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('task_update', array(
+                'id'        => $entity->getId(),
+                'projectId' => $projectId,
+            )),
             'method' => 'PUT',
         ));
 
@@ -154,7 +170,7 @@ class TaskController extends Controller
      * Edits an existing Task entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction($projectId, Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -164,18 +180,22 @@ class TaskController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($projectId, $id);
+        $editForm = $this->createEditForm($projectId, $entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('task_edit', array(
+                'id'        => $id,
+                'projectId' => $projectId,
+            )));
         }
 
         return $this->render('CoralScrumMainBundle:Task:edit.html.twig', array(
             'entity'      => $entity,
+            'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -184,10 +204,10 @@ class TaskController extends Controller
      * Deletes a Task entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($projectId, Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $form = $this->createDeleteForm($projectId, $id);
+        $form->handleRequest($projectId, $request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -201,7 +221,9 @@ class TaskController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('task'));
+        return $this->redirect($this->generateUrl('task', array(
+            'projectId' => $projectId,
+        )));
     }
 
     /**
@@ -211,10 +233,13 @@ class TaskController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($projectId, $id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('task_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('task_delete', array(
+                'id'        => $id,
+                'projectId' => $projectId,
+            )))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

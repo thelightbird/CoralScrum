@@ -53,10 +53,13 @@ table {
 	display:none;
 }
 .center {
-	text-align:center;
+	text-align:center !important;
 }
 .alignLeft {
-	text-align: left;
+	text-align: left !important;
+}
+.bold {
+	font-weight: bold;
 }
 
 html, body {
@@ -68,7 +71,7 @@ body {
 	background-color:#ebebeb;
 	line-height: 1;
 	font-size:12px;
-	font-family: 'Arial', Sans-Serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 .title {
 	text-align: center;
@@ -213,6 +216,11 @@ hr {
 div.message {
 	margin:20px;
 }
+
+.hint {
+	font-size: 11px;
+}
+
 
 table.defaultTab {
 	width:100%;
@@ -846,4 +854,90 @@ header div.infos span.notif {
 }
 #mainContainer ul.list li {
 	margin: 5px;
+}
+#mainContainer ul.list li img.tinyImg {
+	width: 14px;
+	margin: 0px 4px;
+	vertical-align: -3px;
+}
+
+#mainContainer ul.test li a {
+	color: black;
+	text-decoration: none;
+}
+#mainContainer ul.test li a:hover {
+	color: #509BE5;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+
+/* Task post-it
+-------------------------------------------------------------- */
+.containment td {
+	padding: 5px !important;
+}
+.postIt {
+	position: relative;
+	width: 150px;
+	height: 120px;
+	background-color: #FCF7C4;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 0 40px rgba(0,0,0,0.1) inset;
+	border-radius: 1%     1%     1%     1% /     1%     1%     1%     1%;
+	margin: 5px;
+	padding: 5px;
+	float: left;
+	word-wrap: break-word;
+}
+.postIt:hover {
+	background-color: #FFFCDA;
+	cursor: pointer;
+}
+.postIt:active {
+	z-index: 2;
+}
+
+.postIt span {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	color: #CC7E46;
+	display: block;
+	margin: 5px;
+	font-size: 11px;
+	line-height: 11px;
+}
+.postIt span.taskID {
+	margin: 0px;
+}
+.postIt span.taskTitle {
+	color: #86522D;
+	margin-top: 3px;
+	font-size: 12px;
+	line-height: 12px;
+	width: 100%;
+	max-height: 24px;
+	overflow: hidden;
+	font-weight: bold;
+}
+.postIt span.taskDesc {
+	width: 100%;
+	max-height: 55px;
+	overflow: hidden;
+}
+.postIt span.taskDuration {
+	position: absolute;
+	margin-top: 106px;
+	font-size: 12px;
+	line-height: 12px;
+	position: absolute;
+	width: 150px;
+}
+
+.bug{
+	position:absolute;
+	top:-3px;
+	left:-3px;
+}
+
+.bgHighlight {
+	background-color: #FDFDFD;
 }

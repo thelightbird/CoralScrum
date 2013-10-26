@@ -17,8 +17,12 @@ class UserStoryType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('priority')
-            ->add('difficulty')
+            ->add('priority', 'integer', array(
+                'attr' => array('min' => 0)
+            ))
+            ->add('difficulty', 'integer', array(
+                'attr' => array('min' => 0)
+            ))
             //->add('isFinished')
             //->add('isValidated')
             //->add('project')

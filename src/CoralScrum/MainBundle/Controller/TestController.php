@@ -23,7 +23,7 @@ class TestController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Test')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:Test')->findByProjectId($projectId);
 
         return $this->render('CoralScrumMainBundle:Test:index.html.twig', array(
             'entities' => $entities,
@@ -68,10 +68,11 @@ class TestController extends Controller
     private function createCreateForm($projectId, Test $entity)
     {
         $form = $this->createForm(new TestType(), $entity, array(
-            'action' => $this->generateUrl('test_create', array(
+            'action'    => $this->generateUrl('test_create', array(
                 'projectId' => $projectId,
             )),
-            'method' => 'POST',
+            'method'    => 'POST',
+            'projectId' => $projectId,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -85,7 +86,15 @@ class TestController extends Controller
      */
     public function newAction($projectId)
     {
+        $em = $this->getDoctrine()->getManager();
+        $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countByProjectId($projectId);
+        
+        if ($nbUserStories == 0) {
+            throw $this->createNotFoundException('Before adding a Test, you need to add a new User Story.');
+        }
+
         $entity = new Test();
+        $entity->setDate(new \DateTime());
         $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Test:new.html.twig', array(
@@ -153,11 +162,12 @@ class TestController extends Controller
     private function createEditForm($projectId, Test $entity)
     {
         $form = $this->createForm(new TestType(), $entity, array(
-            'action' => $this->generateUrl('test_update', array(
+            'action'    => $this->generateUrl('test_update', array(
                 'projectId' => $projectId,
                 'id'        => $entity->getId()
             )),
-            'method' => 'PUT',
+            'method'    => 'PUT',
+            'projectId' => $projectId,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -186,7 +196,7 @@ class TestController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('test_edit', array(
-                'id' => $id,
+                'id'        => $id,
                 'projectId' => $projectId,
             )));
         }

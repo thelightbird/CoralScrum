@@ -23,7 +23,7 @@ class UserStoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:UserStory')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:UserStory')->findByProject($projectId);
 
         return $this->render('CoralScrumMainBundle:UserStory:index.html.twig', array(
             'entities'  => $entities,
@@ -41,7 +41,6 @@ class UserStoryController extends Controller
             throw new AccessDeniedException('You are not logged in.');
         }
 
-        $projectId = 1; // TODO change route to get project ID
         $em = $this->getDoctrine()->getManager();
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 

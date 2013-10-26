@@ -28,6 +28,15 @@ class UserStory
      */
     private $project;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\Sprint", mappedBy="userStory")
+     **/
+    private $sprint;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Test", mappedBy="userStory")
+     **/
+    private $test;
 
     /**
      * @var string
@@ -77,16 +86,6 @@ class UserStory
         return "#".$this->id.": ".$this->title;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->isFinished = false;
-        $this->isValidated = false;
-    }
-    
     /**
      * Get id
      *
@@ -236,6 +235,16 @@ class UserStory
     }
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isFinished = false;
+        $this->isValidated = false;
+    }
+
+    /**
      * Set project
      *
      * @param \CoralScrum\MainBundle\Entity\Project $project
@@ -256,5 +265,71 @@ class UserStory
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add sprint
+     *
+     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
+     * @return UserStory
+     */
+    public function addSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
+    {
+        $this->sprint[] = $sprint;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sprint
+     *
+     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
+     */
+    public function removeSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
+    {
+        $this->sprint->removeElement($sprint);
+    }
+
+    /**
+     * Get sprint
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSprint()
+    {
+        return $this->sprint;
+    }
+
+    /**
+     * Add test
+     *
+     * @param \CoralScrum\MainBundle\Entity\Test $test
+     * @return UserStory
+     */
+    public function addTest(\CoralScrum\MainBundle\Entity\Test $test)
+    {
+        $this->test[] = $test;
+    
+        return $this;
+    }
+
+    /**
+     * Remove test
+     *
+     * @param \CoralScrum\MainBundle\Entity\Test $test
+     */
+    public function removeTest(\CoralScrum\MainBundle\Entity\Test $test)
+    {
+        $this->test->removeElement($test);
+    }
+
+    /**
+     * Get test
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTest()
+    {
+        return $this->test;
     }
 }

@@ -17,23 +17,27 @@ class TaskType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('duration')
+            ->add('duration', 'integer', array(
+                'attr' => array('min' => 0)
+            ))
             ->add('state', 'choice', array(
                 'choices'  => array(
-                    'To Do' => 'To Do',
+                    'To Do'       => 'To Do',
                     'In Progress' => 'In Progress',
-                    'Done' => 'Done'),
+                    'Done'        => 'Done'),
                 'required' => true))
             //->add('creationDate')
             ->add('startDate')
             ->add('endDate')
-            ->add('isBug')
+            ->add('isBug', 'checkbox', array(
+                'required' => false))
             ->add('commit', 'text', array(
-                'label' => 'Commit ID'))
+                'label'    => 'Commit ID',
+                'required' => false))
             ->add('userStory')
             ->add('user', 'entity', array(
-                'class' => 'CoralScrumUserBundle:User',
-                'label' => 'Assign to',
+                'class'    => 'CoralScrumUserBundle:User',
+                'label'    => 'Assign to',
                 'multiple' => true,
                 /*
                 'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) {

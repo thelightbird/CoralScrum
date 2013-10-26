@@ -1,15 +1,73 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>Task creation</h1>
 
-    {{ form(form) }}
+    
+    {{ form_start(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('task') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <div>
+        {{ form_label(form.title) }}
+        {{ form_errors(form.title) }}
+        {{ form_widget(form.title) }}
+    </div>
+    <div>
+        {{ form_label(form.description) }}
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+    <div>
+        {{ form_label(form.duration) }}
+        {{ form_errors(form.duration) }}
+        {{ form_widget(form.duration) }}
+    </div>
+    <div>
+        {{ form_label(form.state) }}
+        {{ form_errors(form.state) }}
+        {{ form_widget(form.state) }}
+    </div>
+    <div>
+        {{ form_label(form.startDate) }}
+        {{ form_errors(form.startDate) }}
+        {{ form_widget(form.startDate) }}
+    </div>
+    <div>
+        {{ form_label(form.endDate) }}
+        {{ form_errors(form.endDate) }}
+        {{ form_widget(form.endDate) }}
+    </div>
+    <div>
+        {{ form_label(form.isBug) }}
+        {{ form_errors(form.isBug) }}
+        {{ form_widget(form.isBug) }}
+    </div>
+    <div>
+        {{ form_label(form.commit) }}
+        {{ form_errors(form.commit) }}
+        {{ form_widget(form.commit) }}
+    </div>
+    <div>
+        {{ form_label(form.userStory) }}
+        {{ form_errors(form.userStory) }}
+        {{ form_widget(form.userStory) }}
+    </div>
+    <div>
+        <label for="coralscrum_mainbundle_task_user" class="required">Assign to<br><span class="hint">(Ctrl+click multiple-select)</span></label>
+        {{ form_errors(form.user) }}
+        {{ form_widget(form.user) }}
+    </div>
+    <div>
+        <label for="coralscrum_mainbundle_task_dependency" class="required">Dependencies<br><span class="hint">(Ctrl+click multiple-select)</span></label>
+        {{ form_errors(form.dependency) }}
+        {{ form_widget(form.dependency) }}
+    </div>
+    
+    {{ form_end(form) }}
+
+    <a class="button" href="{{ path('task', { 'projectId': projectId }) }}">Back to the Sprint</a>
+
 {% endblock %}

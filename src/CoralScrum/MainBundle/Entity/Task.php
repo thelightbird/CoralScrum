@@ -103,7 +103,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="commit", type="string", length=255)
+     * @ORM\Column(name="commit", type="string", length=255, nullable=true)
      */
     private $commit;
 
@@ -113,16 +113,6 @@ class Task
         return "#".$this->id.": ".$this->title;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->creationDate = new \DateTime();
-    }
-    
     /**
      * Get id
      *
@@ -338,6 +328,17 @@ class Task
     public function getCommit()
     {
         return $this->commit;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creationDate = new \DateTime();
+        $this->isBug = false;
     }
 
     /**

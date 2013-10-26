@@ -23,7 +23,7 @@ class SprintController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Sprint')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:Sprint')->findByProject($projectId);
 
         return $this->render('CoralScrumMainBundle:Sprint:index.html.twig', array(
             'entities'  => $entities,
@@ -36,23 +36,31 @@ class SprintController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $entity = new Sprint();
-        $form = $this->createCreateForm($projectId, $entity);
+        $em = $this->getDoctrine()->getManager();
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+        
+        $sprint = new Sprint();
+        $sprint->setProject($project);
+        $form = $this->createCreateForm($projectId, $sprint);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($sprint);
             $em->flush();
 
             return $this->redirect($this->generateUrl('sprint_show', array(
                 'projectId' => $projectId,
-                'id'        => $entity->getId(),
+                'id'        => $sprint->getId(),
             )));
         }
 
         return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
-            'entity'    => $entity,
+            'entity'    => $sprint,
             'projectId' => $projectId,
             'form'      => $form->createView(),
         ));
@@ -72,6 +80,7 @@ class SprintController extends Controller
                 'projectId' => $projectId,
             )),
             'method'    => 'POST',
+            'projectId' => $projectId,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -86,6 +95,7 @@ class SprintController extends Controller
     public function newAction($projectId)
     {
         $entity = new Sprint();
+        $entity->setStartDate(new \DateTime());
         $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(
@@ -103,6 +113,7 @@ class SprintController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $tests = $em->getRepository('CoralScrumMainBundle:Test')->findBySprintId(1); // TODO change route to get sprint ID
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($id);
 
         if (!$entity) {
@@ -112,6 +123,7 @@ class SprintController extends Controller
         $deleteForm = $this->createDeleteForm($projectId, $id);
 
         return $this->render('CoralScrumMainBundle:Sprint:show.html.twig', array(
+            'tests'       => $tests,
             'entity'      => $entity,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),

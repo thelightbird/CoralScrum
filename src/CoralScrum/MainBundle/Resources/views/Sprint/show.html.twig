@@ -1,22 +1,71 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
-{% block container -%}
-    <h1>Sprint</h1>
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
 
-    <table class="cleanTab">
+{% block container -%}
+    <h1>Sprint #{{ entity.id }}</h1>
+    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('Y-m-d') }}</h3>
+    <h3><span class="bold">Duration:</span> {{ entity.duration }}</h3>
+
+    <a class="button" href="{{ path('task_new', { 'projectId': projectId }) }}">Create a new Task</a>
+
+    <table class="defaultTab">
         <tbody>
             <tr>
-                <th>ID</th>
-                <td>{{ entity.id }}</td>
+                <th>User Stories</th>
+                <th>To Do</th>
+                <th>In Progress</th>
+                <th>Done</th>
+                <th>Tests</th>
             </tr>
-            <tr>
-                <th>Startdate</th>
-                <td>{{ entity.startDate|date('Y-m-d H:i:s') }}</td>
+            {% for userstory in entity.userstory -%}
+            <tr class="containment">
+                <td class="alignLeft ok">
+                    <a href="{{ path('userstory_show', { 'projectId': projectId, 'id': userstory.getId() }) }}">{{ userstory }}</a>
+                </td>
+                <td class="droppable">
+                    {% set task1 = 'Need a colorful header, a menu to the left, a body and a footer.' %}
+                    {% set task2 = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.' %}
+                    {% set title = 'The quick brown fox jumps over the lazy dog over the lazy dog' %}
+                    
+                    <div class="postIt">
+                        <span class="taskDuration">Estimed duration: 42</span>
+                        <span class="taskID">#1</span>
+                        <span class="taskTitle">Implement home page</span>
+                        <span class="taskDesc">{{ task1[:120] ~ '...' }}</span>
+                    </div>
+                    <div class="postIt">
+                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
+                        <span class="taskDuration">Estimed duration: 42</span>
+                        <span class="taskID">#2</span>
+                        <span class="taskTitle">{{ title }}</span>
+                        <span class="taskDesc">{{ task2[:110] ~ '...' }}</span>
+                    </div>
+                </td>
+                <td class="droppable">
+                </td>
+                <td class="droppable">
+                </td>
+                <td>
+                    <ul class="list test">
+                    {% for test in tests -%}
+                        <li>
+                            {%- if test.state == 0 -%}
+                            <img class="tinyImg" title="Not tested" src="{{ asset('img/forbidden.png') }}" alt=""/>
+                            {%- elseif test.state == 1 -%}
+                            <img class="tinyImg" title="Test passed" src="{{ asset('img/valid.png') }}" alt=""/>
+                            {%- elseif test.state == 2 -%}
+                            <img class="tinyImg" title="Test failed" src="{{ asset('img/error.png') }}" alt=""/>
+                            {%- endif -%}
+                            <a href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}" target="_blank" title="{{ test.comment }}">{{ test }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
             </tr>
-            <tr>
-                <th>Duration</th>
-                <td>{{ entity.duration }}</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

@@ -22,13 +22,20 @@ class Sprint
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
+     * @var Project $project
+     *
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project")
+     */
+    private $project;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="sprint")
      * @ORM\JoinTable(name="sprint_userstories",
      *      joinColumns={@ORM\JoinColumn(name="sprint_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="userstory_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="userStory_id", referencedColumnName="id")}
      *      )
      **/
-    private $userstory;
+    private $userStory;
 
     /**
      * @var \DateTime
@@ -45,6 +52,10 @@ class Sprint
     private $duration;
 
 
+    public function __toString()
+    {
+        return "#".$this->id;
+    }
 
     /**
      * Get id
@@ -107,39 +118,62 @@ class Sprint
      */
     public function __construct()
     {
-        $this->userstory = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userStory = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
-     * Add userstory
+     * Set project
      *
-     * @param \CoralScrum\MainBundle\Entity\UserStory $userstory
+     * @param \CoralScrum\MainBundle\Entity\Project $project
      * @return Sprint
      */
-    public function addUserstory(\CoralScrum\MainBundle\Entity\UserStory $userstory)
+    public function setProject(\CoralScrum\MainBundle\Entity\Project $project = null)
     {
-        $this->userstory[] = $userstory;
+        $this->project = $project;
     
         return $this;
     }
 
     /**
-     * Remove userstory
+     * Get project
      *
-     * @param \CoralScrum\MainBundle\Entity\UserStory $userstory
+     * @return \CoralScrum\MainBundle\Entity\Project 
      */
-    public function removeUserstory(\CoralScrum\MainBundle\Entity\UserStory $userstory)
+    public function getProject()
     {
-        $this->userstory->removeElement($userstory);
+        return $this->project;
     }
 
     /**
-     * Get userstory
+     * Add userStory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userStory
+     * @return Sprint
+     */
+    public function addUserStory(\CoralScrum\MainBundle\Entity\UserStory $userStory)
+    {
+        $this->userStory[] = $userStory;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userStory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userStory
+     */
+    public function removeUserStory(\CoralScrum\MainBundle\Entity\UserStory $userStory)
+    {
+        $this->userStory->removeElement($userStory);
+    }
+
+    /**
+     * Get userStory
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getUserstory()
+    public function getUserStory()
     {
-        return $this->userstory;
+        return $this->userStory;
     }
 }

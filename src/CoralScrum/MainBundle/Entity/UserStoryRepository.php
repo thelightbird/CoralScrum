@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserStoryRepository extends EntityRepository
 {
+    public function countByProjectId($projectId)
+    {
+        $em = $this->getEntityManager();
+        $query = $em
+                ->createQuery("
+                    SELECT COUNT(us)
+                    FROM CoralScrum\MainBundle\Entity\UserStory us
+                    WHERE us.project = :projectId
+                ")
+                ->setParameter('projectId', $projectId);
+
+        return $query->getSingleScalarResult();
+    }
 }

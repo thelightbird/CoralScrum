@@ -1,9 +1,33 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
 {% block container -%}
     <h1>Sprint creation</h1>
 
-    {{ form(form) }}
+    {#{ form(form) }#}
+    
+    {{ form_start(form) }}
+
+    <div>
+        {{ form_label(form.startDate) }}
+        {{ form_errors(form.startDate) }}
+        {{ form_widget(form.startDate) }}
+    </div>
+    <div>
+        {{ form_label(form.duration) }}
+        {{ form_errors(form.duration) }}
+        {{ form_widget(form.duration) }}
+    </div>
+    <div>
+        <label for="coralscrum_mainbundle_sprint_userStory" class="required">User Stories<br><span class="hint">(Ctrl+click multiple-select)</span></label>
+        {{ form_errors(form.userStory) }}
+        {{ form_widget(form.userStory) }}
+    </div>
+
+    {{ form_end(form) }}
 
 	<a class="button" href="{{ path('sprint', { 'projectId': projectId }) }}">Back to Sprints</a>
 

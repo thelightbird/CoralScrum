@@ -21,7 +21,7 @@ CoralScrumMainBundle_sprint:
 
 CoralScrumMainBundle_task:
     resource: "@CoralScrumMainBundle/Resources/config/routing/task.yml"
-    prefix:   /task
+    prefix:   /project/{projectId}/task
 
 
 # --- Project / Test
