@@ -30,7 +30,7 @@
                 <td class="droppable">
                 {% for task in userstory.task -%}
                 {% if task.state == 'To Do' -%}
-                    <div class="postIt id{{ userstory.id }}">
+                    <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
                         {% if task.isBug %}
                         <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
                         {% endif %}
@@ -45,7 +45,7 @@
                 <td class="droppable">
                 {% for task in userstory.task -%}
                 {% if task.state == 'In Progress' -%}
-                    <div class="postIt id{{ userstory.id }}">
+                    <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
                         {% if task.isBug %}
                         <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
                         {% endif %}
@@ -60,7 +60,7 @@
                 <td class="droppable">
                 {% for task in userstory.task -%}
                 {% if task.state == 'Done' -%}
-                    <div class="postIt id{{ userstory.id }}">
+                    <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
                         {% if task.isBug %}
                         <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
                         {% endif %}
@@ -127,6 +127,48 @@
                     });
                     $( this ).append( $(ui.helper) );
                 }
+            });
+        });
+
+
+        function displayPopup(data) {
+            $("body").prepend( '<div class="popupContent"></div>' );
+            $(".popupContent").animate({
+                opacity: 1,
+                }, 500, function() {
+            });
+            $(".popupContent").html(data);
+            initClosePopup();
+        }
+
+        function closePopup() {
+            $(".popupContent").fadeOut(300, function() { $(this).remove(); });
+        }
+
+        function initClosePopup() {
+            $(".popupContent").click(function(e) {
+                if(e.target == this) {
+                    closePopup();
+                }
+            });
+            $(".closePopup").click(function() {
+                closePopup();
+                return false;
+            });
+        }
+
+        $(".closePopup").click( function() {
+            closePopup();
+            return false;
+        });
+
+        $("div.postIt").click( function() {
+            var url = $(this).attr('data-url');
+            $.get( url, function( data ) {
+                displayPopup( data );
+            })
+            .fail(function() {
+                alert( "An error has occurred." );
             });
         });
     </script>

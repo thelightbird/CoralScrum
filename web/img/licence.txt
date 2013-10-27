@@ -18,3 +18,10 @@ CONTACT: everaldo@everaldo.com
 Copyright (c) 2006-2007 Everaldo Coelho.
 
 ----------------------------------------------------------------------------------------------------
+
+The following licence apply on "close.png" :
+
+License:  LGPL
+Designer: Alexandre Moore - http://sa-ki.deviantart.com/
+
+----------------------------------------------------------------------------------------------------

@@ -1,59 +1,63 @@
-{% extends "CoralScrumMainBundle::index.html.twig" %}
+{#% extends "::base.html.twig" %#}
 
-{% block menu %}
-    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
-{% endblock %}
 
-{% block container -%}
-    <h1>Task</h1>
+<div class="postItPopup">
+    <a class="closePopup" href=""></a>
+    <h1 class="taskTitle">Task #{{ entity.id }}</h1>
 
     <table class="cleanTab">
         <tbody>
-            <tr>
-                <th>ID</th>
-                <td>{{ entity.id }}</td>
-            </tr>
             <tr>
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ entity.description }}</td>
+                <td class="taskDesc"><p>{{ entity.description }}</p></td>
             </tr>
             <tr>
                 <th>Duration</th>
-                <td>{{ entity.duration }}</td>
+                <td>{{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</td>
             </tr>
             <tr>
                 <th>State</th>
                 <td>{{ entity.state }}</td>
             </tr>
             <tr>
-                <th>Creationdate</th>
-                <td>{{ entity.creationDate|date('Y-m-d') }}</td>
+                <th>Creation Date</th>
+                <td>{{ entity.creationDate|date('d M Y') }}</td>
             </tr>
             <tr>
-                <th>Startdate</th>
-                <td>{{ entity.startDate|date('Y-m-d') }}</td>
+                <th>Start Date</th>
+                <td>{{ entity.startDate|date('d M Y') }}</td>
             </tr>
             <tr>
-                <th>Enddate</th>
-                <td>{{ entity.endDate|date('Y-m-d') }}</td>
+                <th>Assign To</th>
+                <td>
+                    {{ entity.user|join(', ') }}
+                </td>
             </tr>
             <tr>
-                <th>Isbug</th>
+                <th>End Date</th>
+                <td>{% if entity.endDate %}{{ entity.endDate|date('d M Y') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Is Bug</th>
                 <td>{{ entity.isBug }}</td>
             </tr>
             <tr>
-                <th>Commit</th>
+                <th>Commit ID</th>
                 <td>{{ entity.commit }}</td>
             </tr>
         </tbody>
     </table>
 
-        <a class="button" href="{{ path('task', { 'projectId': projectId, 'sprintId': sprintId }) }}">Back to Tasks</a>
-        <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
-        {{ form(delete_form) }}
-
-{% endblock %}
+    <ul class="actionButtons">
+        <li>
+            <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
+        </li>
+        <li>
+            <a class="redButton" href="">Delete</a>
+        </li>
+    </ul>
+</div>

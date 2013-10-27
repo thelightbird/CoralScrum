@@ -221,6 +221,17 @@ div.message {
 	font-size: 11px;
 }
 
+.popupContent {
+	opacity: 0.1;
+	position: absolute;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
+	min-height: 600px;
+	min-width: 600px;
+	overflow: hidden;
+}
 
 table.defaultTab {
 	width:100%;
@@ -958,8 +969,81 @@ header div.infos span.notif {
 	width: 150px;
 }
 
-.bug{
+.bug {
 	position:absolute;
 	top:-3px;
 	left:-3px;
+}
+
+
+/* Task post-it Popup
+-------------------------------------------------------------- */
+.postItPopup {
+	position: absolute;
+	left: 50%;
+	margin-left: -250px;
+	top: 17%;
+	width: 500px;
+	height: 580px;
+	background-color: #FCF7C4;
+	box-shadow: 0 1px 10px rgba(0,0,0,0.25), 0 0 100px rgba(0,0,0,0.1) inset;
+	border-radius: 1%     1%     1%     1% /     1%     1%     1%     1%;
+
+	padding: 5px;
+	word-wrap: break-word;
+	color: #AD7044;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.postItPopup .taskTitle {
+	color: #86522D;
+}
+.postItPopup .taskDesc p {
+	font-size: 12px;
+	max-height:120px;
+	overflow: auto;
+}
+.postItPopup table th {
+	text-align: right;
+	color: #99633D;
+}
+
+.postItPopup h1 {
+	color: #AD7044;
+	font-size: 22px;
+	line-height: 22px;
+	margin: 20px 50px 20px 30px;
+	border-bottom: 1px solid #AD7044;
+	padding-bottom: 6px;
+}
+
+ul.actionButtons {
+	text-align: center;
+	margin: auto;
+}
+ul.actionButtons li {
+	display: inline-block;
+	padding: 20px 40px;
+}
+.postItPopup a.redButton {
+	padding: 6px 7px 5px;
+}
+
+.closePopup {
+    position:absolute;
+    width:24px;
+    height:24px;
+    top:18px;
+    right:18px;
+    background-image: url("../img/close.png");
+    background-repeat:no-repeat;
+    background-position: center center;
+    padding:2px;
+}
+.closePopup:hover {
+	border:1px solid #c6c29a;
+	border-radius: 3px;
+	margin-top: -1px;
+	margin-right: -1px;
+	background-color: #ded9ac;
 }
