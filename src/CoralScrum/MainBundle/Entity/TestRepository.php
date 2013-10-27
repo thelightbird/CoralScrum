@@ -36,7 +36,6 @@ class TestRepository extends EntityRepository
            ->where('sp.id = :sprintId')
            ->setParameter('sprintId', $sprintId)
            ;
-
         return $qb->getQuery()->getResult();
     }
 }

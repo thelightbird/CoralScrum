@@ -14,6 +14,12 @@ class TaskType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $sprintId = $options['sprintId'];
+        $taskId = $options['taskId'];
+
+        if(is_null($sprintId))
+            throw new \LogicException('SprintId option is required.');
+
         $builder
             ->add('title')
             ->add('description')
@@ -28,13 +34,26 @@ class TaskType extends AbstractType
                 'required' => true))
             //->add('creationDate')
             ->add('startDate')
-            ->add('endDate')
+            ->add('endDate', 'datetime', array(
+                'required' => false,
+            ))
             ->add('isBug', 'checkbox', array(
                 'required' => false))
             ->add('commit', 'text', array(
                 'label'    => 'Commit ID',
                 'required' => false))
-            ->add('userStory')
+            ->add('userStory', 'entity', array(
+                'class'    => 'CoralScrumMainBundle:UserStory',
+                'label'    => 'User Story',
+                'multiple' => false,
+                'query_builder' => function(\CoralScrum\MainBundle\Entity\UserStoryRepository  $er) use ($sprintId) {
+                    return $er->createQueryBuilder('u')
+                              ->join('u.sprint', 'sp')
+                              ->where('sp.id = :sprintId')
+                              ->setParameter('sprintId', $sprintId)
+                              ->orderBy('u.id', 'ASC');
+                },
+            ))
             ->add('user', 'entity', array(
                 'class'    => 'CoralScrumUserBundle:User',
                 'label'    => 'Assign to',
@@ -47,7 +66,17 @@ class TaskType extends AbstractType
                 },
                 //*/
             ))
-            ->add('dependency')
+            ->add('dependency', 'entity', array(
+                'class'    => 'CoralScrumMainBundle:Task',
+                'label'    => 'Dependencies',
+                'multiple' => true,
+                'query_builder' => function(\CoralScrum\MainBundle\Entity\TaskRepository  $er) use ($taskId) {
+                    return $er->createQueryBuilder('t')
+                              ->where('t.id != :taskId')
+                              ->setParameter('taskId', $taskId)
+                              ->orderBy('t.id', 'ASC');
+                },
+            ))
         ;
     }
     
@@ -57,7 +86,13 @@ class TaskType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoralScrum\MainBundle\Entity\Task'
+            'data_class' => 'CoralScrum\MainBundle\Entity\Task',
+            'sprintId'   => null,
+            'taskId'     => 0,
+        ));
+
+        $resolver->setRequired(array(
+            'sprintId',
         ));
     }
 

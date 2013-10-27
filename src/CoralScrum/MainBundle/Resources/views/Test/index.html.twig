@@ -9,7 +9,7 @@
 
     <a class="button" href="{{ path('test_new', { 'projectId': projectId }) }}">Create a new Test</a>
 
-    <table class="defaultTab">
+    <table class="defaultTab tablesorter">
         <thead>
             <tr>
                 <th>ID</th>
@@ -55,4 +55,15 @@
         </tbody>
     </table>
 
-    {% endblock %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.tablesorter.min.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".tablesorter").tablesorter();
+        });
+    </script>
+{% endblock %}

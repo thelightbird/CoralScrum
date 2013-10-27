@@ -25,4 +25,15 @@ class UserStoryRepository extends EntityRepository
 
         return $query->getSingleScalarResult();
     }
+
+    public function countBySprintId($sprintId)
+    {
+        $qb = $this->createQueryBuilder('us');
+        $qb->select('count(us.id)')
+           ->join('us.sprint', 'sp')
+           ->where('sp.id = :sprintId')
+           ->setParameter('sprintId', $sprintId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

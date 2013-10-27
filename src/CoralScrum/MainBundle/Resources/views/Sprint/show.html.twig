@@ -6,13 +6,13 @@
 
 {% block container -%}
     <h1>Sprint #{{ entity.id }}</h1>
-    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('Y-m-d') }}</h3>
-    <h3><span class="bold">Duration:</span> {{ entity.duration }}</h3>
+    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y') }}</h3>
+    <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
 
-    <a class="button" href="{{ path('task_new', { 'projectId': projectId }) }}">Create a new Task</a>
+    <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
 
-    <table class="defaultTab">
-        <tbody>
+    <table class="defaultTab tablesorter">
+        <thead>
             <tr>
                 <th>User Stories</th>
                 <th>To Do</th>
@@ -20,37 +20,62 @@
                 <th>Done</th>
                 <th>Tests</th>
             </tr>
+        </thead>
+        <tbody>
             {% for userstory in entity.userstory -%}
-            <tr class="containment">
+            <tr class="containment_{{ userstory.id }}">
                 <td class="alignLeft ok">
                     <a href="{{ path('userstory_show', { 'projectId': projectId, 'id': userstory.getId() }) }}">{{ userstory }}</a>
                 </td>
                 <td class="droppable">
-                    {% set task1 = 'Need a colorful header, a menu to the left, a body and a footer.' %}
-                    {% set task2 = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.' %}
-                    {% set title = 'The quick brown fox jumps over the lazy dog over the lazy dog' %}
-                    
-                    <div class="postIt">
-                        <span class="taskDuration">Estimed duration: 42</span>
-                        <span class="taskID">#1</span>
-                        <span class="taskTitle">Implement home page</span>
-                        <span class="taskDesc">{{ task1[:120] ~ '...' }}</span>
-                    </div>
-                    <div class="postIt">
+                {% for task in userstory.task -%}
+                {% if task.state == 'To Do' -%}
+                    <div class="postIt id{{ userstory.id }}">
+                        {% if task.isBug %}
                         <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
-                        <span class="taskDuration">Estimed duration: 42</span>
-                        <span class="taskID">#2</span>
-                        <span class="taskTitle">{{ title }}</span>
-                        <span class="taskDesc">{{ task2[:110] ~ '...' }}</span>
+                        {% endif %}
+                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskTitle">{{ task.title }}</span>
+                        <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
+                {% endif -%}
+                {% endfor -%}
                 </td>
                 <td class="droppable">
+                {% for task in userstory.task -%}
+                {% if task.state == 'In Progress' -%}
+                    <div class="postIt id{{ userstory.id }}">
+                        {% if task.isBug %}
+                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
+                        {% endif %}
+                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskTitle">{{ task.title }}</span>
+                        <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
+                    </div>
+                {% endif -%}
+                {% endfor -%}
                 </td>
                 <td class="droppable">
+                {% for task in userstory.task -%}
+                {% if task.state == 'Done' -%}
+                    <div class="postIt id{{ userstory.id }}">
+                        {% if task.isBug %}
+                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
+                        {% endif %}
+                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskTitle">{{ task.title }}</span>
+                        <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
+                    </div>
+                {% endif -%}
+                {% endfor -%}
                 </td>
                 <td>
                     <ul class="list test">
                     {% for test in tests -%}
+                    {%- if test.userStory.id == userstory.id -%}
                         <li>
                             {%- if test.state == 0 -%}
                             <img class="tinyImg" title="Not tested" src="{{ asset('img/forbidden.png') }}" alt=""/>
@@ -61,6 +86,7 @@
                             {%- endif -%}
                             <a href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}" target="_blank" title="{{ test.comment }}">{{ test }}</a>
                         </li>
+                    {% endif %}
                     {% endfor %}
                     </ul>
                 </td>
@@ -70,7 +96,39 @@
     </table>
 
     <a class="button" href="{{ path('sprint', { 'projectId': projectId }) }}">Back to Sprints</a>
-    <a class="button" href="{{ path('sprint_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
+    <a class="button" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}">Edit</a>
     {{ form(delete_form) }}
     
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.tablesorter.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".tablesorter").tablesorter();
+            
+            {% for userstory in entity.userstory %}
+            $( ".postIt.id{{ userstory.id }}" ).draggable({
+                containment: ".containment_{{ userstory.id }}",
+                revert: 'invalid',
+            });
+            {% endfor %}
+
+            $( ".droppable" ).droppable({
+                accept: ".postIt",
+                hoverClass: "bgHighlight",
+                drop: function( event, ui ) {
+                    //$( this ).addClass( "bgHighlight" );
+                    $(ui.helper).css({
+                        'left': 'auto',
+                        'top': 'auto'
+                    });
+                    $( this ).append( $(ui.helper) );
+                }
+            });
+        });
+    </script>
 {% endblock %}

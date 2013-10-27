@@ -12,4 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaskRepository extends EntityRepository
 {
+    public function countBySprintId($sprintId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(us.id)')
+           ->join('t.userStory', 'us')
+           ->join('us.sprint', 'sp')
+           ->where('sp.id = :sprintId')
+           ->setParameter('sprintId', $sprintId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findBySprintId($sprintId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->join('t.userStory', 'us')
+           ->join('us.sprint', 'sp')
+           ->where('sp.id = :sprintId')
+           ->setParameter('sprintId', $sprintId)
+           ;
+        return $qb->getQuery()->getResult();
+    }
 }

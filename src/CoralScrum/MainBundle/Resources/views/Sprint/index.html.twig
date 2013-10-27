@@ -9,20 +9,20 @@
 
     <a class="button" href="{{ path('sprint_new', { 'projectId': projectId }) }}">Create a new Sprint</a>
 
-    <table class="defaultTab">
+    <table class="defaultTab tablesorter">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>User Stories</th>
                 <th>Start Date</th>
-                <th>Duration</th>
+                <th>Duration (days)</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('sprint_show', { 'projectId': projectId, 'id': entity.id }) }}">#{{ entity.id }}</a></td>
+                <td><a href="{{ path('sprint_show', { 'projectId': projectId, 'sprintId': entity.id }) }}">#{{ entity.id }}</a></td>
                 <td>
                     <ul class="list">
                     {% for userstory in entity.userstory %}
@@ -33,7 +33,7 @@
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.duration }}</td>
                 <td>
-                    <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
                     <a class="delete" href=""></a>
                 </td>
             </tr>
@@ -41,4 +41,15 @@
         </tbody>
     </table>
 
-    {% endblock %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.tablesorter.min.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $(".tablesorter").tablesorter();
+        });
+    </script>
+{% endblock %}

@@ -269,7 +269,7 @@ class ProjectController extends Controller
     /**
      * Creates a form to delete a Project entity by id.
      *
-     * @param mixed $id The entity id
+     * @param mixed $projectId The entity id
      *
      * @return \Symfony\Component\Form\Form The form
      */

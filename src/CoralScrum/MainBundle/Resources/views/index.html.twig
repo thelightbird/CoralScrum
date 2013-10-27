@@ -20,7 +20,7 @@
 		</header>
 		
 		{% block menu %}
-		{#% include "CoralScrumMainBundle:Main:menu.html.twig" %#}
+			
 		{% endblock %}
 
 		<div id="mainContainer">
@@ -46,30 +46,5 @@
 
 {% block javascripts %}
 	<script src="{{ asset('js/jquery-1.10.2.min.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('js/jquery.tablesorter.min.js') }}" type="text/javascript"></script>
-	<script>
-		$(document).ready(function() {
-			$(".tablesorter").tablesorter();
-			$( ".postIt" ).draggable({
-				containment: ".containment",
-				revert: 'invalid', 
-  				snap: ".droppable", 
-			});
-			$( ".droppable" ).droppable({
-				accept: ".postIt",
-				activeClass: "",
-				hoverClass: "bgHighlight",
-				drop: function( event, ui ) {
-					//$( this ).addClass( "bgHighlight" );
-					$(ui.helper).css({
-						'left': 'auto',
-						'top': 'auto'
-					});
-					$( this ).append( $(ui.helper) );
-				}
-			});
-		});
-	</script>
 {% endblock %}
 

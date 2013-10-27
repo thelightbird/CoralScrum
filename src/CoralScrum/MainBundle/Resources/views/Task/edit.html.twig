@@ -11,6 +11,6 @@
 
     {{ form(delete_form) }}
     
-	<a class="button" href="{{ path('task', { 'projectId': projectId }) }}">Back to the list</a>
+	<a class="button" href="{{ path('task', { 'projectId': projectId, 'sprintId': sprintId }) }}">Back to the list</a>
 
 {% endblock %}

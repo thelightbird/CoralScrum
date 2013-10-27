@@ -39,6 +39,11 @@ class UserStory
     private $test;
 
     /**
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", mappedBy="userStory")
+     **/
+    private $task;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -331,5 +336,38 @@ class UserStory
     public function getTest()
     {
         return $this->test;
+    }
+
+    /**
+     * Add task
+     *
+     * @param \CoralScrum\MainBundle\Entity\Task $task
+     * @return UserStory
+     */
+    public function addTask(\CoralScrum\MainBundle\Entity\Task $task)
+    {
+        $this->task[] = $task;
+    
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param \CoralScrum\MainBundle\Entity\Task $task
+     */
+    public function removeTask(\CoralScrum\MainBundle\Entity\Task $task)
+    {
+        $this->task->removeElement($task);
+    }
+
+    /**
+     * Get task
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTask()
+    {
+        return $this->task;
     }
 }

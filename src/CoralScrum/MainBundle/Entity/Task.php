@@ -22,7 +22,7 @@ class Task
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="task")
      **/
     private $userStory;
 
@@ -89,7 +89,7 @@ class Task
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endDate", type="date")
+     * @ORM\Column(name="endDate", type="date", nullable=true)
      */
     private $endDate;
 

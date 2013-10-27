@@ -7,8 +7,6 @@
 {% block container -%}
     <h1>Sprint creation</h1>
 
-    {#{ form(form) }#}
-    
     {{ form_start(form) }}
 
     <div>
@@ -17,7 +15,7 @@
         {{ form_widget(form.startDate) }}
     </div>
     <div>
-        {{ form_label(form.duration) }}
+        {{ form_label(form.duration, 'Duration (days)') }}
         {{ form_errors(form.duration) }}
         {{ form_widget(form.duration) }}
     </div>

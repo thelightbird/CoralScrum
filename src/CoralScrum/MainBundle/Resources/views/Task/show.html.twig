@@ -10,7 +10,7 @@
     <table class="cleanTab">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
@@ -52,8 +52,8 @@
         </tbody>
     </table>
 
-        <a class="button" href="{{ path('task', { 'projectId': projectId }) }}">Back to Tasks</a>
-        <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
+        <a class="button" href="{{ path('task', { 'projectId': projectId, 'sprintId': sprintId }) }}">Back to Tasks</a>
+        <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
         {{ form(delete_form) }}
 
 {% endblock %}

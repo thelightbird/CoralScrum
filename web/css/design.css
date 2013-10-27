@@ -225,12 +225,16 @@ div.message {
 table.defaultTab {
 	width:100%;
 	box-shadow: 0px 1px 3px rgba(34, 34, 34,0.3);
-	/*border: 1px solid #fff;*/
-	/*background: #eee;*/
-	/*color: #444;*/
 	margin:10px 0px;
 	border: none !important;
 }
+
+/* IE9 and IE10 Hack */
+@media screen and (min-width:0\0) {
+	table.defaultTab {
+		border: 1px solid #cfcfcf !important;
+	}
+}  
 
 table.defaultTab th,
 table.defaultTab td {
@@ -247,9 +251,15 @@ table.defaultTab th {
 table.defaultTab tr {
 	background-color: #ededed;
 }
+table.defaultTab tr td.bgHighlight {
+	background-color: #f2f2f2;
+}
 
 table.defaultTab tr:nth-child(2n) {
 	background-color: #f6f6f6;
+}
+table.defaultTab tr:nth-child(2n) td.bgHighlight {
+	background-color: #fcfcfc;
 }
 
 /* border */
@@ -390,7 +400,7 @@ a.delete {
 	width: 20px;
 	height:20px;
 	display: inline-block;
-	margin: 0px 4px;
+	margin: 2px;
 }
 a.edit {
 	background-image: url(./../img/edit.png)
@@ -398,7 +408,10 @@ a.edit {
 a.delete {
 	background-image: url(./../img/delete.png)
 }
-
+a.edit:hover,
+a.delete:hover {
+	opacity: 0.7;
+}
 
 /* Header
 -------------------------------------------------------------- */
@@ -896,6 +909,9 @@ header div.infos span.notif {
 .postIt:active {
 	z-index: 2;
 }
+.ui-draggable-dragging {
+	z-index: 3;
+}
 
 .postIt span {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -936,8 +952,4 @@ header div.infos span.notif {
 	position:absolute;
 	top:-3px;
 	left:-3px;
-}
-
-.bgHighlight {
-	background-color: #FDFDFD;
 }
