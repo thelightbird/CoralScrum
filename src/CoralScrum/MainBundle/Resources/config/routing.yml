@@ -10,6 +10,13 @@ CoralScrumMainBundle_project:
     prefix:   /project
 
 
+# --- Project Collaborator
+
+CoralScrumMainBundle_collaborator:
+    resource: "@CoralScrumMainBundle/Resources/config/routing/userproject.yml"
+    prefix:   /project/{projectId}/collaborator
+
+
 # --- Project / Sprint
 
 CoralScrumMainBundle_sprint:

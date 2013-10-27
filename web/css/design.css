@@ -294,11 +294,21 @@ table.cleanTab th {
 table.cleanTab img, table.projectDetails th, table.projectDetails td {
 	vertical-align: middle;
 }
+
 table.projectDetails {
 	width: 200px;
 	background-color: #e0e0e0;
 	border: 1px solid #ccc;
+	float: left;
 }
+table.collaborators {
+	width: 200px;
+	background-color: #e0e0e0;
+	border: 1px solid #ccc;
+	float:left;
+	margin: 0px 20px;
+}
+
 
 /* Table Sorter
 -------------------------------------------------------------- */

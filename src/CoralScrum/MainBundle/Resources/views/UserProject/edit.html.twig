@@ -1,0 +1,16 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
+{% block container -%}
+    <h1>Edit Collaborator</h1>
+
+    {{ form(edit_form) }}
+
+    {{ form(delete_form) }}
+
+    <a class="button" href="{{ path('collaborator', { 'projectId': projectId }) }}">Back to Collaborators</a>
+
+{% endblock %}

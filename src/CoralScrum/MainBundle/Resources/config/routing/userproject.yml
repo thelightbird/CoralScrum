@@ -1,10 +1,26 @@
-userproject:
+collaborator:
     pattern:  /
     defaults: { _controller: "CoralScrumMainBundle:UserProject:index" }
 
-userproject_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "CoralScrumMainBundle:UserProject:show" }
+collaborator_new:
+    pattern:  /new
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:new" }
 
+collaborator_create:
+    pattern:  /create
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:create" }
+    requirements: { _method: post }
 
+collaborator_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:edit" }
 
+collaborator_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:update" }
+    requirements: { _method: post|put }
+
+collaborator_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "CoralScrumMainBundle:UserProject:delete" }
+    requirements: { _method: post|delete }

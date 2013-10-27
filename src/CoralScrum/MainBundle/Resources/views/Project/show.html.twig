@@ -8,7 +8,7 @@
 
     <h1>{{ entity.name }}</h1>
 
-    <table class="cleanTab projectDetails">
+    <table class="cleanTab projectDetails" style="float:left;">
         <tbody>
             <tr>
                 <th><img src="{{ asset('img/lock.png') }}" alt="" /></th>
@@ -27,6 +27,22 @@
         </tbody>
     </table>
 
+    <table class="cleanTab collaborators">
+        <tbody>
+            <tr>
+                <th>Collaborators</th>
+            </tr>
+        {% for userProject in collaborators %}
+            <tr>
+                <td>{{ userProject.user }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="clear"></div>
+
+    <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
     <a class="button" href="{{ path('project') }}">Back to Projects</a>
     
 {% endblock %}

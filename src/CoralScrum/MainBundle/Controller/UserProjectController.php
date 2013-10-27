@@ -5,81 +5,70 @@ namespace CoralScrum\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use CoralScrum\MainBundle\Entity\UserStory;
-use CoralScrum\MainBundle\Form\UserStoryType;
+use CoralScrum\MainBundle\Entity\UserProject;
+use CoralScrum\MainBundle\Form\UserProjectType;
 
 /**
- * UserStory controller.
+ * UserProject controller.
  *
  */
-class UserStoryController extends Controller
+class UserProjectController extends Controller
 {
 
     /**
-     * Lists all UserStory entities.
+     * Lists all UserProject entities.
      *
      */
     public function indexAction($projectId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:UserStory')->findByProject($projectId);
+        $entities = $em->getRepository('CoralScrumMainBundle:UserProject')->findAll();
 
-        return $this->render('CoralScrumMainBundle:UserStory:index.html.twig', array(
+        return $this->render('CoralScrumMainBundle:UserProject:index.html.twig', array(
             'entities'  => $entities,
             'projectId' => $projectId,
         ));
     }
     /**
-     * Creates a new UserStory entity.
+     * Creates a new UserProject entity.
      *
      */
     public function createAction($projectId, Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
-
-        if (!$project) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-        
-        $userstory = new UserStory();
-        $userstory->setProject($project);
-        $form = $this->createCreateForm($projectId, $userstory);
+        $entity = new UserProject();
+        $form = $this->createCreateForm($projectId, $entity);
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($userstory);
+            $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('userstory_show', array(
-                'id' => $userstory->getId(),
+            return $this->redirect($this->generateUrl('collaborator_show', array(
+                'id'        => $entity->getId(),
                 'projectId' => $projectId,
             )));
         }
-        return $this->render('CoralScrumMainBundle:UserStory:new.html.twig', array(
-            'entity'    => $userstory,
+
+        return $this->render('CoralScrumMainBundle:UserProject:new.html.twig', array(
+            'entity'    => $entity,
             'projectId' => $projectId,
             'form'      => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a UserStory entity.
+    * Creates a form to create a UserProject entity.
     *
-    * @param UserStory $entity The entity
+    * @param UserProject $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm($projectId, UserStory $entity)
+    private function createCreateForm($projectId, UserProject $entity)
     {
-        $form = $this->createForm(new UserStoryType(), $entity, array(
-            'action' => $this->generateUrl('userstory_create', array(
+        $form = $this->createForm(new UserProjectType(), $entity, array(
+            'action' => $this->generateUrl('collaborator_create', array(
                 'projectId' => $projectId,
             )),
             'method' => 'POST',
@@ -91,15 +80,15 @@ class UserStoryController extends Controller
     }
 
     /**
-     * Displays a form to create a new UserStory entity.
+     * Displays a form to create a new UserProject entity.
      *
      */
     public function newAction($projectId)
     {
-        $entity = new UserStory();
+        $entity = new UserProject();
         $form   = $this->createCreateForm($projectId, $entity);
 
-        return $this->render('CoralScrumMainBundle:UserStory:new.html.twig', array(
+        return $this->render('CoralScrumMainBundle:UserProject:new.html.twig', array(
             'entity'    => $entity,
             'projectId' => $projectId,
             'form'      => $form->createView(),
@@ -107,22 +96,22 @@ class UserStoryController extends Controller
     }
 
     /**
-     * Finds and displays a UserStory entity.
+     * Finds and displays a UserProject entity.
      *
      */
     public function showAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find UserStory entity.');
+            throw $this->createNotFoundException('Unable to find UserProject entity.');
         }
 
         $deleteForm = $this->createDeleteForm($projectId, $id);
 
-        return $this->render('CoralScrumMainBundle:UserStory:show.html.twig', array(
+        return $this->render('CoralScrumMainBundle:UserProject:show.html.twig', array(
             'entity'      => $entity,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),
@@ -130,23 +119,23 @@ class UserStoryController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing UserStory entity.
+     * Displays a form to edit an existing UserProject entity.
      *
      */
     public function editAction($projectId, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find UserStory entity.');
+            throw $this->createNotFoundException('Unable to find UserProject entity.');
         }
 
         $editForm = $this->createEditForm($projectId, $entity);
         $deleteForm = $this->createDeleteForm($projectId, $id);
 
-        return $this->render('CoralScrumMainBundle:UserStory:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:UserProject:edit.html.twig', array(
             'entity'      => $entity,
             'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
@@ -155,16 +144,16 @@ class UserStoryController extends Controller
     }
 
     /**
-    * Creates a form to edit a UserStory entity.
+    * Creates a form to edit a UserProject entity.
     *
-    * @param UserStory $entity The entity
+    * @param UserProject $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm($projectId, UserStory $entity)
+    private function createEditForm($projectId, UserProject $entity)
     {
-        $form = $this->createForm(new UserStoryType(), $entity, array(
-            'action' => $this->generateUrl('userstory_update', array(
+        $form = $this->createForm(new UserProjectType(), $entity, array(
+            'action' => $this->generateUrl('collaborator_update', array(
                 'id'        => $entity->getId(),
                 'projectId' => $projectId,
             )),
@@ -176,17 +165,17 @@ class UserStoryController extends Controller
         return $form;
     }
     /**
-     * Edits an existing UserStory entity.
+     * Edits an existing UserProject entity.
      *
      */
     public function updateAction($projectId, Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find UserStory entity.');
+            throw $this->createNotFoundException('Unable to find UserProject entity.');
         }
 
         $deleteForm = $this->createDeleteForm($projectId, $id);
@@ -196,13 +185,13 @@ class UserStoryController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('userstory_edit', array(
-                'id' => $id,
+            return $this->redirect($this->generateUrl('collaborator_edit', array(
+                'id'        => $id,
                 'projectId' => $projectId,
             )));
         }
 
-        return $this->render('CoralScrumMainBundle:UserStory:edit.html.twig', array(
+        return $this->render('CoralScrumMainBundle:UserProject:edit.html.twig', array(
             'entity'      => $entity,
             'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
@@ -210,7 +199,7 @@ class UserStoryController extends Controller
         ));
     }
     /**
-     * Deletes a UserStory entity.
+     * Deletes a UserProject entity.
      *
      */
     public function deleteAction($projectId, Request $request, $id)
@@ -220,23 +209,23 @@ class UserStoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
+            $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find UserStory entity.');
+                throw $this->createNotFoundException('Unable to find UserProject entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('userstory', array(
-                'projectId' => $projectId,
+        return $this->redirect($this->generateUrl('collaborator', array(
+            'projectId' => $projectId,
         )));
     }
 
     /**
-     * Creates a form to delete a UserStory entity by id.
+     * Creates a form to delete a UserProject entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -245,8 +234,8 @@ class UserStoryController extends Controller
     private function createDeleteForm($projectId, $id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('userstory_delete', array(
-                'id' => $id,
+            ->setAction($this->generateUrl('collaborator_delete', array(
+                'id'        => $id,
                 'projectId' => $projectId,
             )))
             ->setMethod('DELETE')

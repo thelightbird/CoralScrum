@@ -1,0 +1,34 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
+{% block container -%}
+    <h1>Collaborators list</h1>
+
+    <a class="button" href="{{ path('collaborator_new', { 'projectId': projectId }) }}">Add a new collaborator</a>
+
+    <table class="defaultTab">
+        <thead>
+            <tr>
+                <th>Account Type</th>
+                <th>Accept</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.accountType }}</td>
+                <td>{{ entity.isAccept }}</td>
+                <td>
+                    <a class="edit" href="{{ path('collaborator_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    <a class="delete" href=""></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

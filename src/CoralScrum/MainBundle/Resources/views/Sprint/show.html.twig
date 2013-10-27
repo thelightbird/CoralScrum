@@ -109,7 +109,7 @@
     <script>
         $(document).ready(function() {
             $(".tablesorter").tablesorter();
-            
+
             {% for userstory in entity.userstory %}
             $( ".postIt.id{{ userstory.id }}" ).draggable({
                 containment: ".containment_{{ userstory.id }}",
@@ -121,7 +121,6 @@
                 accept: ".postIt",
                 hoverClass: "bgHighlight",
                 drop: function( event, ui ) {
-                    //$( this ).addClass( "bgHighlight" );
                     $(ui.helper).css({
                         'left': 'auto',
                         'top': 'auto'

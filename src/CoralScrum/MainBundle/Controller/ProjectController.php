@@ -115,18 +115,21 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+        $collaborators = $em->getRepository('CoralScrumMainBundle:UserProject')->findByProject($project);
 
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
         $deleteForm = $this->createDeleteForm($projectId);
 
         return $this->render('CoralScrumMainBundle:Project:show.html.twig', array(
-            'entity'      => $entity,
-            'projectId'   => $projectId,
-            'delete_form' => $deleteForm->createView(),        ));
+            'entity'        => $project,
+            'projectId'     => $projectId,
+            'delete_form'   => $deleteForm->createView(),
+            'collaborators' => $collaborators,
+        ));
     }
 
     /**
