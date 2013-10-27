@@ -3,11 +3,11 @@
 namespace CoralScrum\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\Task;
 use CoralScrum\MainBundle\Form\TaskType;
-
 /**
  * Task controller.
  *
@@ -184,6 +184,43 @@ class TaskController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+    public function editstateAction($sprintId)
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) { // Ajax request
+            $taskId = $request->request->get('taskId');
+
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if (!is_object($user)) {
+                throw new AccessDeniedException('You are not logged in.');
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('CoralScrumUserBundle:User')->findByTaskId($taskId);
+
+            if (in_array($user, $users)) {
+
+                $task = $em->getRepository('CoralScrumMainBundle:Task')->find($taskId);
+                $taskState = $request->request->get('taskState');
+                if ($taskState == "ToDo") {
+                    $task->setState(0);
+                }
+                else if ($taskState == "InProgress") {
+                    $task->setState(1);
+                }
+                else if ($taskState == "Done") {
+                    $task->setState(2);
+                }
+                else {
+                    throw new AccessDeniedException('Bad task state.');
+                }
+                $em->flush();
+                return new Response("Ok");
+            }
+            throw new AccessDeniedException('You are not authorized to change this task state.');
+        }
+        return new Response("");
     }
 
     /**

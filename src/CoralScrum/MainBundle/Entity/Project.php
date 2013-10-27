@@ -27,6 +27,11 @@ class Project
     private $userproject;
 
     /**
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory", mappedBy="project")
+     */
+    private $userStory;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User")
      */
     private $owner;

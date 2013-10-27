@@ -32,9 +32,9 @@ class TaskType extends AbstractType
             ))
             ->add('state', 'choice', array(
                 'choices'  => array(
-                    'To Do'       => 'To Do',
-                    'In Progress' => 'In Progress',
-                    'Done'        => 'Done'),
+                    0 => 'To Do',
+                    1 => 'In Progress',
+                    2 => 'Done'),
                 'required' => true))
             //->add('creationDate')
             ->add('startDate')

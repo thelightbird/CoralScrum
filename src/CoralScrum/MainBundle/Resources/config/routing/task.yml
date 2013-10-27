@@ -19,6 +19,11 @@ task_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "CoralScrumMainBundle:Task:edit" }
 
+task_edit_state:
+    pattern:  /editstate
+    defaults: { _controller: "CoralScrumMainBundle:Task:editstate" }
+    requirements: { _method: post }
+
 task_update:
     pattern:  /{id}/update
     defaults: { _controller: "CoralScrumMainBundle:Task:update" }

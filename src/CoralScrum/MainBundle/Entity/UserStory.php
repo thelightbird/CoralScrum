@@ -24,7 +24,7 @@ class UserStory
     /**
      * @var Project $project
      *
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project", inversedBy="userStory")
      */
     private $project;
 

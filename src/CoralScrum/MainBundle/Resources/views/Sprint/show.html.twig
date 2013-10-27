@@ -27,45 +27,60 @@
                 <td class="alignLeft ok">
                     <a href="{{ path('userstory_show', { 'projectId': projectId, 'id': userstory.getId() }) }}">{{ userstory }}</a>
                 </td>
-                <td class="droppable">
+                <td class="droppable stateToDo">
                 {% for task in userstory.task -%}
-                {% if task.state == 'To Do' -%}
+                {% if task.state == 0 -%}
                     <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
-                        {% if task.isBug %}
-                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
-                        {% endif %}
+                        <span class="taskIcons">
+                            {%- if task.user|length > 0 -%}
+                            <img title="This task is assigned to {{ task.user|join(', ') }}." src="{{ asset('img/user.png') }}" alt=""/>
+                            {%- endif -%}
+                            {%- if task.isBug -%}
+                            <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
+                            {%- endif -%}
+                        </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskId">#{{ task.id }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
                 {% endif -%}
                 {% endfor -%}
                 </td>
-                <td class="droppable">
+                <td class="droppable stateInProgress">
                 {% for task in userstory.task -%}
-                {% if task.state == 'In Progress' -%}
+                {% if task.state == 1 -%}
                     <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
-                        {% if task.isBug %}
-                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
-                        {% endif %}
+                        <span class="taskIcons">
+                            {%- if task.user|length > 0 -%}
+                            <img title="This task is assigned to {{ task.user|join(', ') }}." src="{{ asset('img/user.png') }}" alt=""/>
+                            {%- endif -%}
+                            {%- if task.isBug -%}
+                            <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
+                            {%- endif -%}
+                        </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskId">#{{ task.id }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
                 {% endif -%}
                 {% endfor -%}
                 </td>
-                <td class="droppable">
+                <td class="droppable stateDone">
                 {% for task in userstory.task -%}
-                {% if task.state == 'Done' -%}
+                {% if task.state == 2 -%}
                     <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
-                        {% if task.isBug %}
-                        <span class="bug"><img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/></span>
-                        {% endif %}
+                        <span class="taskIcons">
+                            {%- if task.user|length > 0 -%}
+                            <img title="This task is assigned to {{ task.user|join(', ') }}." src="{{ asset('img/user.png') }}" alt=""/>
+                            {%- endif -%}
+                            {%- if task.isBug -%}
+                            <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
+                            {%- endif -%}
+                        </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskID">#{{ task.id }}</span>
+                        <span class="taskId">#{{ task.id }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
@@ -111,13 +126,27 @@
             $(".tablesorter").tablesorter();
 
             {% for userstory in entity.userstory %}
-            $( ".postIt.id{{ userstory.id }}" ).draggable({
+            $( ".postIt.id{{ userstory.id }}" )
+            .draggable({
                 containment: ".containment_{{ userstory.id }}",
                 revert: 'invalid',
+
+            })
+            .click(function() {
+                if ( $(this).is('.ui-draggable-dragging') ) {
+                    return;
+                }
+                var url = $(this).attr('data-url');
+                $.get( url, function( data ) {
+                    displayPopup( data );
+                })
+                .fail(function() {
+                    alert( "An error has occurred." );
+                });
             });
             {% endfor %}
 
-            $( ".droppable" ).droppable({
+            $(".droppable").droppable({
                 accept: ".postIt",
                 hoverClass: "bgHighlight",
                 drop: function( event, ui ) {
@@ -125,7 +154,17 @@
                         'left': 'auto',
                         'top': 'auto'
                     });
-                    $( this ).append( $(ui.helper) );
+                    $(this).append( $(ui.helper) );
+                    var taskId = $(ui.helper).find("span.taskId").text().replace("#", "");
+                    if ($(ui.helper).parent("td").hasClass("stateToDo")) {
+                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "ToDo" });
+                    }
+                    else if ($(ui.helper).parent("td").hasClass("stateInProgress")) {
+                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "InProgress" });
+                    }
+                    else if ($(ui.helper).parent("td").hasClass("stateDone")) {
+                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "Done" });
+                    }
                 }
             });
         });
@@ -162,14 +201,5 @@
             return false;
         });
 
-        $("div.postIt").click( function() {
-            var url = $(this).attr('data-url');
-            $.get( url, function( data ) {
-                displayPopup( data );
-            })
-            .fail(function() {
-                alert( "An error has occurred." );
-            });
-        });
     </script>
 {% endblock %}

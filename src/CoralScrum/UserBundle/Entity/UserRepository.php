@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public function findByTaskId($taskId)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->join('u.userproject', 'us_p')
+           ->join('us_p.project', 'p')
+           ->join('p.userStory', 'us')
+           ->join('us.task', 't')
+           ->where('t.id = :taskId')
+           ->setParameter('taskId', $taskId)
+           ;
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -66,9 +66,13 @@ class Task
     private $duration;
 
     /**
-     * @var string
+     * 0 : To Do
+     * 1 : In Progress
+     * 2 : Done
      *
-     * @ORM\Column(name="state", type="string", length=30)
+     * @var integer
+     *
+     * @ORM\Column(name="state", type="integer")
      */
     private $state;
 
@@ -195,7 +199,7 @@ class Task
     /**
      * Set state
      *
-     * @param string $state
+     * @param integer $state
      * @return Task
      */
     public function setState($state)
@@ -208,7 +212,7 @@ class Task
     /**
      * Get state
      *
-     * @return string 
+     * @return integer 
      */
     public function getState()
     {

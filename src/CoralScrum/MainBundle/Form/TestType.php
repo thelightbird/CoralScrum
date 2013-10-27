@@ -50,9 +50,9 @@ class TestType extends AbstractType
             ))
             ->add('state', 'choice', array(
                 'choices'  => array(
-                    '0' => 'Not tested',
-                    '1' => 'Test passed',
-                    '2' => 'Test failed'),
+                    0 => 'Not tested',
+                    1 => 'Test passed',
+                    2 => 'Test failed'),
                 'required' => true))
         ;
     }
