@@ -193,10 +193,8 @@ class TaskController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm($sprintId, Task $entity)
+    private function createEditForm($projectId, $sprintId, Task $entity)
     {
-        $projectId = $this->getProjectId($sprintId);
-
         $form = $this->createForm(new TaskType(), $entity, array(
             'action' => $this->generateUrl('task_update', array(
                 'id'        => $entity->getId(),
