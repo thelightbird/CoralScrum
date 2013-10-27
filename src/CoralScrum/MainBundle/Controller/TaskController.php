@@ -14,13 +14,31 @@ use CoralScrum\MainBundle\Form\TaskType;
  */
 class TaskController extends Controller
 {
+    /**
+     * Get $projectId from $sprintId
+     *
+     */
+    public function getProjectId($sprintId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+        if (!$sprint) {
+            throw $this->createNotFoundException('Bad Sprint id.');
+        }
+        $projectId = $sprint->getProject()->getId();
+
+        return $projectId;
+    }
 
     /**
      * Lists all Task entities.
      *
      */
-    public function indexAction($projectId, $sprintId)
+    public function indexAction($sprintId)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:Task')->findBySprintId($sprintId);
@@ -35,8 +53,10 @@ class TaskController extends Controller
      * Creates a new Task entity.
      *
      */
-    public function createAction($projectId, $sprintId, Request $request)
+    public function createAction($sprintId, Request $request)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $entity = new Task();
         $form = $this->createCreateForm($projectId, $sprintId, $entity);
         $form->handleRequest($request);
@@ -77,6 +97,7 @@ class TaskController extends Controller
             )),
             'method' => 'POST',
             'sprintId'  => $sprintId,
+            'projectId' => $projectId,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -88,8 +109,10 @@ class TaskController extends Controller
      * Displays a form to create a new Task entity.
      *
      */
-    public function newAction($projectId, $sprintId)
+    public function newAction($sprintId)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $em = $this->getDoctrine()->getManager();
         $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countBySprintId($sprintId);
 
@@ -114,8 +137,10 @@ class TaskController extends Controller
      * Finds and displays a Task entity.
      *
      */
-    public function showAction($projectId, $sprintId, $id)
+    public function showAction($sprintId, $id)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
@@ -137,8 +162,10 @@ class TaskController extends Controller
      * Displays a form to edit an existing Task entity.
      *
      */
-    public function editAction($projectId, $sprintId, $id)
+    public function editAction($sprintId, $id)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
@@ -166,8 +193,10 @@ class TaskController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm($projectId, $sprintId, Task $entity)
+    private function createEditForm($sprintId, Task $entity)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $form = $this->createForm(new TaskType(), $entity, array(
             'action' => $this->generateUrl('task_update', array(
                 'id'        => $entity->getId(),
@@ -176,6 +205,7 @@ class TaskController extends Controller
             )),
             'method' => 'PUT',
             'sprintId'  => $sprintId,
+            'projectId' => $projectId,
             'taskId'    => $entity->getId(),
         ));
 
@@ -187,8 +217,10 @@ class TaskController extends Controller
      * Edits an existing Task entity.
      *
      */
-    public function updateAction($projectId, $sprintId, Request $request, $id)
+    public function updateAction($sprintId, Request $request, $id)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
@@ -223,8 +255,10 @@ class TaskController extends Controller
      * Deletes a Task entity.
      *
      */
-    public function deleteAction($projectId, $sprintId, Request $request, $id)
+    public function deleteAction($sprintId, Request $request, $id)
     {
+        $projectId = $this->getProjectId($sprintId);
+
         $form = $this->createDeleteForm($projectId, $sprintId, $id);
         $form->handleRequest($request);
 

@@ -12,6 +12,7 @@
     <table class="defaultTab">
         <thead>
             <tr>
+                <th>Username</th>
                 <th>Account Type</th>
                 <th>Accept</th>
                 <th>Actions</th>
@@ -20,6 +21,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
+                <td>{{ entity.user }}</td>
                 <td>{{ entity.accountType }}</td>
                 <td>{{ entity.isAccept }}</td>
                 <td>

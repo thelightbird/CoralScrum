@@ -14,11 +14,15 @@ class TaskType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $sprintId = $options['sprintId'];
         $taskId = $options['taskId'];
+        $sprintId = $options['sprintId'];
+        $projectId = $options['projectId'];
 
-        if(is_null($sprintId))
+        if (is_null($sprintId))
             throw new \LogicException('SprintId option is required.');
+
+        if (is_null($projectId))
+            throw new \LogicException('ProjectId option is required.');
 
         $builder
             ->add('title')
@@ -58,22 +62,28 @@ class TaskType extends AbstractType
                 'class'    => 'CoralScrumUserBundle:User',
                 'label'    => 'Assign to',
                 'multiple' => true,
-                /*
-                'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) {
+                'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) use ($projectId) {
                     return $er->createQueryBuilder('u')
-                        ->where('u.id = 1')
-                        ->orderBy('u.id', 'ASC');
+                              ->join('u.userproject', 'us_p')
+                              ->where('us_p.project = :projectId')
+                              ->setParameter('projectId', $projectId)
+                              ->orderBy('u.username', 'ASC');
                 },
-                //*/
             ))
             ->add('dependency', 'entity', array(
                 'class'    => 'CoralScrumMainBundle:Task',
                 'label'    => 'Dependencies',
                 'multiple' => true,
-                'query_builder' => function(\CoralScrum\MainBundle\Entity\TaskRepository  $er) use ($taskId) {
+                'query_builder' => function(\CoralScrum\MainBundle\Entity\TaskRepository  $er) use ($taskId, $sprintId) {
                     return $er->createQueryBuilder('t')
+                              ->join('t.userStory', 'us')
+                              ->join('us.sprint', 'sp')
                               ->where('t.id != :taskId')
-                              ->setParameter('taskId', $taskId)
+                              ->andWhere('sp.id = :sprintId')
+                              ->setParameters(array(
+                                'taskId'   => $taskId,
+                                'sprintId' => $sprintId,
+                              ))
                               ->orderBy('t.id', 'ASC');
                 },
             ))
@@ -88,11 +98,13 @@ class TaskType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'CoralScrum\MainBundle\Entity\Task',
             'sprintId'   => null,
+            'projectId'  => null,
             'taskId'     => 0,
         ));
 
         $resolver->setRequired(array(
             'sprintId',
+            'projectId',
         ));
     }
 

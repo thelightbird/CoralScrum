@@ -35,7 +35,19 @@ class TestType extends AbstractType
                               ->setParameter('projectId', $projectId);
                 },
             ))
-            ->add('tester')
+            ->add('tester', 'entity', array(
+                'class'    => 'CoralScrumUserBundle:User',
+                'label'    => 'Tester',
+                'multiple' => false,
+                'required' => false,
+                'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) use ($projectId) {
+                    return $er->createQueryBuilder('u')
+                              ->join('u.userproject', 'us_p')
+                              ->where('us_p.project = :projectId')
+                              ->setParameter('projectId', $projectId)
+                              ->orderBy('u.username', 'ASC');
+                },
+            ))
             ->add('state', 'choice', array(
                 'choices'  => array(
                     '0' => 'Not tested',

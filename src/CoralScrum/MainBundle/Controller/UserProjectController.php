@@ -45,7 +45,7 @@ class UserProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('collaborator_show', array(
+            return $this->redirect($this->generateUrl('collaborator', array(
                 'id'        => $entity->getId(),
                 'projectId' => $projectId,
             )));
@@ -92,29 +92,6 @@ class UserProjectController extends Controller
             'entity'    => $entity,
             'projectId' => $projectId,
             'form'      => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a UserProject entity.
-     *
-     */
-    public function showAction($projectId, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find UserProject entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($projectId, $id);
-
-        return $this->render('CoralScrumMainBundle:UserProject:show.html.twig', array(
-            'entity'      => $entity,
-            'projectId'   => $projectId,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
