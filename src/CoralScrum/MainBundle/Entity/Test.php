@@ -262,6 +262,14 @@ class Test
     }
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->state = 0;
+    }
+
+    /**
      * Set userStory
      *
      * @param \CoralScrum\MainBundle\Entity\UserStory $userStory

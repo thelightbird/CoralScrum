@@ -37,23 +37,24 @@ class TestController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $entity = new Test();
-        $form = $this->createCreateForm($projectId, $entity);
+        $test = new Test();
+        $form = $this->createCreateForm($projectId, $test);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $test->getUserStory()->setIsValidated(false);
+            $em->persist($test);
             $em->flush();
 
             return $this->redirect($this->generateUrl('test_show', array(
-                'id'        => $entity->getId(),
+                'id'        => $test->getId(),
                 'projectId' => $projectId,
             )));
         }
 
         return $this->render('CoralScrumMainBundle:Test:new.html.twig', array(
-            'entity'    => $entity,
+            'entity'    => $test,
             'projectId' => $projectId,
             'form'      => $form->createView(),
         ));
@@ -183,17 +184,31 @@ class TestController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
+        $test = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
-        if (!$entity) {
+        if (!$test) {
             throw $this->createNotFoundException('Unable to find Test entity.');
         }
 
         $deleteForm = $this->createDeleteForm($projectId, $id);
-        $editForm = $this->createEditForm($projectId, $entity);
+        $editForm = $this->createEditForm($projectId, $test);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $testUserStory = $test->getUserStory();
+            $userStoryId = $testUserStory->getId();
+
+            $em->flush();
+
+            // Update UserStory isValidated
+            $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestTestNotPassedByUserStoryId($userStoryId);
+            if ($nbTestNotPassed == 0) {
+                $testUserStory->setIsValidated(true);
+            }
+            else {
+                $testUserStory->setIsValidated(false);
+            }
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('test', array(
@@ -202,7 +217,7 @@ class TestController extends Controller
         }
 
         return $this->render('CoralScrumMainBundle:Test:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $test,
             'projectId'   => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -215,13 +230,26 @@ class TestController extends Controller
     public function deleteAction($projectId, Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
+        $test = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
-        if (!$entity) {
+        if (!$test) {
             throw $this->createNotFoundException('Unable to find Test entity.');
         }
 
-        $em->remove($entity);
+        $testUserStory = $test->getUserStory();
+
+        $em->remove($test);
+        $em->flush();
+
+        // Update UserStory isValidated
+        $userStoryId = $test->getUserStory();
+        $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestTestNotPassedByUserStoryId($userStoryId);
+        if ($nbTestNotPassed == 0) {
+            $testUserStory->setIsValidated(true);
+        }
+        else {
+            $testUserStory->setIsValidated(false);
+        }
         $em->flush();
 
         return $this->redirect($this->generateUrl('test', array(

@@ -38,4 +38,19 @@ class TestRepository extends EntityRepository
            ;
         return $qb->getQuery()->getResult();
     }
+
+    public function countTestTestNotPassedByUserStoryId($userStoryId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t.id)')
+           ->join('t.userStory', 'us')
+           ->where('us.id = :userStoryId')
+           ->andWhere('t.state IN (:state)')
+           ->setParameters(array(
+               'userStoryId' => $userStoryId,
+               'state'  => array(0, 2),
+            ))
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
