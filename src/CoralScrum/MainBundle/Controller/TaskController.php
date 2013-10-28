@@ -58,13 +58,14 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
 
-        $entity = new Task();
-        $form = $this->createCreateForm($projectId, $sprintId, $entity);
+        $task = new Task();
+        $form = $this->createCreateForm($projectId, $sprintId, $task);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $task->getUserStory()->setIsFinished(false);
+            $em->persist($task);
             $em->flush();
 
             return $this->redirect($this->generateUrl('sprint_show', array(
@@ -74,7 +75,7 @@ class TaskController extends Controller
         }
 
         return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
-            'entity'    => $entity,
+            'entity'    => $task,
             'sprintId'  => $sprintId,
             'projectId' => $projectId,
             'form'      => $form->createView(),
@@ -227,7 +228,6 @@ class TaskController extends Controller
                 }
 
                 if ($needsUpdate) {
-                    $em->persist($task);
                     $em->flush();
 
                     // Update User Story isFinished
@@ -235,13 +235,11 @@ class TaskController extends Controller
                         $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId);
                         if ($nbTaskNotDone == 0) {
                             $task->getUserStory()->setIsFinished(true);
-                            $em->persist($task);
                             $em->flush();
                         }
                     }
                     else if ($taskState == "ToDo" || $taskState == "InProgress" ) {
                         $task->getUserStory()->setIsFinished(false);
-                        $em->persist($task);
                         $em->flush();
                     }
                 }
@@ -323,13 +321,26 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $task = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
 
-        if (!$entity) {
+        if (!$task) {
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $em->remove($entity);
+        $taskId = $task->getId();
+        $taskUserStory = $task->getUserStory();
+
+        $em->remove($task);
+        $em->flush();
+
+        // Update UserStory isFinished
+        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId);
+        if ($nbTaskNotDone == 0) {
+            $taskUserStory->setIsFinished(true);
+        }
+        else {
+            $taskUserStory->setIsFinished(false);
+        }
         $em->flush();
 
         return $this->redirect($this->generateUrl('task', array(
