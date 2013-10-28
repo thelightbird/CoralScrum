@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\Test;
 use CoralScrum\MainBundle\Form\TestType;
+use CoralScrum\MainBundle\Form\TestEditType;
 
 /**
  * Test controller.
@@ -161,7 +162,7 @@ class TestController extends Controller
     */
     private function createEditForm($projectId, Test $entity)
     {
-        $form = $this->createForm(new TestType(), $entity, array(
+        $form = $this->createForm(new TestEditType(), $entity, array(
             'action'    => $this->generateUrl('test_update', array(
                 'projectId' => $projectId,
                 'id'        => $entity->getId()

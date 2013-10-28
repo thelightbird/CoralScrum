@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\Task;
 use CoralScrum\MainBundle\Form\TaskType;
+use CoralScrum\MainBundle\Form\TaskEditType;
 /**
  * Task controller.
  *
@@ -261,7 +262,7 @@ class TaskController extends Controller
     */
     private function createEditForm($projectId, $sprintId, Task $entity)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
+        $form = $this->createForm(new TaskEditType(), $entity, array(
             'action' => $this->generateUrl('task_update', array(
                 'id'        => $entity->getId(),
                 'projectId' => $projectId,
