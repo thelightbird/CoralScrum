@@ -113,9 +113,9 @@ class SprintController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $tests = $em->getRepository('CoralScrumMainBundle:Test')->findBySprintId($sprintId);
-        $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+        $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->findOneByIdJoined($sprintId);
 
-        if (!$entity) {
+        if (!$sprint) {
             throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
 
@@ -123,7 +123,7 @@ class SprintController extends Controller
 
         return $this->render('CoralScrumMainBundle:Sprint:show.html.twig', array(
             'tests'       => $tests,
-            'entity'      => $entity,
+            'entity'      => $sprint,
             'sprintId'    => $sprintId,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),

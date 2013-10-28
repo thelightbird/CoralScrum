@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class SprintRepository extends EntityRepository
 {
+    public function findOneByIdJoined($sprintId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT sp, us, t, u FROM CoralScrumMainBundle:Sprint sp
+                LEFT JOIN sp.userStory us
+                LEFT JOIN us.task t
+                LEFT JOIN t.user u
+                WHERE sp.id = :sprintId'
+            )->setParameter('sprintId', $sprintId);
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }
