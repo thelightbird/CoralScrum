@@ -30,17 +30,19 @@ class TaskType extends AbstractType
             ->add('duration', 'integer', array(
                 'attr' => array('min' => 0)
             ))
+            /*
             ->add('state', 'choice', array(
                 'choices'  => array(
                     0 => 'To Do',
                     1 => 'In Progress',
                     2 => 'Done'),
                 'required' => true))
-            //->add('creationDate')
+            ->add('creationDate')
             ->add('startDate')
             ->add('endDate', 'datetime', array(
                 'required' => false,
             ))
+            */
             ->add('isBug', 'checkbox', array(
                 'required' => false))
             ->add('commit', 'text', array(

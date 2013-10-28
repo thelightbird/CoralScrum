@@ -195,8 +195,7 @@ class TestController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('test_edit', array(
-                'id'        => $id,
+            return $this->redirect($this->generateUrl('test', array(
                 'projectId' => $projectId,
             )));
         }
@@ -214,20 +213,15 @@ class TestController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
-        $form = $this->createDeleteForm($projectId, $id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:Test')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Test entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Test entity.');
         }
+
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('test', array(
             'projectId' => $projectId,

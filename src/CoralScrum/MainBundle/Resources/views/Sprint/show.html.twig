@@ -169,37 +169,5 @@
             });
         });
 
-
-        function displayPopup(data) {
-            $("body").prepend( '<div class="popupContent"></div>' );
-            $(".popupContent").animate({
-                opacity: 1,
-                }, 500, function() {
-            });
-            $(".popupContent").html(data);
-            initClosePopup();
-        }
-
-        function closePopup() {
-            $(".popupContent").fadeOut(300, function() { $(this).remove(); });
-        }
-
-        function initClosePopup() {
-            $(".popupContent").click(function(e) {
-                if(e.target == this) {
-                    closePopup();
-                }
-            });
-            $(".closePopup").click(function() {
-                closePopup();
-                return false;
-            });
-        }
-
-        $(".closePopup").click( function() {
-            closePopup();
-            return false;
-        });
-
     </script>
 {% endblock %}

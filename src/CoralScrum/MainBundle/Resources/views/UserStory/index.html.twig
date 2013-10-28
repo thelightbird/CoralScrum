@@ -30,11 +30,23 @@
                 <td>{{ entity.description }}</td>
                 <td>{{ entity.priority }}</td>
                 <td>{{ entity.difficulty }}</td>
-                <td>{{ entity.isFinished }} <img src="{{ asset('img/valid.png') }}" /></td>
-                <td>{{ entity.isValidated }} <img src="{{ asset('img/error.png') }}" /></td>
+                <td>
+                    {% if entity.isFinished %}
+                    <img src="{{ asset('img/valid.png') }}" />
+                    {% else %}
+                    <img src="{{ asset('img/error.png') }}" />
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.isValidated %}
+                    <img src="{{ asset('img/valid.png') }}" />
+                    {% else %}
+                    <img src="{{ asset('img/error.png') }}" />
+                    {% endif %}
+                </td>
                 <td>
                     <a class="edit" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
-                    <a class="delete" href=""></a>
+                    <a class="delete popupDialog" href="{{ path('userstory_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
                 </td>
             </tr>
         {% endfor %}

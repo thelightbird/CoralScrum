@@ -24,7 +24,7 @@
                 <td><a target="_blank" href="{{ entity.repository }}">{{ entity.repository }}</a></td>
                 <td>
                     <a class="edit" href="{{ path('project_edit', { 'projectId': entity.id }) }}"></a>
-                    <a class="delete" href=""></a>
+                    <a class="delete popupDialog" href="{{ path('project_delete', { 'projectId': entity.id }) }}"></a>
                 </td>
             </tr>
         {% endfor %}

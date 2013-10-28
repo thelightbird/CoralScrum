@@ -48,7 +48,7 @@
                 <td>{{ entity.comment }}</td>
                 <td>
                     <a class="edit" href="{{ path('test_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
-                    <a class="delete" href=""></a>
+                    <a class="delete popupDialog" href="{{ path('test_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
                 </td>
             </tr>
         {% endfor %}

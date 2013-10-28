@@ -66,8 +66,7 @@ class TaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_show', array(
-                'id'        => $entity->getId(),
+            return $this->redirect($this->generateUrl('sprint_show', array(
                 'sprintId'  => $sprintId,
                 'projectId' => $projectId,
             )));
@@ -121,8 +120,6 @@ class TaskController extends Controller
         }
 
         $entity = new Task();
-        $entity->setCreationDate(new \Datetime());
-        $entity->setStartDate(new \Datetime());
         $form   = $this->createCreateForm($projectId, $sprintId, $entity);
 
         return $this->render('CoralScrumMainBundle:Task:new.html.twig', array(
@@ -271,8 +268,7 @@ class TaskController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('task_edit', array(
-                'id'        => $id,
+            return $this->redirect($this->generateUrl('sprint_show', array(
                 'sprintId'  => $sprintId,
                 'projectId' => $projectId,
             )));
@@ -293,21 +289,15 @@ class TaskController extends Controller
     public function deleteAction($sprintId, Request $request, $id)
     {
         $projectId = $this->getProjectId($sprintId);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
 
-        $form = $this->createDeleteForm($projectId, $sprintId, $id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Task entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Task entity.');
         }
+
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('task', array(
             'sprintId'  => $sprintId,

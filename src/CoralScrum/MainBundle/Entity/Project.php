@@ -206,4 +206,37 @@ class Project
     {
         return $this->owner;
     }
+
+    /**
+     * Add userStory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userStory
+     * @return Project
+     */
+    public function addUserStory(\CoralScrum\MainBundle\Entity\UserStory $userStory)
+    {
+        $this->userStory[] = $userStory;
+    
+        return $this;
+    }
+
+    /**
+     * Remove userStory
+     *
+     * @param \CoralScrum\MainBundle\Entity\UserStory $userStory
+     */
+    public function removeUserStory(\CoralScrum\MainBundle\Entity\UserStory $userStory)
+    {
+        $this->userStory->removeElement($userStory);
+    }
+
+    /**
+     * Get userStory
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserStory()
+    {
+        return $this->userStory;
+    }
 }

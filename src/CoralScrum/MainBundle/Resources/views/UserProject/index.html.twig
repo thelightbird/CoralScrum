@@ -26,7 +26,7 @@
                 <td>{{ entity.isAccept }}</td>
                 <td>
                     <a class="edit" href="{{ path('collaborator_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
-                    <a class="delete" href=""></a>
+                    <a class="delete popupDialog" href="{{ path('collaborator_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
                 </td>
             </tr>
         {% endfor %}

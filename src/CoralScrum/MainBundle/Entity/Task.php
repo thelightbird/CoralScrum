@@ -86,7 +86,7 @@ class Task
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startDate", type="date")
+     * @ORM\Column(name="startDate", type="date", nullable=true)
      */
     private $startDate;
 
@@ -342,6 +342,7 @@ class Task
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dependency = new \Doctrine\Common\Collections\ArrayCollection();
         $this->creationDate = new \DateTime();
+        $this->state = 0;
         $this->isBug = false;
     }
 

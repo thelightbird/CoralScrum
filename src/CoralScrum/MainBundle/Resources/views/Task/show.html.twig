@@ -2,7 +2,7 @@
 
 
 <div class="postItPopup">
-    <a class="closePopup" href=""></a>
+    <a class="closePopup closePopupIcon" href=""></a>
     <h1 class="taskTitle">Task #{{ entity.id }}</h1>
 
     <table class="cleanTab">
@@ -29,17 +29,17 @@
             </tr>
             <tr>
                 <th>Start Date</th>
-                <td>{{ entity.startDate|date('d M Y') }}</td>
+                <td>{% if entity.startDate %}{{ entity.startDate|date('d M Y') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>End Date</th>
+                <td>{% if entity.endDate %}{{ entity.endDate|date('d M Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Assign To</th>
                 <td>
                     {{ entity.user|join(', ') }}
                 </td>
-            </tr>
-            <tr>
-                <th>End Date</th>
-                <td>{% if entity.endDate %}{{ entity.endDate|date('d M Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Is Bug</th>
@@ -57,7 +57,18 @@
             <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
         </li>
         <li>
-            <a class="redButton" href="">Delete</a>
+            <a class="redButton popupDialog" href="{{ path('task_delete', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Delete</a>
         </li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    $(".popupDialog").click(function() {
+        var url = $(this).attr('href');
+        var message = 'Are you sure that you want to permanently delete this ?';
+        var dialog = getDialogContent(message, url);
+        displayPopup( dialog );
+        initConfirmedPopup();
+        return false;
+    });
+</script>

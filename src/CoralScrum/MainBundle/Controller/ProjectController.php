@@ -247,24 +247,19 @@ class ProjectController extends Controller
             throw new AccessDeniedException('You are not logged in.');
         }
 
-        $form = $this->createDeleteForm($projectId);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
-
-            if (!$project) {
-                throw $this->createNotFoundException('Unable to find Project entity.');
-            }
-
-            if ($user != $project->getOwner()) {
-                throw new AccessDeniedException('You are not the owner of this project.');
-            }
-
-            $em->remove($project);
-            $em->flush();
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
         }
+
+        if ($user != $project->getOwner()) {
+            throw new AccessDeniedException('You are not the owner of this project.');
+        }
+
+        $em->remove($project);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('project'));
     }

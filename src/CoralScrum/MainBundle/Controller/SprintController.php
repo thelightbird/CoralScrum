@@ -198,8 +198,7 @@ class SprintController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('sprint_edit', array(
-                'sprintId'  => $sprintId,
+            return $this->redirect($this->generateUrl('sprint', array(
                 'projectId' => $projectId,
             )));
         }
@@ -217,20 +216,15 @@ class SprintController extends Controller
      */
     public function deleteAction($projectId, Request $request, $sprintId)
     {
-        $form = $this->createDeleteForm($projectId, $sprintId);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Sprint entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
         }
+
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('sprint', array(
             'projectId' => $projectId,

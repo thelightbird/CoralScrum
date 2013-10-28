@@ -162,8 +162,7 @@ class UserProjectController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('collaborator_edit', array(
-                'id'        => $id,
+            return $this->redirect($this->generateUrl('collaborator', array(
                 'projectId' => $projectId,
             )));
         }
@@ -181,20 +180,15 @@ class UserProjectController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
-        $form = $this->createDeleteForm($projectId, $id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find UserProject entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find UserProject entity.');
         }
+
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('collaborator', array(
             'projectId' => $projectId,
