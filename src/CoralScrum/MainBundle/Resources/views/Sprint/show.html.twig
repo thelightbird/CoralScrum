@@ -6,7 +6,7 @@
 
 {% block container -%}
     <h1>Sprint #{{ entity.id }}</h1>
-    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y') }}</h3>
+    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y H:i') }}</h3>
     <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
 
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>

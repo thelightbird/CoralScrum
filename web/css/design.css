@@ -278,6 +278,9 @@ table.defaultTab td,
 table.defaultTab th {
 	border: 1px solid #DDD;
 }
+table.defaultTab td {
+	line-height: 15px;
+}
 table.defaultTab tr:first-child th {
 	border-top: none;
 }

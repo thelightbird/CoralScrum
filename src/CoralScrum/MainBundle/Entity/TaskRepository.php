@@ -34,4 +34,36 @@ class TaskRepository extends EntityRepository
            ;
         return $qb->getQuery()->getResult();
     }
+
+    public function countTaskDoneByTaskId($taskId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t2.id)')
+           ->join('t.userStory', 'us')
+           ->join('us.task', 't2')
+           ->where('t.id = :taskId')
+           ->andWhere('t2.state = :state')
+           ->setParameters(array(
+               'taskId' => $taskId,
+               'state'  => 2,
+            ))
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function countTaskNotDoneByTaskId($taskId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t2.id)')
+           ->join('t.userStory', 'us')
+           ->join('us.task', 't2')
+           ->where('t.id = :taskId')
+           ->andWhere('t2.state IN (:state)')
+           ->setParameters(array(
+               'taskId' => $taskId,
+               'state'  => array(0, 1),
+            ))
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

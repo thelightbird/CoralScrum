@@ -199,20 +199,52 @@ class TaskController extends Controller
             if (in_array($user, $users)) {
 
                 $task = $em->getRepository('CoralScrumMainBundle:Task')->find($taskId);
+                if (!$task) {
+                    throw $this->createNotFoundException('Unable to find Task entity.');
+                }
+
+                $needsUpdate = false;
                 $taskState = $request->request->get('taskState');
-                if ($taskState == "ToDo") {
+                if ($taskState == "ToDo" && $task->getState() != 0) {
                     $task->setState(0);
+                    $needsUpdate = true;
                 }
-                else if ($taskState == "InProgress") {
+                else if ($taskState == "InProgress" && $task->getState() != 1) {
                     $task->setState(1);
+                    if (is_null($task->getStartDate())) {
+                        $task->setStartDate(new \DateTime());
+                    }
+                    $needsUpdate = true;
                 }
-                else if ($taskState == "Done") {
+                else if ($taskState == "Done" && $task->getState() != 2) {
                     $task->setState(2);
+                    if (is_null($task->getStartDate())) {
+                        $task->setStartDate(new \DateTime());
+                    }
+                    $task->setEndDate(new \DateTime());
+                    $needsUpdate = true;
                 }
-                else {
-                    throw new AccessDeniedException('Bad task state.');
+
+                if ($needsUpdate) {
+                    $em->persist($task);
+                    $em->flush();
+
+                    // Update User Story isFinished
+                    if ($taskState == "Done") {
+                        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId);
+                        if ($nbTaskNotDone == 0) {
+                            $task->getUserStory()->setIsFinished(true);
+                            $em->persist($task);
+                            $em->flush();
+                        }
+                    }
+                    else if ($taskState == "ToDo" || $taskState == "InProgress" ) {
+                        $task->getUserStory()->setIsFinished(false);
+                        $em->persist($task);
+                        $em->flush();
+                    }
                 }
-                $em->flush();
+
                 return new Response("Ok");
             }
             throw new AccessDeniedException('You are not authorized to change this task state.');

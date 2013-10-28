@@ -79,21 +79,21 @@ class Task
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creationDate", type="date")
+     * @ORM\Column(name="creationDate", type="datetime")
      */
     private $creationDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startDate", type="date", nullable=true)
+     * @ORM\Column(name="startDate", type="datetime", nullable=true)
      */
     private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endDate", type="date", nullable=true)
+     * @ORM\Column(name="endDate", type="datetime", nullable=true)
      */
     private $endDate;
 

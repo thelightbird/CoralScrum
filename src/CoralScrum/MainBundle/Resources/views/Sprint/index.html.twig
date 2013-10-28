@@ -30,7 +30,7 @@
                     {% endfor %}
                     </ul>
                 </td>
-                <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i') }}{% endif %}</td>
                 <td>{{ entity.duration }}</td>
                 <td>
                     <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
