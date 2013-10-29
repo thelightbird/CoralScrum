@@ -27,7 +27,7 @@
                 <td class="alignLeft ok">
                     <a href="{{ path('userstory_show', { 'projectId': projectId, 'id': userstory.getId() }) }}">{{ userstory }}</a>
                 </td>
-                <td class="droppable stateToDo">
+                <td class="stateToDo">
                 {% for task in userstory.task -%}
                 {% if task.state == 0 -%}
                     <div data-url="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': task.id }) }}" class="postIt id{{ userstory.id }}">
@@ -156,10 +156,7 @@
                     });
                     $(this).append( $(ui.helper) );
                     var taskId = $(ui.helper).find("span.taskId").text().replace("#", "");
-                    if ($(ui.helper).parent("td").hasClass("stateToDo")) {
-                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "ToDo" });
-                    }
-                    else if ($(ui.helper).parent("td").hasClass("stateInProgress")) {
+                    if ($(ui.helper).parent("td").hasClass("stateInProgress")) {
                         $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "InProgress" });
                     }
                     else if ($(ui.helper).parent("td").hasClass("stateDone")) {

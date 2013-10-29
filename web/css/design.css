@@ -465,7 +465,7 @@ header div.logo {
 	position: absolute;
 	width: 80px;
 	height: 80px;
-	background-image: url("../img/logo.png");
+	background-image: url(./../img/logo.png);
 	background-repeat: no-repeat;
 }
 header div.title {
@@ -605,8 +605,8 @@ header div.infos {
     width:300px;
     height:80px;
     float:right;
-    background-image: url("../img/bg_header_vertical_line.png");
-    background-repeat:no-repeat;
+    /*background-image: url("../img/bg_header_vertical_line.png");
+    background-repeat:no-repeat;*/
     font-size:11px;
     color:#b3b3b3;
 }
@@ -1023,8 +1023,16 @@ header div.infos span.notif {
 }
 .postItPopup .taskDesc p {
 	font-size: 12px;
-	max-height:120px;
 	overflow: auto;
+	max-height:120px;
+	min-height: 17px;
+	line-height: 17px;
+}
+.postItPopup table td {
+	max-width: 340px;
+}
+.postItPopup table td.taskDesc {
+	padding-bottom: 3px;
 }
 .postItPopup table th {
 	text-align: right;

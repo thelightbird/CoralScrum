@@ -210,11 +210,7 @@ class TaskController extends Controller
 
                 $needsUpdate = false;
                 $taskState = $request->request->get('taskState');
-                if ($taskState == "ToDo" && $task->getState() != 0) {
-                    $task->setState(0);
-                    $needsUpdate = true;
-                }
-                else if ($taskState == "InProgress" && $task->getState() != 1) {
+                if ($taskState == "InProgress" && $task->getState() != 1) {
                     $task->setState(1);
                     if (is_null($task->getStartDate())) {
                         $task->setStartDate(new \DateTime());
@@ -241,7 +237,7 @@ class TaskController extends Controller
                             $em->flush();
                         }
                     }
-                    else if ($taskState == "ToDo" || $taskState == "InProgress" ) {
+                    else if ($taskState == "InProgress" ) {
                         $task->getUserStory()->setIsFinished(false);
                         $em->flush();
                     }
