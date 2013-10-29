@@ -17,7 +17,7 @@ class UserProjectType extends AbstractType
         $builder
             ->add('accountType')
             ->add('isAccept')
-            ->add('project')
+            //->add('project')
             ->add('user')
         ;
     }

@@ -24,9 +24,11 @@ class TaskController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+
         if (!$sprint) {
             throw $this->createNotFoundException('Bad Sprint id.');
         }
+
         $projectId = $sprint->getProject()->getId();
 
         return $projectId;
@@ -42,7 +44,8 @@ class TaskController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Task')->findBySprintId($sprintId);
+        //$entities = $em->getRepository('CoralScrumMainBundle:Task')->findBySprintId($sprintId);
+        $entities = $em->getRepository('CoralScrumMainBundle:Task')->findByIdJoined($sprintId);
 
         return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
             'entities'  => $entities,
@@ -167,7 +170,7 @@ class TaskController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
+        $entity = $em->getRepository('CoralScrumMainBundle:Task')->findOneByIdJoined($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Task entity.');

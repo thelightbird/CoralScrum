@@ -21,4 +21,21 @@ class ProjectRepository extends EntityRepository
            ;
         return $qb->getQuery()->getResult();
     }
+
+    public function findOneByIdJoinedToUser($projectId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, us_p, u FROM CoralScrumMainBundle:Project p
+                LEFT JOIN p.userproject us_p
+                LEFT JOIN us_p.user u
+                WHERE p.id = :projectId'
+            )->setParameter('projectId', $projectId);
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

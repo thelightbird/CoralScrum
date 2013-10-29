@@ -23,10 +23,10 @@ class SprintController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Sprint')->findByProject($projectId);
+        $sprints = $em->getRepository('CoralScrumMainBundle:Sprint')->findByIdJoinedToUserStory($projectId);
 
         return $this->render('CoralScrumMainBundle:Sprint:index.html.twig', array(
-            'entities'  => $entities,
+            'entities'  => $sprints,
             'projectId' => $projectId,
         ));
     }
@@ -95,7 +95,7 @@ class SprintController extends Controller
     public function newAction($projectId)
     {
         $entity = new Sprint();
-        $entity->setStartDate(new \DateTime());
+        
         $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Sprint:new.html.twig', array(

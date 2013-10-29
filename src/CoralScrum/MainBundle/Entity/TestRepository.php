@@ -12,20 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class TestRepository extends EntityRepository
 {
-    public function findByProjectId($projectId)
+    public function findByProjectIdJoined($projectId)
     {
-        $em = $this->getEntityManager();
-        $query = $em
-                ->createQuery("
-                    SELECT t
-                    FROM CoralScrum\MainBundle\Entity\Test t
-                    JOIN t.userStory us
-                    JOIN us.project p
-                    WHERE p.id = :projectId
-                ")
-                ->setParameter('projectId', $projectId);
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT t, us, u FROM CoralScrumMainBundle:Test t
+                LEFT JOIN t.tester u
+                JOIN t.userStory us
+                JOIN us.project p
+                WHERE p.id = :projectId'
+            )->setParameter('projectId', $projectId);
 
-        return $query->getResult();
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
     }
 
     public function findBySprintId($sprintId)
@@ -39,7 +41,7 @@ class TestRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countTestTestNotPassedByUserStoryId($userStoryId)
+    public function countTestNotPassedByUserStoryId($userStoryId)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('count(t.id)')

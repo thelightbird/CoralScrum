@@ -16,12 +16,14 @@
                 <th>User Story</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Duration</th>
+                <th>Duration (days)</th>
                 <th>State</th>
                 <th>Creation Date</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Is Bug</th>
+                <th>Assign To</th>
+                <th>Dependencies</th>
                 <th>Commit</th>
                 <th>Actions</th>
             </tr>
@@ -39,6 +41,8 @@
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ entity.isBug ? 'Yes' : 'No' }}</td>
+                <td>{{ entity.user|join(', ') }}</td>
+                <td>{% for taskDep in entity.dependency %}{{ taskDep }}<br>{% endfor %}</td>
                 <td>{{ entity.commit }}</td>
                 <td>
                     <a class="edit" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}"></a>

@@ -9,6 +9,6 @@
 
     {{ form(edit_form) }}
     
-	<a class="button" href="{{ path('task', { 'projectId': projectId, 'sprintId': sprintId }) }}">Back to the list</a>
+	<a class="button" href="{{ path('sprint_show', { 'projectId': projectId, 'sprintId': sprintId }) }}">Back to the Sprint</a>
 
 {% endblock %}

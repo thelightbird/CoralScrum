@@ -119,6 +119,7 @@ class Sprint
     public function __construct()
     {
         $this->userStory = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->startDate = new \DateTime();
     }
 
     /**

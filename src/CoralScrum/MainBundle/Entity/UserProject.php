@@ -45,7 +45,7 @@ class UserProject
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isAccept", type="boolean")
+     * @ORM\Column(name="isAccept", type="boolean", nullable=true)
      */
     private $isAccept;
 

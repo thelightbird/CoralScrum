@@ -24,10 +24,10 @@ class TestController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:Test')->findByProjectId($projectId);
+        $tests = $em->getRepository('CoralScrumMainBundle:Test')->findByProjectIdJoined($projectId);
 
         return $this->render('CoralScrumMainBundle:Test:index.html.twig', array(
-            'entities' => $entities,
+            'tests'     => $tests,
             'projectId' => $projectId,
         ));
     }
@@ -201,7 +201,7 @@ class TestController extends Controller
             $em->flush();
 
             // Update UserStory isValidated
-            $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestTestNotPassedByUserStoryId($userStoryId);
+            $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestNotPassedByUserStoryId($userStoryId);
             if ($nbTestNotPassed == 0) {
                 $testUserStory->setIsValidated(true);
             }
@@ -243,7 +243,7 @@ class TestController extends Controller
 
         // Update UserStory isValidated
         $userStoryId = $test->getUserStory();
-        $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestTestNotPassedByUserStoryId($userStoryId);
+        $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestNotPassedByUserStoryId($userStoryId);
         if ($nbTestNotPassed == 0) {
             $testUserStory->setIsValidated(true);
         }

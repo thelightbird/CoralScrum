@@ -26,29 +26,29 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for test in tests %}
             <tr>
-                <td><a href="{{ path('test_show', { 'projectId': projectId, 'id': entity.id }) }}">#{{ entity.id }}</a></td>
-                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': entity.userstory.getId() }) }}">{{ entity.userstory }}</a></td>
-                <td>{{ entity.title }}</td>
-                <td>{{ entity.input }}</td>
-                <td>{{ entity.testCase }}</td>
-                <td>{{ entity.expectedResult }}</td>
+                <td><a href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}">#{{ test.id }}</a></td>
+                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': test.userstory.getId() }) }}">{{ test.userstory }}</a></td>
+                <td>{{ test.title }}</td>
+                <td>{{ test.input }}</td>
+                <td>{{ test.testCase }}</td>
+                <td>{{ test.expectedResult }}</td>
                 <td>
-                    {%- if entity.state == 0 -%}
+                    {%- if test.state == 0 -%}
                     <img title="Not tested" src="{{ asset('img/forbidden.png') }}" alt=""/>
-                    {%- elseif entity.state == 1 -%}
+                    {%- elseif test.state == 1 -%}
                     <img title="Test passed" src="{{ asset('img/valid.png') }}" alt=""/>
-                    {%- elseif entity.state == 2 -%}
+                    {%- elseif test.state == 2 -%}
                     <img title="Test failed" src="{{ asset('img/error.png') }}" alt=""/>
                     {%- endif -%}
                 </td>
-                <td>{{ entity.tester }}</td>
-                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.comment }}</td>
+                <td>{{ test.tester }}</td>
+                <td>{% if test.date %}{{ test.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ test.comment }}</td>
                 <td>
-                    <a class="edit" href="{{ path('test_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
-                    <a class="delete popupDialog" href="{{ path('test_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    <a class="edit" href="{{ path('test_edit', { 'projectId': projectId, 'id': test.id }) }}"></a>
+                    <a class="delete popupDialog" href="{{ path('test_delete', { 'projectId': projectId, 'id': test.id }) }}"></a>
                 </td>
             </tr>
         {% endfor %}

@@ -66,4 +66,40 @@ class TaskRepository extends EntityRepository
            ;
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function findOneByIdJoined($taskId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT t, u, t2 FROM CoralScrumMainBundle:Task t
+                LEFT JOIN t.user u
+                LEFT JOIN t.dependency t2
+                WHERE t.id = :taskId'
+            )->setParameter('taskId', $taskId);
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function findByIdJoined($sprintId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT t, u, t2, us FROM CoralScrumMainBundle:Task t
+                LEFT JOIN t.user u
+                LEFT JOIN t.dependency t2
+                JOIN t.userStory us
+                JOIN us.sprint sp
+                WHERE sp.id = :sprintId'
+            )->setParameter('sprintId', $sprintId);
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

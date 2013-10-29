@@ -23,7 +23,7 @@ class UserProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('CoralScrumMainBundle:UserProject')->findAll();
+        $entities = $em->getRepository('CoralScrumMainBundle:UserProject')->findByIdJoined($projectId);
 
         return $this->render('CoralScrumMainBundle:UserProject:index.html.twig', array(
             'entities'  => $entities,
@@ -85,11 +85,19 @@ class UserProjectController extends Controller
      */
     public function newAction($projectId)
     {
-        $entity = new UserProject();
-        $form   = $this->createCreateForm($projectId, $entity);
+        $em = $this->getDoctrine()->getManager();
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+
+        $userProject = new UserProject();
+        $userProject->setProject($project);
+        $form   = $this->createCreateForm($projectId, $userProject);
 
         return $this->render('CoralScrumMainBundle:UserProject:new.html.twig', array(
-            'entity'    => $entity,
+            'entity'    => $userProject,
             'projectId' => $projectId,
             'form'      => $form->createView(),
         ));

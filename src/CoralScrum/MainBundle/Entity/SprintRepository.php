@@ -29,4 +29,21 @@ class SprintRepository extends EntityRepository
             return null;
         }
     }
+
+    public function findByIdJoinedToUserStory($projectId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT sp, us FROM CoralScrumMainBundle:Sprint sp
+                JOIN sp.project p
+                LEFT JOIN sp.userStory us
+                WHERE p.id = :projectId'
+            )->setParameter('projectId', $projectId);
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }
