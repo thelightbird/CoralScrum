@@ -97,11 +97,19 @@ class UserProjectController extends Controller
      */
     public function newAction($projectId)
     {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if (!is_object($user)) {
+            throw new AccessDeniedException('You are not logged in.');
+        }
         $em = $this->getDoctrine()->getManager();
+        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
+        if (!$isCreator) {
+            throw $this->createNotFoundException('Only the project creator can access this page.');
+        }
         $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countUserById($projectId);
 
         if ($nbUser == 0) {
-            throw $this->createNotFoundException('No more user to add to this project.');
+            throw $this->createNotFoundException('No more users to add to this project.');
         }
 
         $userProject = new UserProject();

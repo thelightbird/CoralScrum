@@ -38,4 +38,18 @@ class ProjectRepository extends EntityRepository
             return null;
         }
     }
+
+    public function isCreator($projectId, $user)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('COUNT(p.id)')
+           ->where('p.id = :projectId')
+           ->andWhere('p.owner = :user_id')
+           ->setParameters(array(
+                'projectId' => $projectId,
+                'user_id' => $user->getId()
+            ));
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
