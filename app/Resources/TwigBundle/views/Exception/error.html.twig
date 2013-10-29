@@ -1,0 +1,14 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block title -%}
+An Error Occurred: {{ status_text }}
+{%- endblock %}
+
+{% block container -%}
+    <h1>Oops! An Error Occurred</h1>
+    <h2>The server returned a "{{ status_code }} {{ status_text }}".</h2>
+
+    <div>
+        Something is broken.
+    </div>
+{% endblock -%}
