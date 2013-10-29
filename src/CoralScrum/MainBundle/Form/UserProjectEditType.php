@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserProjectType extends AbstractType
+class UserProjectEditType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -14,30 +14,18 @@ class UserProjectType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $projectId = $options['projectId'];
-
-        if(is_null($projectId))
-            throw new \LogicException('ProjectId option is required.');
-
         $builder
             ->add('user', 'entity', array(
                 'class' => 'CoralScrumUserBundle:User',
                 'label' => 'User',
-                'required' => true,
-                'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) use ($projectId) {
-                    return $er->createQueryBuilder('u')
-                              ->leftJoin('u.userproject', 'us_p')
-                              ->where('us_p.project IS NULL')
-                              ->orWhere('us_p.project != :projectId')
-                              ->setParameter('projectId', $projectId)
-                              ->orderBy('u.username', 'ASC');
-                },
+                'read_only' => true,
+                'disabled' => true
             ))
             ->add('accountType', 'choice', array(
                 'choices'  => array(
-                    'Developper'    => 'Developper',
+                    'Project Owner' => 'Project Owner',
                     'Scrum Master'  => 'Scrum Master',
-                    'Project Owner' => 'Project Owner'),
+                    'Developper'    => 'Developper'),
                 'required' => true
             ))
             //->add('isAccept')
@@ -51,12 +39,7 @@ class UserProjectType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoralScrum\MainBundle\Entity\UserProject',
-            'projectId'  => null,
-        ));
-
-        $resolver->setRequired(array(
-            'projectId',
+            'data_class' => 'CoralScrum\MainBundle\Entity\UserProject'
         ));
     }
 

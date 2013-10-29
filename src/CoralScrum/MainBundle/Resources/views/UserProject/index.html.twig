@@ -14,7 +14,6 @@
             <tr>
                 <th>Username</th>
                 <th>Account Type</th>
-                <th>Accept</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,10 +22,11 @@
             <tr>
                 <td>{{ entity.user }}</td>
                 <td>{{ entity.accountType }}</td>
-                <td>{{ entity.isAccept }}</td>
                 <td>
                     <a class="edit" href="{{ path('collaborator_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    {% if entity.accountType != "Project Owner" %}
                     <a class="delete popupDialog" href="{{ path('collaborator_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

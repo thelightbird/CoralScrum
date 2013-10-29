@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\Project;
+use CoralScrum\MainBundle\Entity\UserProject;
 use CoralScrum\MainBundle\Form\ProjectType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -54,6 +55,14 @@ class ProjectController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($project);
+
+            $userProject = new UserProject();
+            $userProject->setProject($project);
+            $userProject->setUser($user);
+            $userProject->setIsAccept(true);
+            $userProject->setAccountType("Project Owner");
+            $em->persist($userProject);
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('project_show', array(

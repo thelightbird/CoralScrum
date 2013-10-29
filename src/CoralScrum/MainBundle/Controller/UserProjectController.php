@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\UserProject;
 use CoralScrum\MainBundle\Form\UserProjectType;
+use CoralScrum\MainBundle\Form\UserProjectEditType;
 
 /**
  * UserProject controller.
@@ -36,23 +37,33 @@ class UserProjectController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $entity = new UserProject();
-        $form = $this->createCreateForm($projectId, $entity);
+        $userProject = new UserProject();
+        $form = $this->createCreateForm($projectId, $userProject);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+
+            $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+
+            if (!$project) {
+                throw $this->createNotFoundException('Unable to find Project entity.');
+            }
+
+            $userProject->setProject($project);
+            $userProject->setIsAccept(true);
+
+            $em->persist($userProject);
             $em->flush();
 
             return $this->redirect($this->generateUrl('collaborator', array(
-                'id'        => $entity->getId(),
+                'id'        => $userProject->getId(),
                 'projectId' => $projectId,
             )));
         }
 
         return $this->render('CoralScrumMainBundle:UserProject:new.html.twig', array(
-            'entity'    => $entity,
+            'entity'    => $userProject,
             'projectId' => $projectId,
             'form'      => $form->createView(),
         ));
@@ -72,6 +83,7 @@ class UserProjectController extends Controller
                 'projectId' => $projectId,
             )),
             'method' => 'POST',
+            'projectId' => $projectId,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -86,14 +98,13 @@ class UserProjectController extends Controller
     public function newAction($projectId)
     {
         $em = $this->getDoctrine()->getManager();
-        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+        $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countUserById($projectId);
 
-        if (!$project) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+        if ($nbUser == 0) {
+            throw $this->createNotFoundException('No more user to add to this project.');
         }
 
         $userProject = new UserProject();
-        $userProject->setProject($project);
         $form   = $this->createCreateForm($projectId, $userProject);
 
         return $this->render('CoralScrumMainBundle:UserProject:new.html.twig', array(
@@ -137,7 +148,7 @@ class UserProjectController extends Controller
     */
     private function createEditForm($projectId, UserProject $entity)
     {
-        $form = $this->createForm(new UserProjectType(), $entity, array(
+        $form = $this->createForm(new UserProjectEditType(), $entity, array(
             'action' => $this->generateUrl('collaborator_update', array(
                 'id'        => $entity->getId(),
                 'projectId' => $projectId,
