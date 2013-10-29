@@ -1,36 +1,44 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
-
-{% trans_default_domain 'FOSUserBundle' %}
-
+{#% extends "FOSUserBundle::layout.html.twig" %#}
 {% block fos_user_content %}
-
-<h1>Login</h1>
-
-{% if error %}
-    <div>{{ error|trans }}</div>
-{% endif %}
-
-
-<form action="{{ path("fos_user_security_check") }}" method="post" class="login">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-    <div>
-    	<label for="username">{{ 'security.login.username'|trans }}</label>
-    	<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-    </div>
-
-    <div>
-    	<label for="password">{{ 'security.login.password'|trans }}</label>
-    	<input type="password" id="password" name="_password" required="required" />
-    </div>
-
-    <!--
-    <div>
-    	<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    	<label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-    </div>
-    -->
-
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-</form>
+    {#% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <a href="{{ path('fos_user_security_logout') }}">
+            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+        </a>
+    {% else %#}
+        <form action="{{ path('fos_user_security_check') }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <table class="header_connexion">
+                <tr>
+                    <td><label for="username">Username </label></td>
+                    <td><input tabindex="1" maxlength="30" type="text" id="username" name="_username" value="{{ last_username }}" /></td>
+                    <td><a href="{{ path('fos_user_registration_register') }}">register</a></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input tabindex="2" maxlength="30" type="password" id="password" name="_password" /></td>
+                    <td><a href="{{ path('fos_user_resetting_request') }}">forgotten password</a></td>
+                </tr>
+                {#
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+                #}
+                <tr class="submit">
+                    <td></td>
+                    <td><input tabindex="3" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+        {% if error %}
+        <div id="header_notif">
+            <div class="top">
+                <h4>Notification</h4>
+            </div>
+            <ul>
+                <li>{{ error|trans({}, 'SocialNetworkUserBundle') }}</li>
+            </ul>
+            <div class="bottom"></div>
+        </div>
+        {% endif %}
+    {#% endif %#}
 {% endblock fos_user_content %}

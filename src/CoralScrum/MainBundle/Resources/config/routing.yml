@@ -2,6 +2,9 @@ CSM_homepage:
     pattern:  /
     defaults: { _controller: CoralScrumMainBundle:Home:index }
 
+CSM_login:
+    pattern:  /login
+    defaults: { _controller: CoralScrumMainBundle:Home:index }
 
 # --- Project
 

@@ -10,14 +10,4 @@ class HomeController extends Controller
     {
         return $this->render('CoralScrumMainBundle::index.html.twig');
     }
-
-    public function registerAction()
-    {
-        return $this->render('CoralScrumMainBundle::register.html.twig');
-    }
-
-    public function loginAction()
-    {
-        return $this->render('CoralScrumMainBundle::login.html.twig');
-    }
 }

@@ -102,7 +102,7 @@ h5 {
 }
 
 a {
-	color: #509BE5;
+	color: #56a2dc;
 }
 a:hover {
 	cursor: pointer;
@@ -201,6 +201,12 @@ form .submit {
 	text-align:center;
 	margin-top:10px;
 	margin-bottom:10px;
+}
+form.reset {
+	width:650px !important;
+}
+form.reset label {
+	width:200px;
 }
 
 hr {
@@ -474,6 +480,7 @@ header div.title h1 {
 	font-size: 23px;
 	letter-spacing: 2px;
 	font-family: monospace;
+	margin: 0px;
 }
 header div.infos {
 	position: relative;
@@ -509,7 +516,7 @@ header div.infos a {
 	font-size: 11px;
 	line-height: 17px;
 	display: block;
-	color: #509be5;
+	color: #56a2dc;
 	text-decoration: none;
 }
 header div.infos a:hover {
@@ -518,7 +525,7 @@ header div.infos a:hover {
 
 
 header div.infos table.header_connexion {
-    margin-top:6px;
+    margin-top:4px;
 }
 header div.infos table.header_connexion td {
     padding-left:10px;
@@ -553,6 +560,11 @@ header div.infos form input[type=submit] {
     height: auto;
 }
 
+header div.infos * {
+    margin: 0px;
+    padding: 0px;
+}
+
 header div.infos table.header_connexion label {
     font-size:11px;
 }
@@ -570,6 +582,7 @@ header div.infos table.header_connexion tr.submit td {
     padding-top:1px;
 }
 header div.infos table.header_connexion tr.submit input {
+    margin: auto;
     width:78px;
     height:16px;
     background-image: url("../img/bg_input_submit.png");
@@ -581,7 +594,7 @@ header div.infos table.header_connexion tr.submit input:active {
     background-image: url("../img/bg_input_submit_active.png");
 }
 header div.infos table.header_connexion a {
-    color:#69aed1;
+    color:#56a2dc;
     text-decoration:none;
 }
 header div.infos table.header_connexion a:hover {
@@ -619,7 +632,7 @@ header div.infos div.text a {
     font-size:11px;
     line-height:17px;
     display:block;
-    color:#509be5;
+    color:#56a2dc;
 }
 header div.infos img.gender {
     position:absolute;
@@ -908,7 +921,7 @@ header div.infos span.notif {
 	text-decoration: none;
 }
 #mainContainer ul.test li a:hover {
-	color: #509BE5;
+	color: #56a2dc;
 	cursor: pointer;
 	text-decoration: underline;
 }

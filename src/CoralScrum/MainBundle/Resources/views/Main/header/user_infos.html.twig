@@ -1,0 +1,11 @@
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<div class="verticalLine"></div>
+<img class="avatar" alt="" src="" />
+<div class="text">
+	<h3>{{ app.user.username }}</h3>
+	<a href="{{ path('fos_user_profile_show') }}">Settings</a>
+	<a href="{{ path('fos_user_security_logout') }}">Log out</a>
+</div>
+{% else %}
+	{{ render(controller("FOSUserBundle:Security:login")) }}
+{% endif %}
