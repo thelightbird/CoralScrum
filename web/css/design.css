@@ -222,6 +222,16 @@ hr {
 div.message {
 	margin:20px;
 }
+div.error {
+	margin-top: 20px;
+	padding: 20px;
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #EEC1C1;
+	border: 1px solid #E07C7C;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: 500;
+}
 
 .hint {
 	font-size: 11px;
