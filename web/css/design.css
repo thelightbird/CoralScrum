@@ -332,7 +332,7 @@ table.projectDetails {
 	float: left;
 }
 table.collaborators {
-	width: 200px;
+	width: 300px;
 	background-color: #e0e0e0;
 	border: 1px solid #ccc;
 	float:left;
@@ -511,12 +511,6 @@ header div.infos div.verticalLine {
 		rgba(255, 255, 255, 0) 90%);
 	float:left;
 }
-header div.infos img.avatar {
-	position: absolute;
-	border: 1px solid #4d4d4d;
-	margin-top: 9px;
-	margin-left: 9px;
-}
 header div.infos div.text {
 	position: absolute;
 	margin-top: 15px;
@@ -624,9 +618,8 @@ header div.infos img.avatar {
     position:absolute;
     width:60px;
     height:60px;
-    border:1px solid #4d4d4d;
-    margin-top:9px;
-    margin-left:9px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 header div.infos div.text {
     position:absolute;

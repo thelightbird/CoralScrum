@@ -17,11 +17,32 @@ class UserProjectController extends Controller
 {
 
     /**
+     * Security: check if user is creator.
+     *
+     */
+    public function isCreator($projectId)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if (!is_object($user)) {
+            throw new AccessDeniedException('You are not logged in.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
+        if (!$isCreator) {
+            throw $this->createNotFoundException('Only the project creator can access this page.');
+        }
+    }
+
+    /**
      * Lists all UserProject entities.
      *
      */
     public function indexAction($projectId)
     {
+        $this->isCreator($projectId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:UserProject')->findByIdJoined($projectId);
@@ -37,6 +58,8 @@ class UserProjectController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
+        $this->isCreator($projectId);
+
         $userProject = new UserProject();
         $form = $this->createCreateForm($projectId, $userProject);
         $form->handleRequest($request);
@@ -97,17 +120,11 @@ class UserProjectController extends Controller
      */
     public function newAction($projectId)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
-        $em = $this->getDoctrine()->getManager();
-        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
-        if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
-        }
-        $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countUserById($projectId);
+        $this->isCreator($projectId);
 
+        $em = $this->getDoctrine()->getManager();
+
+        $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countUserById($projectId);
         if ($nbUser == 0) {
             throw $this->createNotFoundException('No more users to add to this project.');
         }
@@ -128,6 +145,8 @@ class UserProjectController extends Controller
      */
     public function editAction($projectId, $id)
     {
+        $this->isCreator($projectId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
@@ -174,6 +193,8 @@ class UserProjectController extends Controller
      */
     public function updateAction($projectId, Request $request, $id)
     {
+        $this->isCreator($projectId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
@@ -207,7 +228,10 @@ class UserProjectController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
+        $this->isCreator($projectId);
+
         $em = $this->getDoctrine()->getManager();
+
         $entity = $em->getRepository('CoralScrumMainBundle:UserProject')->find($id);
 
         if (!$entity) {

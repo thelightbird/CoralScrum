@@ -30,21 +30,27 @@
     <table class="cleanTab collaborators">
         <tbody>
             <tr>
-                <th>Collaborators</th>
+                <th colspan="2">Collaborators</th>
             </tr>
         {% for userProject in entity.userproject %}
             <tr>
                 <td>{{ userProject.user }}</td>
+                <td>{{ userProject.accountType }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    {% if app.user.id == entity.id %}
     <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
+    {%- endif -%}
 
     <div class="clear"></div>
 
     <a class="button" href="{{ path('project') }}">Back to Projects</a>
 
+    {% if app.user.id == entity.id %}
     <a class="button" href="{{ path('project_edit', { 'projectId': entity.id }) }}">Edit</a>
+    {%- endif -%}
     
 {% endblock %}

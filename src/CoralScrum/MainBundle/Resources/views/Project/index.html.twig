@@ -23,8 +23,10 @@
                 <td>{{ entity.isPublic }}</td>
                 <td><a target="_blank" href="{{ entity.repository }}">{{ entity.repository }}</a></td>
                 <td>
+                    {% if app.user.id == entity.id %}
                     <a class="edit" href="{{ path('project_edit', { 'projectId': entity.id }) }}"></a>
                     <a class="delete popupDialog" href="{{ path('project_delete', { 'projectId': entity.id }) }}"></a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

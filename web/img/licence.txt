@@ -10,10 +10,10 @@ Follow us on twitter http://twitter.com/gasyoun or email leds24@gmail.com
 
 The following licence apply on "valid.png" :
 
-TITLE:   Crystal Project Icons
-AUTHOR:  Everaldo Coelho
-SITE:    http://www.everaldo.com
-CONTACT: everaldo@everaldo.com
+Title:   Crystal Project Icons
+Author:  Everaldo Coelho
+Site:    http://www.everaldo.com
+Contact: everaldo@everaldo.com
 
 Copyright (c) 2006-2007 Everaldo Coelho.
 
@@ -23,5 +23,12 @@ The following licence apply on "close.png" :
 
 License:  LGPL
 Designer: Alexandre Moore - http://sa-ki.deviantart.com/
+
+----------------------------------------------------------------------------------------------------
+
+The following licence apply on "picture.png" :
+
+License:  Public Domain
+Designer: Stan Khodjaev - Icojam (http://www.icojam.com)
 
 ----------------------------------------------------------------------------------------------------

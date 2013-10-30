@@ -151,6 +151,12 @@ class ProjectController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
+
+        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
+        if (!$isCreator) {
+            throw $this->createNotFoundException('Only the project creator can access this page.');
+        }
+
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$project) {
@@ -196,7 +202,17 @@ class ProjectController extends Controller
      */
     public function updateAction(Request $request, $projectId)
     {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if (!is_object($user)) {
+            throw new AccessDeniedException('You are not logged in.');
+        }
+
         $em = $this->getDoctrine()->getManager();
+
+        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
+        if (!$isCreator) {
+            throw $this->createNotFoundException('Only the project creator can access this page.');
+        }
 
         $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
@@ -233,6 +249,12 @@ class ProjectController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
+
+        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
+        if (!$isCreator) {
+            throw $this->createNotFoundException('Only the project creator can access this page.');
+        }
+
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$project) {
