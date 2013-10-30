@@ -41,7 +41,7 @@
         </tbody>
     </table>
 
-    {% if app.user.id == entity.id %}
+    {% if app.user.id == entity.owner.id %}
     <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
     {%- endif -%}
 
@@ -49,7 +49,7 @@
 
     <a class="button" href="{{ path('project') }}">Back to Projects</a>
 
-    {% if app.user.id == entity.id %}
+    {% if app.user.id == entity.owner.id %}
     <a class="button" href="{{ path('project_edit', { 'projectId': entity.id }) }}">Edit</a>
     {%- endif -%}
     
