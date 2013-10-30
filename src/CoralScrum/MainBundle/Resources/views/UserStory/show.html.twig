@@ -30,12 +30,24 @@
                 <td>{{ entity.difficulty }}</td>
             </tr>
             <tr>
-                <th>Isfinished</th>
-                <td>{{ entity.isFinished }}</td>
+                <th>Finished</th>
+                <td>
+                    {% if entity.isFinished %}
+                    <img src="{{ asset('img/valid.png') }}" />
+                    {% else %}
+                    <img src="{{ asset('img/error.png') }}" />
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th>Isvalidated</th>
-                <td>{{ entity.isValidated }}</td>
+                <th>Validated</th>
+                <td>
+                    {% if entity.isValidated %}
+                    <img src="{{ asset('img/valid.png') }}" />
+                    {% else %}
+                    <img src="{{ asset('img/error.png') }}" />
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>

@@ -29,7 +29,7 @@
         {% for test in tests %}
             <tr>
                 <td><a href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}">#{{ test.id }}</a></td>
-                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': test.userstory.getId() }) }}">{{ test.userstory }}</a></td>
+                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': test.userstory.id }) }}">{{ test.userstory }}</a></td>
                 <td>{{ test.title }}</td>
                 <td>{{ test.input }}</td>
                 <td>{{ test.testCase }}</td>

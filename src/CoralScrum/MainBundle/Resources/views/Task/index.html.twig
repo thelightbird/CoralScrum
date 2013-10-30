@@ -36,7 +36,15 @@
                 <td>{{ entity.title }}</td>
                 <td>{{ entity.description }}</td>
                 <td>{{ entity.duration }}</td>
-                <td>{{ entity.state }}</td>
+                <td>
+                    {%- if entity.state == 0 -%}
+                    To Do
+                    {%- elseif entity.state == 1 -%}
+                    In Progress
+                    {%- elseif entity.state == 2 -%}
+                    Done
+                    {%- endif -%}
+                </td>
                 <td>{% if entity.creationDate %}{{ entity.creationDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d') }}{% endif %}</td>

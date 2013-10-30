@@ -14,6 +14,10 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
+                <th>User Story</th>
+                <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': entity.userstory.id }) }}">{{ entity.userstory }}</a></td>
+            </tr>
+            <tr>
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
@@ -28,6 +32,22 @@
             <tr>
                 <th>Expectedresult</th>
                 <td>{{ entity.expectedResult }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>
+                    {%- if entity.state == 0 -%}
+                    <img title="Not tested" src="{{ asset('img/forbidden.png') }}" alt=""/>
+                    {%- elseif entity.state == 1 -%}
+                    <img title="Test passed" src="{{ asset('img/valid.png') }}" alt=""/>
+                    {%- elseif entity.state == 2 -%}
+                    <img title="Test failed" src="{{ asset('img/error.png') }}" alt=""/>
+                    {%- endif -%}
+                </td>
+            </tr>
+            <tr>
+                <th>Tester</th>
+                <td>{{ entity.tester }}</td>
             </tr>
             <tr>
                 <th>Date</th>

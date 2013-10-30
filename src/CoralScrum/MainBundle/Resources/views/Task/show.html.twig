@@ -21,7 +21,15 @@
             </tr>
             <tr>
                 <th>State</th>
-                <td>{{ entity.state }}</td>
+                <td>
+                    {%- if entity.state == 0 -%}
+                    To Do
+                    {%- elseif entity.state == 1 -%}
+                    In Progress
+                    {%- elseif entity.state == 2 -%}
+                    Done
+                    {%- endif -%}
+                </td>
             </tr>
             <tr>
                 <th>Creation Date</th>

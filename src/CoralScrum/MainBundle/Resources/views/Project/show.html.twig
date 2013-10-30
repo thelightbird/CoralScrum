@@ -48,9 +48,5 @@
     <div class="clear"></div>
 
     <a class="button" href="{{ path('project') }}">Back to Projects</a>
-
-    {% if app.user.id == entity.owner.id %}
-    <a class="button" href="{{ path('project_edit', { 'projectId': entity.id }) }}">Edit</a>
-    {%- endif -%}
     
 {% endblock %}

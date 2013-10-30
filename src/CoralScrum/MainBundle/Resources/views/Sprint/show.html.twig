@@ -111,8 +111,6 @@
     </table>
 
     <a class="button" href="{{ path('sprint', { 'projectId': projectId }) }}">Back to Sprints</a>
-    <a class="button" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}">Edit</a>
-    {{ form(delete_form) }}
     
 {% endblock %}
 
