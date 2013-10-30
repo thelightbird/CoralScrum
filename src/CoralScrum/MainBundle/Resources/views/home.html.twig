@@ -1,0 +1,99 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}" type="text/css" media="screen" />
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <style type="text/css">body {background-color: #f5f5f5;}</style>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+        <header>
+            <div class="container">
+                <div class="logo">
+                    {% include "CoralScrumMainBundle:Main:header/logo.html.twig" %}
+                </div>
+                <div class="title">
+                    <h1>Coral Scrum</h1>
+                </div>
+                <div class="infos">
+                    {% include "CoralScrumMainBundle:Main:header/user_infos.html.twig" %}
+
+                    {% block notification %}
+                    {% endblock %}
+                </div>
+            </div>
+        </header>
+        
+        {% block menu %}
+            
+        {% endblock %}
+
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div id="mainContainer">
+            <div class="container">
+                <a class="button" href="{{ path('project') }}">Projects</a>
+                {% block container %}
+                {#{ render(controller("CoralScrumMainBundle:Project:index")) }#}
+                {% endblock %}
+            </div>
+        </div>
+
+        {% else %}
+        <div id="homePage">
+            <div class="containerTitle">
+                <h1>Welcome to Coral Scrum</h1>
+                <h2>An open source project management tool for Scrum.</h2>
+            </div>
+
+            <div class="containerSquare">
+                <ul>
+                    <li>
+                        <span class="step">Step 1</span>
+                        <p>Register/Login</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 2</span>
+                        <p>Create/Select a project</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 3</span>
+                        <p>Add user stories to the Backlog</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 4 (optional)</span>
+                        <p>Add tests to user stories</p>
+                    </li>
+                    <li class="clear">
+                        <span class="step">Step 5</span>
+                        <p>Create a new sprint and select the user stories affected</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 6</span>
+                        <p>Create new tasks for these user stories</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 7</span>
+                        <p>Drag &amp; drop tasks to change their state.<br>
+                        Click on a task to see a detailed view.</p>
+                    </li>
+                    <li>
+                        <span class="step">Step 8</span>
+                        <p>Under development...</p>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        {% endif %}
+
+        <div id="footer">
+            {% include "CoralScrumMainBundle:Main:footer.html.twig" %}
+        </div>
+
+{% endblock %}

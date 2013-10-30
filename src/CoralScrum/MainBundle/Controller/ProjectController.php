@@ -140,28 +140,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds and displays a Project entity.
-     *
-     */
-    public function settingsAction($projectId)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($projectId);
-
-        return $this->render('CoralScrumMainBundle:Project:settings.html.twig', array(
-            'entity'      => $entity,
-            'projectId'   => $projectId,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
      * Displays a form to edit an existing Project entity.
      *
      */

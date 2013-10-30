@@ -6,10 +6,6 @@ project_show:
     pattern:  /{projectId}/show
     defaults: { _controller: "CoralScrumMainBundle:Project:show" }
 
-project_settings:
-    pattern:  /{projectId}/settings
-    defaults: { _controller: "CoralScrumMainBundle:Project:settings" }
-
 project_new:
     pattern:  /new
     defaults: { _controller: "CoralScrumMainBundle:Project:new" }

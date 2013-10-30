@@ -39,10 +39,12 @@
         {% endfor %}
         </tbody>
     </table>
+    <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
 
     <div class="clear"></div>
 
-    <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
     <a class="button" href="{{ path('project') }}">Back to Projects</a>
+
+    <a class="button" href="{{ path('project_edit', { 'projectId': entity.id }) }}">Edit</a>
     
 {% endblock %}

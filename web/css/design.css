@@ -1115,3 +1115,71 @@ ul.actionButtons li {
 .dialog a {
 	margin: 10px 30px;
 }
+
+
+/* Home page
+-------------------------------------------------------------- */
+#homePage div.containerTitle {
+	margin: auto;
+	padding: 50px;
+	background-color: #b06ab9;
+
+	background-image: linear-gradient(bottom, rgb(95,198,236) 10%, rgb(124,238,255) 90%);
+	background-image: -o-linear-gradient(bottom, rgb(95,198,236) 10%, rgb(124,238,255) 90%);
+	background-image: -moz-linear-gradient(bottom, rgb(95,198,236) 10%, rgb(124,238,255) 90%);
+	background-image: -webkit-linear-gradient(bottom, rgb(95,198,236) 10%, rgb(124,238,255) 90%);
+	background-image: -ms-linear-gradient(bottom, rgb(95,198,236) 10%, rgb(124,238,255) 90%);
+	background-image: -webkit-gradient(linear, left bottom, left top,
+		color-stop(0.1, rgb(95,198,236)),
+		color-stop(0.9, rgb(124,238,255))
+	);
+}
+#homePage h1 {
+	font-size: 50px;
+	font-weight: bold;
+	margin-bottom: 30px;
+	font-family: Georgia, serif;
+	text-align: center;
+	color: #FFF;
+}
+#homePage h2 {
+	font-size: 16px;
+	font-style: italic;
+	text-align: center;
+	color: #FFF;
+}
+
+#homePage div.containerSquare {
+	background-color: #f5f5f5;
+	margin: auto;
+	padding: 50px;
+}
+#homePage ul {
+	text-align: center;
+	margin: auto;
+	width: 850px;
+}
+#homePage ul li {
+	width: 115px;
+	height: 90px;
+	margin: 20px;
+	padding: 25px;
+	float: left;
+	background-color: #fff;
+	box-shadow: 0px 1px 3px rgba(34, 34, 34,0.3);
+}
+#homePage ul span.step {
+	font-weight: 500;
+	margin-bottom: 10px;
+	display: block;
+	font-size: 15px;
+	font-family: 'Ubuntu', sans-serif;
+}
+#homePage ul p {
+	font-size: 12px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 20px;
+	color: #5C5C5C;
+}
+
+

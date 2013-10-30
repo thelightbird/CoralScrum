@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class HomeController extends Controller
 {
-    public function indexAction()
+    public function homeAction()
     {
-        return $this->render('CoralScrumMainBundle::index.html.twig');
+        return $this->render('CoralScrumMainBundle::home.html.twig');
     }
 }
