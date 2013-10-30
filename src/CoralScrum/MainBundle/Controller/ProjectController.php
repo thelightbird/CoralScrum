@@ -4,11 +4,12 @@ namespace CoralScrum\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CoralScrum\MainBundle\Entity\Project;
 use CoralScrum\MainBundle\Entity\UserProject;
 use CoralScrum\MainBundle\Form\ProjectType;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use CoralScrum\MainBundle\Services\Security;
 
 /**
  * Project controller.
@@ -16,6 +17,16 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ProjectController extends Controller
 {
+    public function getConnectedUser()
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        if (!is_object($user)) {
+            throw new AccessDeniedException('You are not logged in.');
+        }
+
+        return $user;
+    }
 
     /**
      * Lists all Project entities.
@@ -23,10 +34,7 @@ class ProjectController extends Controller
      */
     public function indexAction()
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -42,10 +50,7 @@ class ProjectController extends Controller
      */
     public function createAction(Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->getConnectedUser();
 
         $project = new Project();
         $project->setOwner($user);
@@ -101,10 +106,7 @@ class ProjectController extends Controller
      */
     public function newAction()
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->getConnectedUser();
 
         $project = new Project();
 
@@ -122,6 +124,8 @@ class ProjectController extends Controller
      */
     public function showAction($projectId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+
         $em = $this->getDoctrine()->getManager();
 
         $project = $em->getRepository('CoralScrumMainBundle:Project')->findOneByIdJoinedToUser($projectId);
@@ -130,12 +134,9 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($projectId);
-
         return $this->render('CoralScrumMainBundle:Project:show.html.twig', array(
             'entity'        => $project,
             'projectId'     => $projectId,
-            'delete_form'   => $deleteForm->createView(),
         ));
     }
 
@@ -145,26 +146,14 @@ class ProjectController extends Controller
      */
     public function editAction($projectId)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
-
-        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
-        if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
-        }
 
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-
-        if ($user != $project->getOwner()) {
-            throw new AccessDeniedException('You are not the owner of this project.');
         }
 
         $editForm = $this->createEditForm($project);
@@ -202,26 +191,18 @@ class ProjectController extends Controller
      */
     public function updateAction(Request $request, $projectId)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
-        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
-        if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
-        }
+        $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
-        $entity = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
-
-        if (!$entity) {
+        if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
         $deleteForm = $this->createDeleteForm($projectId);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($project);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -231,7 +212,7 @@ class ProjectController extends Controller
         }
 
         return $this->render('CoralScrumMainBundle:Project:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $project,
             'projectId' => $projectId,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -243,26 +224,14 @@ class ProjectController extends Controller
      */
     public function deleteAction(Request $request, $projectId)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $user = $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
-
-        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
-        if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
-        }
 
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-
-        if ($user != $project->getOwner()) {
-            throw new AccessDeniedException('You are not the owner of this project.');
         }
 
         $em->remove($project);

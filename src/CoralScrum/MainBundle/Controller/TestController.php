@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CoralScrum\MainBundle\Entity\Test;
 use CoralScrum\MainBundle\Form\TestType;
 use CoralScrum\MainBundle\Form\TestEditType;
+use CoralScrum\MainBundle\Services\Security;
 
 /**
  * Test controller.

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\Sprint;
 use CoralScrum\MainBundle\Form\SprintType;
+use CoralScrum\MainBundle\Services\Security;
 
 /**
  * Sprint controller.

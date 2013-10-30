@@ -25,6 +25,16 @@ class UserRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findByProjectId($projectId)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->join('u.userproject', 'us_p')
+           ->where('us_p.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getResult();
+    }
+
     public function countUserById($projectId)
     {
         $qb = $this->createQueryBuilder('u');

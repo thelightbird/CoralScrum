@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CoralScrum\MainBundle\Entity\Task;
 use CoralScrum\MainBundle\Form\TaskType;
 use CoralScrum\MainBundle\Form\TaskEditType;
+use CoralScrum\MainBundle\Services\Security;
 /**
  * Task controller.
  *

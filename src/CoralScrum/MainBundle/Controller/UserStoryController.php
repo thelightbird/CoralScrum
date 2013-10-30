@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CoralScrum\MainBundle\Entity\UserStory;
 use CoralScrum\MainBundle\Form\UserStoryType;
+use CoralScrum\MainBundle\Services\Security;
 
 /**
  * UserStory controller.

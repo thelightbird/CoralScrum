@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CoralScrum\MainBundle\Entity\UserProject;
 use CoralScrum\MainBundle\Form\UserProjectType;
 use CoralScrum\MainBundle\Form\UserProjectEditType;
+use CoralScrum\MainBundle\Services\Security;
 
 /**
  * UserProject controller.
@@ -16,24 +17,6 @@ use CoralScrum\MainBundle\Form\UserProjectEditType;
 class UserProjectController extends Controller
 {
 
-    /**
-     * Security: check if user is creator.
-     *
-     */
-    public function isCreator($projectId)
-    {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $isCreator = $em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
-        if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
-        }
-    }
 
     /**
      * Lists all UserProject entities.
@@ -41,7 +24,7 @@ class UserProjectController extends Controller
      */
     public function indexAction($projectId)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -58,7 +41,7 @@ class UserProjectController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $userProject = new UserProject();
         $form = $this->createCreateForm($projectId, $userProject);
@@ -120,7 +103,7 @@ class UserProjectController extends Controller
      */
     public function newAction($projectId)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -145,7 +128,7 @@ class UserProjectController extends Controller
      */
     public function editAction($projectId, $id)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -193,7 +176,7 @@ class UserProjectController extends Controller
      */
     public function updateAction($projectId, Request $request, $id)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -228,7 +211,7 @@ class UserProjectController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
-        $this->isCreator($projectId);
+        $this->get('csm_security')->isCreator($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
