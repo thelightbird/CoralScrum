@@ -22,6 +22,8 @@ class UserStoryController extends Controller
      */
     public function indexAction($projectId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:UserStory')->findByProject($projectId);
@@ -37,10 +39,7 @@ class UserStoryController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user)) {
-            throw new AccessDeniedException('You are not logged in.');
-        }
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $em = $this->getDoctrine()->getManager();
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
@@ -98,6 +97,8 @@ class UserStoryController extends Controller
      */
     public function newAction($projectId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $entity = new UserStory();
         $form   = $this->createCreateForm($projectId, $entity);
 
@@ -114,6 +115,8 @@ class UserStoryController extends Controller
      */
     public function showAction($projectId, $id)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
@@ -137,6 +140,8 @@ class UserStoryController extends Controller
      */
     public function editAction($projectId, $id)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
@@ -183,6 +188,8 @@ class UserStoryController extends Controller
      */
     public function updateAction($projectId, Request $request, $id)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
@@ -216,6 +223,8 @@ class UserStoryController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);
 

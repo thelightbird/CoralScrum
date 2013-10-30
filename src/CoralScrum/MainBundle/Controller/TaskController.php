@@ -23,7 +23,7 @@ class TaskController extends Controller
     public function getProjectId($sprintId)
     {
         $em = $this->getDoctrine()->getManager();
-
+        
         $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
 
         if (!$sprint) {
@@ -42,6 +42,8 @@ class TaskController extends Controller
     public function indexAction($sprintId)
     {
         $projectId = $this->getProjectId($sprintId);
+        
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -61,6 +63,8 @@ class TaskController extends Controller
     public function createAction($sprintId, Request $request)
     {
         $projectId = $this->getProjectId($sprintId);
+        
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $task = new Task();
         $form = $this->createCreateForm($projectId, $sprintId, $task);
@@ -117,6 +121,8 @@ class TaskController extends Controller
     public function newAction($sprintId)
     {
         $projectId = $this->getProjectId($sprintId);
+        
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $em = $this->getDoctrine()->getManager();
         $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countBySprintId($sprintId);
@@ -143,6 +149,8 @@ class TaskController extends Controller
     public function showAction($sprintId, $id)
     {
         $projectId = $this->getProjectId($sprintId);
+        
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -168,6 +176,8 @@ class TaskController extends Controller
     public function editAction($sprintId, $id)
     {
         $projectId = $this->getProjectId($sprintId);
+        
+        $this->get('csm_security')->checkUserMembership($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -188,7 +198,12 @@ class TaskController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-    public function editstateAction($sprintId)
+
+    /**
+     * Ajax handler to change task state
+     *
+     */
+    public function editstateAction()
     {
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) { // Ajax request
@@ -284,6 +299,8 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
 
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
@@ -320,6 +337,9 @@ class TaskController extends Controller
     public function deleteAction($sprintId, Request $request, $id)
     {
         $projectId = $this->getProjectId($sprintId);
+
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
         $task = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
 

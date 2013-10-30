@@ -208,7 +208,7 @@ class ProjectController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_edit', array('projectId' => $projectId)));
+            return $this->redirect($this->generateUrl('project'));
         }
 
         return $this->render('CoralScrumMainBundle:Project:edit.html.twig', array(

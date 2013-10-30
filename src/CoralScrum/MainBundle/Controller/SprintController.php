@@ -22,6 +22,8 @@ class SprintController extends Controller
      */
     public function indexAction($projectId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $sprints = $em->getRepository('CoralScrumMainBundle:Sprint')->findByIdJoinedToUserStory($projectId);
@@ -37,6 +39,8 @@ class SprintController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
 
@@ -95,6 +99,8 @@ class SprintController extends Controller
      */
     public function newAction($projectId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $entity = new Sprint();
         
         $form   = $this->createCreateForm($projectId, $entity);
@@ -112,6 +118,8 @@ class SprintController extends Controller
      */
     public function showAction($projectId, $sprintId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
         $tests = $em->getRepository('CoralScrumMainBundle:Test')->findBySprintId($sprintId);
         $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->findOneByIdJoined($sprintId);
@@ -137,6 +145,8 @@ class SprintController extends Controller
      */
     public function editAction($projectId, $sprintId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
@@ -184,6 +194,8 @@ class SprintController extends Controller
      */
     public function updateAction($projectId, Request $request, $sprintId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
@@ -217,6 +229,8 @@ class SprintController extends Controller
      */
     public function deleteAction($projectId, Request $request, $sprintId)
     {
+        $this->get('csm_security')->checkUserMembership($projectId);
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
 
