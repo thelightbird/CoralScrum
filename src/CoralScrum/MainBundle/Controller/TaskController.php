@@ -5,6 +5,7 @@ namespace CoralScrum\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CoralScrum\MainBundle\Entity\Task;
 use CoralScrum\MainBundle\Form\TaskType;
@@ -47,7 +48,6 @@ class TaskController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        //$entities = $em->getRepository('CoralScrumMainBundle:Task')->findBySprintId($sprintId);
         $entities = $em->getRepository('CoralScrumMainBundle:Task')->findByIdJoined($sprintId);
 
         return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(

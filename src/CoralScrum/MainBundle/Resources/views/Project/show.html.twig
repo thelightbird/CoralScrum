@@ -8,45 +8,51 @@
 
     <h1>{{ entity.name }}</h1>
 
-    <table class="cleanTab projectDetails" style="float:left;">
-        <tbody>
-            <tr>
-                <th><img src="{{ asset('img/lock.png') }}" alt="" /></th>
-                <td>
-                    {%- if entity.isPublic -%}
-                    Public project
-                    {%- else -%}
-                    Private project
-                    {%- endif -%}
-                </td>
-            </tr>
-            <tr>
-                <th><img src="{{ asset('img/github.png') }}" alt="" /></th>
-                <td><a target="_blank" href="{{ entity.repository }}">Repository link</a></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="projectDetails">
+        <a class="button" href="{{ path('project') }}">Back to Projects</a>
 
-    <table class="cleanTab collaborators">
-        <tbody>
-            <tr>
-                <th colspan="2">Collaborators</th>
-            </tr>
-        {% for userProject in entity.userproject %}
-            <tr>
-                <td>{{ userProject.user }}</td>
-                <td>{{ userProject.accountType }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="cleanTab">
+            <tbody>
+                <tr>
+                    <th><img src="{{ asset('img/lock.png') }}" alt="" /></th>
+                    <td>
+                        {%- if entity.isPublic -%}
+                        Public project
+                        {%- else -%}
+                        Private project
+                        {%- endif -%}
+                    </td>
+                </tr>
+                <tr>
+                    <th><img src="{{ asset('img/github.png') }}" alt="" /></th>
+                    <td><a target="_blank" href="{{ entity.repository }}">Repository link</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    {% if app.user.id == entity.owner.id %}
-    <a class="button" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
-    {%- endif -%}
+    <div class="collaborators">
+        {% if app.user.id == entity.owner.id %}
+        <a class="button addCollab" href="{{ path('collaborator_new', { 'projectId': entity.id }) }}">Add a collaborator</a>
+        {%- endif -%}
+
+        <table class="defaultTab">
+            <thead>
+                <tr>
+                    <th colspan="2">Collaborators</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for userProject in entity.userproject %}
+                <tr>
+                    <td>{{ userProject.user }}</td>
+                    <td>{{ userProject.accountType }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <div class="clear"></div>
-
-    <a class="button" href="{{ path('project') }}">Back to Projects</a>
     
 {% endblock %}

@@ -4,6 +4,7 @@ namespace CoralScrum\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CoralScrum\MainBundle\Entity\Test;
 use CoralScrum\MainBundle\Form\TestType;

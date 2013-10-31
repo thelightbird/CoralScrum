@@ -325,20 +325,6 @@ table.cleanTab img, table.projectDetails th, table.projectDetails td {
 	vertical-align: middle;
 }
 
-table.projectDetails {
-	width: 200px;
-	background-color: #e0e0e0;
-	border: 1px solid #ccc;
-	float: left;
-}
-table.collaborators {
-	width: 300px;
-	background-color: #e0e0e0;
-	border: 1px solid #ccc;
-	float:left;
-	margin: 0px 20px;
-}
-
 
 /* Table Sorter
 -------------------------------------------------------------- */
@@ -457,6 +443,7 @@ a.edit:hover,
 a.delete:hover {
 	opacity: 0.7;
 }
+
 
 /* Header
 -------------------------------------------------------------- */
@@ -1185,4 +1172,13 @@ ul.actionButtons li {
 	color: #5C5C5C;
 }
 
-
+div.projectDetails {
+	width: 200px;
+	float: left;
+}
+div.collaborators {
+	width: 400px;
+	float:left;
+	margin: 0px 20px;
+	margin-left: 200px;
+}
