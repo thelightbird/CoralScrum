@@ -11,3 +11,10 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: coral_scrum_user_registration }
+
+    user_login_manager:
+        class: 'CoralScrum\UserBundle\Services\LoginManager'
+        arguments: ['@security.context', '@doctrine']
+        tags:
+            - { name: 'kernel.event_subscriber'}
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }

@@ -31,14 +31,14 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="registrationIp", type="string", length=15)
+     * @ORM\Column(name="registrationIp", type="string", length=15, nullable=true)
      */
     private $registrationIp;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastConnectionIp", type="string", length=15)
+     * @ORM\Column(name="lastConnectionIp", type="string", length=15, nullable=true)
      */
     private $lastConnectionIp;
 
@@ -52,9 +52,9 @@ class User extends BaseUser
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastConnectedDate", type="datetime")
+     * @ORM\Column(name="lastConnectionDate", type="datetime")
      */
-    private $lastConnectedDate;
+    private $lastConnectionDate;
 
     /**
      * @var string
@@ -227,26 +227,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set lastConnectedDate
+     * Set lastConnectionDate
      *
-     * @param \DateTime $lastConnectedDate
+     * @param \DateTime $lastConnectionDate
      * @return User
      */
-    public function setLastConnectedDate($lastConnectedDate)
+    public function setLastConnectionDate($lastConnectionDate)
     {
-        $this->lastConnectedDate = $lastConnectedDate;
+        $this->lastConnectionDate = $lastConnectionDate;
     
         return $this;
     }
 
     /**
-     * Get lastConnectedDate
+     * Get lastConnectionDate
      *
      * @return \DateTime 
      */
-    public function getLastConnectedDate()
+    public function getLastConnectionDate()
     {
-        return $this->lastConnectedDate;
+        return $this->lastConnectionDate;
     }
 
     /**
@@ -319,13 +319,8 @@ class User extends BaseUser
     }
 
     public function __construct() {
-        //$this->picture = null;
         $this->registrationDate = new \Datetime();
-        //$this->registrationIp = $container->get('request')->getClientIp();
-        //$this->lastConnectionIp = $container->get('request')->getClientIp();
-        $this->registrationIp = "127.0.0.1";
-        $this->lastConnectionIp = "127.0.0.1";
-        $this->lastConnectedDate = new \Datetime();
+        $this->lastConnectionDate = new \Datetime();
         parent::__construct();
     }
 
