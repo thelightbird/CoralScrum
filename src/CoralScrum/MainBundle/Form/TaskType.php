@@ -28,6 +28,7 @@ class TaskType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('duration', 'integer', array(
+                'label' => 'Duration (days)',
                 'attr' => array('min' => 0)
             ))
             /*

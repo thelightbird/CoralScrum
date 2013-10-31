@@ -50,6 +50,12 @@
                 </td>
             </tr>
             <tr>
+                <th>Dependencies</th>
+                <td>
+                    {{ entity.dependency|join(', ') }}
+                </td>
+            </tr>
+            <tr>
                 <th>Is Bug</th>
                 <td>{{ entity.isBug ? 'Yes' : 'No' }}</td>
             </tr>

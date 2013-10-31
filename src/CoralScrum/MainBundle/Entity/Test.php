@@ -41,7 +41,7 @@ class Test
     /**
      * @var string
      *
-     * @ORM\Column(name="input", type="text")
+     * @ORM\Column(name="input", type="text", nullable=true)
      */
     private $input;
 
@@ -69,7 +69,7 @@ class Test
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="text")
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
     private $comment;
 
