@@ -35,16 +35,34 @@ class UserRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countUserById($projectId)
+    public function countCollabNotAddedByProjectId($projectId)
     {
+        $in = $this->createQueryBuilder('u2');
+        $in ->select('u2.id')
+            ->join('u2.userproject', 'us_p')
+            ->where('us_p.project = :projectId');
+
         $qb = $this->createQueryBuilder('u');
-        $qb->select('count(u.id)')
-           ->leftJoin('u.userproject', 'us_p')
-           ->where('us_p.project IS NULL')
-           ->orWhere('us_p.project != :projectId')
+        $qb->select('COUNT(u)')
+           ->where($qb->expr()->notIn('u.id', $in->getDQL()))
            ->setParameter('projectId', $projectId)
            ->orderBy('u.username', 'ASC');
 
         return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findCollabNotAddedByProjectId($projectId)
+    {
+        $in = $this->createQueryBuilder('u2');
+        $in ->select('u2.id')
+            ->join('u2.userproject', 'us_p')
+            ->where('us_p.project = :projectId');
+
+        $qb = $this->createQueryBuilder('u');
+        $qb->where($qb->expr()->notIn('u.id', $in->getDQL()))
+           ->setParameter('projectId', $projectId)
+           ->orderBy('u.username', 'ASC');
+
+        return $qb->getQuery()->getResult();
     }
 }

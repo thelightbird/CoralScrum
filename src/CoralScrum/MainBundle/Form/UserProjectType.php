@@ -20,19 +20,25 @@ class UserProjectType extends AbstractType
             throw new \LogicException('ProjectId option is required.');
 
         $builder
+            //->add('user')
             ->add('user', 'entity', array(
                 'class' => 'CoralScrumUserBundle:User',
                 'label' => 'User',
                 'required' => true,
                 'query_builder' => function(\CoralScrum\UserBundle\Entity\UserRepository  $er) use ($projectId) {
-                    return $er->createQueryBuilder('u')
-                              ->leftJoin('u.userproject', 'us_p')
-                              ->where('us_p.project IS NULL')
-                              ->orWhere('us_p.project != :projectId')
-                              ->setParameter('projectId', $projectId)
-                              ->orderBy('u.username', 'ASC');
+                    $in = $er->createQueryBuilder('u2');
+                    $in ->select('u2.id')
+                        ->join('u2.userproject', 'us_p')
+                        ->where('us_p.project = :projectId');
+
+                    $qb = $er->createQueryBuilder('u');
+                    $qb->where($qb->expr()->notIn('u.id', $in->getDQL()))
+                       ->setParameter('projectId', $projectId)
+                       ->orderBy('u.username', 'ASC');
+                    return $qb;
                 },
             ))
+            //*/
             ->add('accountType', 'choice', array(
                 'choices'  => array(
                     'Developper'    => 'Developper',

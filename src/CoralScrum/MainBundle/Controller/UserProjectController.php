@@ -107,7 +107,8 @@ class UserProjectController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countUserById($projectId);
+        $nbUser = $em->getRepository('CoralScrumUserBundle:User')->countCollabNotAddedByProjectId($projectId);
+        
         if ($nbUser == 0) {
             throw $this->createNotFoundException('No more users to add to this project.');
         }
