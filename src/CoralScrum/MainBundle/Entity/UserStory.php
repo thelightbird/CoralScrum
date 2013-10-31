@@ -34,12 +34,12 @@ class UserStory
     private $sprint;
 
     /**
-     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Test", mappedBy="userStory")
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Test", mappedBy="userStory", cascade={"remove"})
      **/
     private $test;
 
     /**
-     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", mappedBy="userStory")
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Task", mappedBy="userStory", cascade={"remove"})
      **/
     private $task;
 

@@ -24,7 +24,7 @@ class Sprint
     /**
      * @var Project $project
      *
-     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project")
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Project", inversedBy="sprint")
      */
     private $project;
 

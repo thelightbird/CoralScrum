@@ -22,14 +22,20 @@ class Project
     private $id;
 
     /**
-      * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserProject", mappedBy="project")
+      * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserProject", mappedBy="project", cascade={"remove"})
       */
     private $userproject;
 
     /**
-     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\UserStory", mappedBy="project", cascade={"remove"})
      */
     private $userStory;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="CoralScrum\MainBundle\Entity\Sprint", mappedBy="project", cascade={"remove"})
+     */
+    private $sprint;
 
     /**
      * @ORM\ManyToOne(targetEntity="CoralScrum\UserBundle\Entity\User")
@@ -238,5 +244,38 @@ class Project
     public function getUserStory()
     {
         return $this->userStory;
+    }
+
+    /**
+     * Add sprint
+     *
+     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
+     * @return Project
+     */
+    public function addSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
+    {
+        $this->sprint[] = $sprint;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sprint
+     *
+     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
+     */
+    public function removeSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint)
+    {
+        $this->sprint->removeElement($sprint);
+    }
+
+    /**
+     * Get sprint
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSprint()
+    {
+        return $this->sprint;
     }
 }
