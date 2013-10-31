@@ -7,7 +7,9 @@
 {% block container -%}
     <h1>User Stories list</h1>
 
+    {% if isGranted -%}
     <a class="button" href="{{ path('userstory_new', { 'projectId': projectId }) }}">Create a new User Story</a>
+    {%- endif %}
 
     <table class="defaultTab tablesorter">
         <thead>
@@ -19,7 +21,9 @@
                 <th>Difficulty</th>
                 <th>Finished</th>
                 <th>Validated</th>
+                {% if isGranted -%}
                 <th>Actions</th>
+                {%- endif %}
             </tr>
         </thead>
         <tbody>
@@ -44,10 +48,12 @@
                     <img src="{{ asset('img/error.png') }}" />
                     {% endif %}
                 </td>
+                {% if isGranted -%}
                 <td>
                     <a class="edit" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}"></a>
                     <a class="delete popupDialog" href="{{ path('userstory_delete', { 'projectId': projectId, 'id': entity.id }) }}"></a>
                 </td>
+                {%- endif %}
             </tr>
         {% endfor %}
         </tbody>

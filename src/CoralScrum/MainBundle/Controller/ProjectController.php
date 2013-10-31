@@ -124,7 +124,7 @@ class ProjectController extends Controller
      */
     public function showAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -136,6 +136,7 @@ class ProjectController extends Controller
 
         return $this->render('CoralScrumMainBundle:Project:show.html.twig', array(
             'entity'        => $project,
+            'isGranted'     => $isGranted,
             'projectId'     => $projectId,
         ));
     }

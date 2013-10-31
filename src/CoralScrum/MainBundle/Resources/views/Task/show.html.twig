@@ -66,6 +66,7 @@
         </tbody>
     </table>
 
+    {% if isGranted -%}
     <ul class="actionButtons">
         <li>
             <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
@@ -74,6 +75,7 @@
             <a class="redButton popupDialog" href="{{ path('task_delete', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Delete</a>
         </li>
     </ul>
+    {%- endif %}
 </div>
 
 <script type="text/javascript">

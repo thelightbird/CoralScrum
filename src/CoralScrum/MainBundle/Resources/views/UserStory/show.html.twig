@@ -53,7 +53,9 @@
     </table>
 
     <a class="button" href="{{ path('userstory', { 'projectId': projectId }) }}">Back to Backlog</a>
+    {% if isGranted %}
     <a class="button" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
     {{ form(delete_form) }}
+    {% endif %}
 
 {% endblock %}

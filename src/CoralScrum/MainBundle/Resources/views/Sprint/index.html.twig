@@ -7,7 +7,9 @@
 {% block container -%}
     <h1>Sprint list</h1>
 
+    {% if isGranted -%}
     <a class="button" href="{{ path('sprint_new', { 'projectId': projectId }) }}">Create a new Sprint</a>
+    {%- endif %}
 
     <table class="defaultTab tablesorter">
         <thead>
@@ -16,7 +18,9 @@
                 <th>User Stories</th>
                 <th>Start Date</th>
                 <th>Duration (days)</th>
+                {% if isGranted -%}
                 <th>Actions</th>
+                {%- endif %}
             </tr>
         </thead>
         <tbody>
@@ -32,10 +36,12 @@
                 </td>
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i') }}{% endif %}</td>
                 <td>{{ entity.duration }}</td>
+                {% if isGranted -%}
                 <td>
                     <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
                     <a class="delete popupDialog" href="{{ path('sprint_delete', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
                 </td>
+                {%- endif %}
             </tr>
         {% endfor %}
         </tbody>

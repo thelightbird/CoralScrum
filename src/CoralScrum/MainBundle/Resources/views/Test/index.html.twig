@@ -7,7 +7,9 @@
 {% block container -%}
     <h1>Test list</h1>
 
+    {% if isGranted -%}
     <a class="button" href="{{ path('test_new', { 'projectId': projectId }) }}">Create a new Test</a>
+    {%- endif %}
 
     <table class="defaultTab tablesorter">
         <thead>
@@ -22,7 +24,9 @@
                 <th>Tester</th>
                 <th>Date</th>
                 <th>Comment</th>
+                {% if isGranted -%}
                 <th>Actions</th>
+                {%- endif %}
             </tr>
         </thead>
         <tbody>
@@ -46,10 +50,12 @@
                 <td>{{ test.tester }}</td>
                 <td>{% if test.date %}{{ test.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ test.comment }}</td>
+                {% if isGranted -%}
                 <td>
                     <a class="edit" href="{{ path('test_edit', { 'projectId': projectId, 'id': test.id }) }}"></a>
                     <a class="delete popupDialog" href="{{ path('test_delete', { 'projectId': projectId, 'id': test.id }) }}"></a>
                 </td>
+                {%- endif %}
             </tr>
         {% endfor %}
         </tbody>

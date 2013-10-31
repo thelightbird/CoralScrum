@@ -4,6 +4,7 @@ namespace CoralScrum\MainBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CoralScrum\MainBundle\Entity\UserStory;
 use CoralScrum\MainBundle\Form\UserStoryType;
@@ -22,7 +23,7 @@ class UserStoryController extends Controller
      */
     public function indexAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
 
@@ -30,6 +31,7 @@ class UserStoryController extends Controller
 
         return $this->render('CoralScrumMainBundle:UserStory:index.html.twig', array(
             'entities'  => $entities,
+            'isGranted' => $isGranted,
             'projectId' => $projectId,
         ));
     }
@@ -39,7 +41,10 @@ class UserStoryController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
 
         $em = $this->getDoctrine()->getManager();
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
@@ -59,7 +64,7 @@ class UserStoryController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('userstory_show', array(
-                'id' => $userstory->getId(),
+                'id'        => $userstory->getId(),
                 'projectId' => $projectId,
             )));
         }
@@ -97,7 +102,10 @@ class UserStoryController extends Controller
      */
     public function newAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $entity = new UserStory();
         $form   = $this->createCreateForm($projectId, $entity);
@@ -115,7 +123,7 @@ class UserStoryController extends Controller
      */
     public function showAction($projectId, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
 
@@ -129,6 +137,7 @@ class UserStoryController extends Controller
 
         return $this->render('CoralScrumMainBundle:UserStory:show.html.twig', array(
             'entity'      => $entity,
+            'isGranted'   => $isGranted,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -140,7 +149,10 @@ class UserStoryController extends Controller
      */
     public function editAction($projectId, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -188,7 +200,10 @@ class UserStoryController extends Controller
      */
     public function updateAction($projectId, Request $request, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -223,7 +238,10 @@ class UserStoryController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoralScrumMainBundle:UserStory')->find($id);

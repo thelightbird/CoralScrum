@@ -23,7 +23,7 @@ class TestController extends Controller
      */
     public function indexAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
 
@@ -31,6 +31,7 @@ class TestController extends Controller
 
         return $this->render('CoralScrumMainBundle:Test:index.html.twig', array(
             'tests'     => $tests,
+            'isGranted' => $isGranted,
             'projectId' => $projectId,
         ));
     }
@@ -40,7 +41,10 @@ class TestController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $test = new Test();
         $form = $this->createCreateForm($projectId, $test);
@@ -93,7 +97,10 @@ class TestController extends Controller
      */
     public function newAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countByProjectId($projectId);
@@ -119,7 +126,7 @@ class TestController extends Controller
      */
     public function showAction($projectId, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
 
@@ -133,6 +140,7 @@ class TestController extends Controller
 
         return $this->render('CoralScrumMainBundle:Test:show.html.twig', array(
             'entity'      => $entity,
+            'isGranted'   => $isGranted,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -144,7 +152,10 @@ class TestController extends Controller
      */
     public function editAction($projectId, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -193,7 +204,10 @@ class TestController extends Controller
      */
     public function updateAction($projectId, Request $request, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -242,7 +256,10 @@ class TestController extends Controller
      */
     public function deleteAction($projectId, Request $request, $id)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $test = $em->getRepository('CoralScrumMainBundle:Test')->find($id);

@@ -7,7 +7,9 @@
 {% block container -%}
     <h1>Task list</h1>
 
+    {% if isGranted -%}
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
+    {%- endif %}
 
     <table class="defaultTab tablesorter">
         <thead>
@@ -25,7 +27,9 @@
                 <th>Assign To</th>
                 <th>Dependencies</th>
                 <th>Commit</th>
+                {% if isGranted -%}
                 <th>Actions</th>
+                {%- endif %}
             </tr>
         </thead>
         <tbody>
@@ -52,10 +56,12 @@
                 <td>{{ entity.user|join(', ') }}</td>
                 <td>{% for taskDep in entity.dependency %}{{ taskDep }}<br>{% endfor %}</td>
                 <td>{{ entity.commit }}</td>
+                {% if isGranted -%}
                 <td>
                     <a class="edit" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}"></a>
                     <a class="delete" href=""></a>
                 </td>
+                {%- endif %}
             </tr>
         {% endfor %}
         </tbody>

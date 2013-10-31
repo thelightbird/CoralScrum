@@ -43,7 +43,7 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -53,6 +53,7 @@ class TaskController extends Controller
         return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
             'entities'  => $entities,
             'sprintId'  => $sprintId,
+            'isGranted' => $isGranted,
             'projectId' => $projectId,
         ));
     }
@@ -64,7 +65,10 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
 
         $task = new Task();
         $form = $this->createCreateForm($projectId, $sprintId, $task);
@@ -122,7 +126,10 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
 
         $em = $this->getDoctrine()->getManager();
         $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countBySprintId($sprintId);
@@ -150,7 +157,7 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -165,6 +172,7 @@ class TaskController extends Controller
         return $this->render('CoralScrumMainBundle:Task:show.html.twig', array(
             'entity'      => $entity,
             'sprintId'    => $sprintId,
+            'isGranted'   => $isGranted,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),        ));
     }
@@ -177,7 +185,10 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
         
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
 
         $em = $this->getDoctrine()->getManager();
 
@@ -299,7 +310,10 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
 
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -338,7 +352,10 @@ class TaskController extends Controller
     {
         $projectId = $this->getProjectId($sprintId);
 
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $task = $em->getRepository('CoralScrumMainBundle:Task')->find($id);

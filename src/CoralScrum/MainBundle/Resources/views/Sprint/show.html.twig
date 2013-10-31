@@ -9,7 +9,9 @@
     <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y H:i') }}</h3>
     <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
 
+    {% if isGranted -%}
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
+    {%- endif %}
 
     <table class="defaultTab tablesorter">
         <thead>
@@ -123,6 +125,8 @@
         $(document).ready(function() {
             $(".tablesorter").tablesorter();
 
+
+            {% if isGranted -%}
             {% for userstory in entity.userstory %}
             $( ".postIt.id{{ userstory.id }}" )
             .draggable({
@@ -162,6 +166,23 @@
                     }
                 }
             });
+            {%- else -%}
+            {% for userstory in entity.userstory %}
+            $( ".postIt.id{{ userstory.id }}" )
+            .click(function() {
+                if ( $(this).is('.ui-draggable-dragging') ) {
+                    return;
+                }
+                var url = $(this).attr('data-url');
+                $.get( url, function( data ) {
+                    displayPopup( data );
+                })
+                .fail(function() {
+                    alert( "An error has occurred." );
+                });
+            });
+            {% endfor %}
+            {%- endif %}
         });
 
     </script>

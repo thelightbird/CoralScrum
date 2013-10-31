@@ -61,7 +61,10 @@
     </table>
 
     <a class="button" href="{{ path('test', { 'projectId': projectId }) }}">Back to Tests</a>
+
+    {% if isGranted -%}
     <a class="button" href="{{ path('test_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
     {{ form(delete_form) }}
+    {%- endif %}
 
 {% endblock %}

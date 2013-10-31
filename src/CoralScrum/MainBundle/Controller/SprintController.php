@@ -22,7 +22,7 @@ class SprintController extends Controller
      */
     public function indexAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
 
@@ -30,6 +30,7 @@ class SprintController extends Controller
 
         return $this->render('CoralScrumMainBundle:Sprint:index.html.twig', array(
             'entities'  => $sprints,
+            'isGranted' => $isGranted,
             'projectId' => $projectId,
         ));
     }
@@ -39,7 +40,10 @@ class SprintController extends Controller
      */
     public function createAction($projectId, Request $request)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $project = $em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
@@ -99,7 +103,10 @@ class SprintController extends Controller
      */
     public function newAction($projectId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $entity = new Sprint();
         
@@ -118,7 +125,7 @@ class SprintController extends Controller
      */
     public function showAction($projectId, $sprintId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
         
         $em = $this->getDoctrine()->getManager();
         $tests = $em->getRepository('CoralScrumMainBundle:Test')->findBySprintId($sprintId);
@@ -134,6 +141,7 @@ class SprintController extends Controller
             'tests'       => $tests,
             'entity'      => $sprint,
             'sprintId'    => $sprintId,
+            'isGranted'   => $isGranted,
             'projectId'   => $projectId,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -145,7 +153,10 @@ class SprintController extends Controller
      */
     public function editAction($projectId, $sprintId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -194,7 +205,10 @@ class SprintController extends Controller
      */
     public function updateAction($projectId, Request $request, $sprintId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
 
@@ -229,7 +243,10 @@ class SprintController extends Controller
      */
     public function deleteAction($projectId, Request $request, $sprintId)
     {
-        $this->get('csm_security')->checkUserMembership($projectId);
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        if (!$isGranted) {
+            throw new AccessDeniedException('You do not have access to this page.');
+        }
         
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);

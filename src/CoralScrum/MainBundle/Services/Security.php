@@ -32,7 +32,7 @@ class Security {
      * Check if user belongs to the project.
      *
      */
-	public function checkUserMembership($projectId)
+    public function checkUserMembership($projectId)
     {
         $user = $this->securityContext->getToken()->getUser();
         if (!is_object($user)) {
@@ -45,7 +45,36 @@ class Security {
         }
 
         return $user;
-	}
+    }
+
+    /**
+     * Check if user has access to the project and if he can make changes.
+     *
+     */
+    public function isGranted($projectId)
+    {
+        $project = $this->em->getRepository('CoralScrumMainBundle:Project')->find($projectId);
+        if (!$project) {
+            throw new AccessDeniedException('Unable to find Project entity.');
+        }
+
+        $isPublic = $project->getIsPublic();
+        if ($isPublic) {
+            // user can make changes only if he belongs to project
+            $user = $this->securityContext->getToken()->getUser();
+            if (!is_object($user)) {
+                throw new AccessDeniedException('You are not logged in.');
+            }
+
+            $users = $this->em->getRepository('CoralScrumUserBundle:User')->findByProjectId($projectId);
+            return in_array($user, $users);
+        }
+        else {
+            // if he does not belong to the project, AccessDeniedException
+            $this->checkUserMembership($projectId);
+            return true;
+        }
+    }
 
     /**
      * Check if user is the creator of the project.
