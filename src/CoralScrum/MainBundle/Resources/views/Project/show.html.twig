@@ -49,7 +49,7 @@
             <tbody>
             {% for userProject in entity.userproject %}
                 <tr>
-                    <td>{{ userProject.user }}</td>
+                    <td><span title="{{ userProject.user.firstname ~ ' ' ~ userProject.user.lastname }}">{{ userProject.user }}</span></td>
                     <td>{{ userProject.accountType }}</td>
                     {% if entity.owner.id == app.user.id %}
                     <td>

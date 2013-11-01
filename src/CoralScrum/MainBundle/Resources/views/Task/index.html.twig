@@ -53,7 +53,12 @@
                 <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ entity.isBug ? 'Yes' : 'No' }}</td>
-                <td>{{ entity.user|join(', ') }}</td>
+                <td>
+                    {% for user in entity.user -%}
+                    {%- if not loop.first -%}, {% endif -%}
+                    <span title="{{ user.firstname ~ ' ' ~ user.lastname }}">{{ user }}</span>
+                    {%- endfor %}
+                </td>
                 <td>{% for taskDep in entity.dependency %}{{ taskDep }}<br>{% endfor %}</td>
                 <td>{{ entity.commit }}</td>
                 {% if isGranted -%}

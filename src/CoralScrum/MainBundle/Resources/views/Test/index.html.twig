@@ -47,7 +47,7 @@
                     <img title="Test failed" src="{{ asset('img/error.png') }}" alt=""/>
                     {%- endif -%}
                 </td>
-                <td>{{ test.tester }}</td>
+                <td><span title="{{ test.tester.firstname ~ ' ' ~ test.tester.lastname }}">{{ test.tester }}</span></td>
                 <td>{% if test.testDate %}{{ test.testDate|date('Y-m-d H:i') }}{% endif %}</td>
                 <td>{{ test.comment }}</td>
                 {% if isGranted -%}

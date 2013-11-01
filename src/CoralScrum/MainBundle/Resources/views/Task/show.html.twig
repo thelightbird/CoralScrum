@@ -46,7 +46,10 @@
             <tr>
                 <th>Assign To</th>
                 <td>
-                    {{ entity.user|join(', ') }}
+                    {% for user in entity.user -%}
+                    {%- if not loop.first -%}, {% endif -%}
+                    <span title="{{ user.firstname ~ ' ' ~ user.lastname }}">{{ user }}</span>
+                    {%- endfor %}
                 </td>
             </tr>
             <tr>
