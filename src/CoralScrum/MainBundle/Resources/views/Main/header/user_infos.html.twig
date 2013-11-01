@@ -1,6 +1,12 @@
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 <div class="verticalLine"></div>
-<img class="avatar" alt="" src="{{ asset("img/picture.png") }}" />
+<img class="avatar" alt="" src="
+{%- if app.user.picture is null -%}
+{{ asset("img/picture.png") }}
+{%- else -%}
+{{ asset("uploads/pictures/" ~ app.user.picture) }}
+{%- endif -%}
+" />
 <div class="text">
 	<h3>{{ app.user.username }}</h3>
 	<a href="{{ path('fos_user_profile_show') }}">Settings</a>
