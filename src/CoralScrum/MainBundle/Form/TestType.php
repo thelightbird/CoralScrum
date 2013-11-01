@@ -24,7 +24,7 @@ class TestType extends AbstractType
             ->add('input')
             ->add('testCase')
             ->add('expectedResult')
-            ->add('date')
+            ->add('testDate')
             ->add('comment')
             ->add('userStory', 'entity', array(
                 'class' => 'CoralScrumMainBundle:UserStory',

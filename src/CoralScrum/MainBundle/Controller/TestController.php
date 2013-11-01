@@ -111,7 +111,6 @@ class TestController extends Controller
         }
 
         $entity = new Test();
-        $entity->setDate(new \DateTime());
         $form   = $this->createCreateForm($projectId, $entity);
 
         return $this->render('CoralScrumMainBundle:Test:new.html.twig', array(

@@ -26,11 +26,11 @@
                 <td>{{ entity.input }}</td>
             </tr>
             <tr>
-                <th>Testcase</th>
+                <th>Test Case</th>
                 <td>{{ entity.testCase }}</td>
             </tr>
             <tr>
-                <th>Expectedresult</th>
+                <th>Expected Result</th>
                 <td>{{ entity.expectedResult }}</td>
             </tr>
             <tr>
@@ -50,8 +50,8 @@
                 <td>{{ entity.tester }}</td>
             </tr>
             <tr>
-                <th>Date</th>
-                <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
+                <th>Test Date</th>
+                <td>{% if entity.testDate %}{{ entity.testDate|date('Y-m-d H:i') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Comment</th>

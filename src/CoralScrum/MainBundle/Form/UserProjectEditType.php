@@ -25,7 +25,7 @@ class UserProjectEditType extends AbstractType
                 'choices'  => array(
                     'Project Owner' => 'Project Owner',
                     'Scrum Master'  => 'Scrum Master',
-                    'Developper'    => 'Developper'),
+                    'Developer'     => 'Developer'),
                 'required' => true
             ))
             //->add('isAccept')

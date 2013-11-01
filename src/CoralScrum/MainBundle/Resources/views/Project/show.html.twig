@@ -39,7 +39,11 @@
         <table class="defaultTab">
             <thead>
                 <tr>
+                    {% if entity.owner.id == app.user.id %}
+                    <th colspan="3">Collaborators</th>
+                    {% else %}
                     <th colspan="2">Collaborators</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +51,14 @@
                 <tr>
                     <td>{{ userProject.user }}</td>
                     <td>{{ userProject.accountType }}</td>
+                    {% if entity.owner.id == app.user.id %}
+                    <td>
+                        <a class="edit" href="{{ path('collaborator_edit', { 'projectId': projectId, 'id': userProject.id }) }}"></a>
+                        {% if userProject.user.id != app.user.id %}
+                        <a class="delete popupDialog" href="{{ path('collaborator_delete', { 'projectId': projectId, 'id': userProject.id }) }}"></a>
+                        {% endif %}
+                    </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

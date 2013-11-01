@@ -62,8 +62,7 @@ class UserProjectController extends Controller
             $em->persist($userProject);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('collaborator', array(
-                'id'        => $userProject->getId(),
+            return $this->redirect($this->generateUrl('project_show', array(
                 'projectId' => $projectId,
             )));
         }
@@ -194,7 +193,7 @@ class UserProjectController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('collaborator', array(
+            return $this->redirect($this->generateUrl('project_show', array(
                 'projectId' => $projectId,
             )));
         }
@@ -225,7 +224,7 @@ class UserProjectController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('collaborator', array(
+        return $this->redirect($this->generateUrl('project_show', array(
             'projectId' => $projectId,
         )));
     }

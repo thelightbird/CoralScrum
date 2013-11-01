@@ -22,7 +22,7 @@
                 <th>Expected Result</th>
                 <th>State</th>
                 <th>Tester</th>
-                <th>Date</th>
+                <th>Test Date</th>
                 <th>Comment</th>
                 {% if isGranted -%}
                 <th>Actions</th>
@@ -48,7 +48,7 @@
                     {%- endif -%}
                 </td>
                 <td>{{ test.tester }}</td>
-                <td>{% if test.date %}{{ test.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if test.testDate %}{{ test.testDate|date('Y-m-d H:i') }}{% endif %}</td>
                 <td>{{ test.comment }}</td>
                 {% if isGranted -%}
                 <td>

@@ -62,9 +62,9 @@ class Test
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="testDate", type="datetime", nullable=true)
      */
-    private $date;
+    private $testDate;
 
     /**
      * @var string
@@ -193,26 +193,26 @@ class Test
     }
 
     /**
-     * Set date
+     * Set testDate
      *
-     * @param \DateTime $date
+     * @param \DateTime $testDate
      * @return Test
      */
-    public function setDate($date)
+    public function setTestDate($testDate)
     {
-        $this->date = $date;
+        $this->testDate = $testDate;
     
         return $this;
     }
 
     /**
-     * Get date
+     * Get testDate
      *
      * @return \DateTime 
      */
-    public function getDate()
+    public function getTestDate()
     {
-        return $this->date;
+        return $this->testDate;
     }
 
     /**

@@ -41,7 +41,7 @@ class UserProjectType extends AbstractType
             //*/
             ->add('accountType', 'choice', array(
                 'choices'  => array(
-                    'Developper'    => 'Developper',
+                    'Developer'     => 'Developer',
                     'Scrum Master'  => 'Scrum Master',
                     'Project Owner' => 'Project Owner'),
                 'required' => true
