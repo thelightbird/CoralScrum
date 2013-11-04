@@ -78,12 +78,17 @@ class UserStory
      */
     private $isFinished;
 
+
     /**
-     * @var boolean
+     * 0 : no tests
+     * 1 : validated (all tests ok)
+     * 2 : not validated
      *
-     * @ORM\Column(name="isValidated", type="boolean")
+     * @var integer
+     *
+     * @ORM\Column(name="validated", type="integer")
      */
-    private $isValidated;
+    private $validated;
 
 
     public function __toString()
@@ -217,26 +222,26 @@ class UserStory
     }
 
     /**
-     * Set isValidated
+     * Set validated
      *
-     * @param boolean $isValidated
+     * @param boolean $validated
      * @return UserStory
      */
-    public function setIsValidated($isValidated)
+    public function setValidated($validated)
     {
-        $this->isValidated = $isValidated;
+        $this->validated = $validated;
     
         return $this;
     }
 
     /**
-     * Get isValidated
+     * Get validated
      *
      * @return boolean 
      */
-    public function getIsValidated()
+    public function getValidated()
     {
-        return $this->isValidated;
+        return $this->validated;
     }
 
     /**
@@ -246,7 +251,7 @@ class UserStory
     {
         $this->sprint = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isFinished = false;
-        $this->isValidated = false;
+        $this->validated = 0;
     }
 
     /**

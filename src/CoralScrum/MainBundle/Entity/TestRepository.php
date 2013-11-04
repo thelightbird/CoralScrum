@@ -55,4 +55,15 @@ class TestRepository extends EntityRepository
            ;
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function countByUserStoryId($userStoryId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t.id)')
+           ->join('t.userStory', 'us')
+           ->where('us.id = :userStoryId')
+           ->setParameter('userStoryId', $userStoryId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

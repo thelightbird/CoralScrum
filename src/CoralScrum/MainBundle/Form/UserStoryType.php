@@ -29,7 +29,7 @@ class UserStoryType extends AbstractType
                 'choices' => $fibonacci,
             ))
             //->add('isFinished')
-            //->add('isValidated')
+            //->add('validated')
             //->add('project')
         ;
     }

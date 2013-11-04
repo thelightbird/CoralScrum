@@ -53,7 +53,7 @@ class TestController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $test->getUserStory()->setIsValidated(false);
+            $test->getUserStory()->setValidated(2);
             $em->persist($test);
             $em->flush();
 
@@ -227,13 +227,13 @@ class TestController extends Controller
 
             $em->flush();
 
-            // Update UserStory isValidated
+            // Update UserStory validated
             $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestNotPassedByUserStoryId($userStoryId);
             if ($nbTestNotPassed == 0) {
-                $testUserStory->setIsValidated(true);
+                $testUserStory->setValidated(1);
             }
             else {
-                $testUserStory->setIsValidated(false);
+                $testUserStory->setValidated(2);
             }
 
             $em->flush();
@@ -273,14 +273,20 @@ class TestController extends Controller
         $em->remove($test);
         $em->flush();
 
-        // Update UserStory isValidated
+        // Update UserStory validated
         $userStoryId = $test->getUserStory();
+        $nbTest = $em->getRepository('CoralScrumMainBundle:Test')->countByUserStoryId($userStoryId);
         $nbTestNotPassed = $em->getRepository('CoralScrumMainBundle:Test')->countTestNotPassedByUserStoryId($userStoryId);
         if ($nbTestNotPassed == 0) {
-            $testUserStory->setIsValidated(true);
+            if ($nbTest == 0) {
+                $testUserStory->setValidated(0);
+            }
+            else {
+                $testUserStory->setValidated(1);
+            }
         }
         else {
-            $testUserStory->setIsValidated(false);
+            $testUserStory->setValidated(2);
         }
         $em->flush();
 

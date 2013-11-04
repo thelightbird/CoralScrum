@@ -55,7 +55,7 @@ class UserStoryController extends Controller
         
         $userstory = new UserStory();
         $userstory->setProject($project);
-        $userstory->setIsValidated(true);
+        $userstory->setValidated(0);
         $form = $this->createCreateForm($projectId, $userstory);
         $form->handleRequest($request);
         if ($form->isValid()) {

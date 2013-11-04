@@ -42,9 +42,11 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if entity.isValidated %}
+                    {% if entity.validated == 0 %}
+                    <img title="No tests" src="{{ asset('img/forbidden.png') }}" />
+                    {% elseif entity.validated == 1 %}
                     <img src="{{ asset('img/valid.png') }}" />
-                    {% else %}
+                    {% elseif entity.validated == 2 %}
                     <img src="{{ asset('img/error.png') }}" />
                     {% endif %}
                 </td>
