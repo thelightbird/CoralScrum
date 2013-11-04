@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <th>Tester</th>
-                <td><span title="{{ entity.tester.firstname ~ ' ' ~ entity.tester.lastname }}">{{ entity.tester }}</span></td>
+                <td>{% if entity.tester is not null %}<span title="{{ entity.tester.firstname ~ ' ' ~ entity.tester.lastname }}">{{ entity.tester }}</span>{% endif %}</td>
             </tr>
             <tr>
                 <th>Test Date</th>
