@@ -67,6 +67,22 @@ class TaskRepository extends EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function countTaskNotDoneBySprintId($sprintId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t.id)')
+           ->join('t.userStory', 'us')
+           ->join('us.sprint', 'sp')
+           ->where('sp.id = :sprintId')
+           ->andWhere('t.state IN (:state)')
+           ->setParameters(array(
+               'sprintId' => $sprintId,
+               'state'    => array(0, 1),
+            ))
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function findOneByIdJoined($taskId)
     {
         $query = $this->getEntityManager()

@@ -443,6 +443,9 @@ a.edit:hover,
 a.delete:hover {
 	opacity: 0.7;
 }
+h1 a.edit {
+	vertical-align: -4px;
+}
 
 
 /* Header
@@ -768,6 +771,7 @@ header div.infos span.notif {
 	width:1000px;
 	margin:auto;
 	margin-top: 10px;
+	padding-bottom: 100px;
 }
 
 

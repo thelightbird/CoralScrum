@@ -6,10 +6,15 @@
 
 {% block container -%}
 
-    <h1>{{ entity.name }}</h1>
+    <h1>{{ entity.name }}
+        {% if app.user.id == entity.owner.id -%}
+            <a class="edit" href="{{ path('project_edit', { 'projectId': entity.id }) }}"></a>
+        {%- endif -%}
+    </h1>
 
     <div class="projectDetails">
         <a class="button" href="{{ path('project') }}">Back to Projects</a>
+
 
         <table class="cleanTab">
             <tbody>

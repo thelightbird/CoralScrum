@@ -371,8 +371,9 @@ class TaskController extends Controller
         $em->flush();
 
         // Update UserStory isFinished
-        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId);
-        if ($nbTaskNotDone == 0) {
+        $nbSprintTasks = $em->getRepository('CoralScrumMainBundle:Task')->countBySprintId($sprintId);
+        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneBySprintId($sprintId);
+        if ($nbTaskNotDone == 0 && $nbSprintTasks > 0) {
             $taskUserStory->setIsFinished(true);
         }
         else {
