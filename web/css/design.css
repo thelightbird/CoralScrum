@@ -136,6 +136,9 @@ form input, form textarea {
 	margin-top:2px;
 	margin-bottom:2px;
 }
+form textarea {
+	min-height:100px;
+}
 form input[type=checkbox] {
 	margin: 9px 0px;
 	width: 230px;
@@ -189,6 +192,9 @@ form select option {
 	height:20px;
 	line-height:20px;
 	margin:5px;
+}
+form select[multiple=multiple] {
+	min-height:140px;
 }
 form div {
 	display: block;
@@ -445,6 +451,11 @@ a.delete:hover {
 }
 h1 a.edit {
 	vertical-align: -4px;
+}
+
+a.commit {
+	line-height: 14px;
+	word-break: break-all;
 }
 
 

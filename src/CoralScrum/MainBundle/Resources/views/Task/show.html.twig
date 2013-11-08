@@ -63,8 +63,12 @@
                 <td>{{ entity.isBug ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Commit ID</th>
-                <td>{{ entity.commit }}</td>
+                <th>Commit Link</th>
+                <td>
+                    {%- if entity.commit is not null -%}
+                    <a class="commit" target="_blank" href="{{ entity.commit }}">{{ entity.commit }}</a>
+                    {%- endif -%}
+                </td>
             </tr>
         </tbody>
     </table>

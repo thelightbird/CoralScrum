@@ -33,7 +33,7 @@ class TaskEditType extends AbstractType
             ->add('isBug', 'checkbox', array(
                 'required' => false))
             ->add('commit', 'text', array(
-                'label'    => 'Commit ID',
+                'label'    => 'Commit Link',
                 'required' => false))
             ->add('user', 'entity', array(
                 'class'    => 'CoralScrumUserBundle:User',

@@ -26,7 +26,7 @@
                 <th>Is Bug</th>
                 <th>Assign To</th>
                 <th>Dependencies</th>
-                <th>Commit</th>
+                <th>Commit Link</th>
                 {% if isGranted -%}
                 <th>Actions</th>
                 {%- endif %}
@@ -60,7 +60,11 @@
                     {%- endfor %}
                 </td>
                 <td>{% for taskDep in entity.dependency %}{{ taskDep }}<br>{% endfor %}</td>
-                <td>{{ entity.commit }}</td>
+                <td>
+                    {%- if entity.commit is not null -%}
+                    <a class="commit" target="_blank" href="{{ entity.commit }}">{{ entity.commit }}</a>
+                    {%- endif -%}
+                </td>
                 {% if isGranted -%}
                 <td>
                     <a class="edit" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}"></a>

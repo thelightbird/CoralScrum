@@ -46,9 +46,10 @@ class TaskType extends AbstractType
             */
             ->add('isBug', 'checkbox', array(
                 'required' => false))
-            ->add('commit', 'text', array(
-                'label'    => 'Commit ID',
+            /*->add('commit', 'text', array(
+                'label'    => 'Commit Link',
                 'required' => false))
+            */
             ->add('userStory', 'entity', array(
                 'class'    => 'CoralScrumMainBundle:UserStory',
                 'label'    => 'User Story',
