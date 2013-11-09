@@ -18,7 +18,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('project_show', { 'projectId': entity.id }) }}">#{{ entity.id }}</a></td>
+                <td><a class="button" href="{{ path('project_show', { 'projectId': entity.id }) }}">#{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.isPublic %}Yes{% endif %}</td>
                 <td><a target="_blank" href="{{ entity.repository }}">{{ entity.repository }}</a></td>
