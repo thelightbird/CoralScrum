@@ -53,6 +53,9 @@ class TestController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $testDisplayId = $em->getRepository('CoralScrumMainBundle:Test')->getMaxTestId($projectId);
+            $testDisplayId = is_null($testDisplayId) ? 1 : $testDisplayId + 1;
+            $test->setDisplayId($testDisplayId);
             $test->getUserStory()->setValidated(2);
             $em->persist($test);
             $em->flush();

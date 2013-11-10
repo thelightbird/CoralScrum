@@ -66,4 +66,15 @@ class TestRepository extends EntityRepository
            ;
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getMaxTestId($projectId)
+    {
+        $qb = $this->createQueryBuilder('te');
+        $qb->select('max(te.displayId)')
+           ->join('te.userStory', 'us')
+           ->where('us.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

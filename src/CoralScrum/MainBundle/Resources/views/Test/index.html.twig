@@ -32,7 +32,7 @@
         <tbody>
         {% for test in tests %}
             <tr>
-                <td><a href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}">#{{ test.id }}</a></td>
+                <td><a class="button" href="{{ path('test_show', { 'projectId': projectId, 'id': test.id }) }}">#{{ test.displayId }}</a></td>
                 <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': test.userstory.id }) }}">{{ test.userstory }}</a></td>
                 <td>{{ test.title }}</td>
                 <td>{{ test.input }}</td>

@@ -22,6 +22,13 @@ class Task
     private $id;
 
     /**
+     * @var \Integer
+     *
+     * @ORM\Column(name="displayId", type="integer")
+     */
+    private $displayId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="task")
      **/
     private $userStory;
@@ -114,7 +121,7 @@ class Task
 
     public function __toString()
     {
-        return "#".$this->id.": ".$this->title;
+        return "#".$this->displayId.": ".$this->title;
     }
 
     /**
@@ -125,6 +132,29 @@ class Task
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set displayId
+     *
+     * @param integer $displayId
+     * @return Task
+     */
+    public function setDisplayId($displayId)
+    {
+        $this->displayId = $displayId;
+    
+        return $this;
+    }
+
+    /**
+     * Get displayId
+     *
+     * @return integer 
+     */
+    public function getDisplayId()
+    {
+        return $this->displayId;
     }
 
     /**

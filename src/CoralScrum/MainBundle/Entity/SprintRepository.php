@@ -46,4 +46,14 @@ class SprintRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getMaxSprintId($projectId)
+    {
+        $qb = $this->createQueryBuilder('sp');
+        $qb->select('max(sp.displayId)')
+           ->where('sp.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

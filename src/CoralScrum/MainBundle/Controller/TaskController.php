@@ -76,6 +76,9 @@ class TaskController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $taskDisplayId = $em->getRepository('CoralScrumMainBundle:Task')->getMaxTaskId($projectId);
+            $taskDisplayId = is_null($taskDisplayId) ? 1 : $taskDisplayId + 1;
+            $task->setDisplayId($taskDisplayId);
             $task->getUserStory()->setIsFinished(false);
             $em->persist($task);
             $em->flush();

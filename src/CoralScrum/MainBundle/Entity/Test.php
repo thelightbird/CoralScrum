@@ -22,6 +22,13 @@ class Test
     private $id;
 
     /**
+     * @var \Integer
+     *
+     * @ORM\Column(name="displayId", type="integer")
+     */
+    private $displayId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="test")
      **/
     private $userStory;
@@ -87,7 +94,7 @@ class Test
 
     public function __toString()
     {
-        return "#".$this->id.": ".$this->title;
+        return "#".$this->displayId.": ".$this->title;
     }
 
     /**
@@ -98,6 +105,29 @@ class Test
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set displayId
+     *
+     * @param integer $displayId
+     * @return Test
+     */
+    public function setDisplayId($displayId)
+    {
+        $this->displayId = $displayId;
+    
+        return $this;
+    }
+
+    /**
+     * Get displayId
+     *
+     * @return integer 
+     */
+    public function getDisplayId()
+    {
+        return $this->displayId;
     }
 
     /**

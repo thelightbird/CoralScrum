@@ -118,4 +118,15 @@ class TaskRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getMaxTaskId($projectId)
+    {
+        $qb = $this->createQueryBuilder('ta');
+        $qb->select('max(ta.displayId)')
+           ->join('ta.userStory', 'us')
+           ->where('us.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

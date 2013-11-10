@@ -36,4 +36,14 @@ class UserStoryRepository extends EntityRepository
            ;
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getMaxUserStoryId($projectId)
+    {
+        $qb = $this->createQueryBuilder('us');
+        $qb->select('max(us.displayId)')
+           ->where('us.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

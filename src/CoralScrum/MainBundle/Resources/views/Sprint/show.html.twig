@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block container -%}
-    <h1>Sprint #{{ entity.id }}
+    <h1>Sprint #{{ entity.displayId }}
         {% if isGranted -%}
             <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
         {%- endif -%}
@@ -46,7 +46,7 @@
                             {%- endif -%}
                         </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskId">#{{ task.id }}</span>
+                        <span class="taskId">#{{ task.displayId }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>

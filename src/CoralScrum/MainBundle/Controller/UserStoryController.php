@@ -59,7 +59,9 @@ class UserStoryController extends Controller
         $form = $this->createCreateForm($projectId, $userstory);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $userStoryDisplayId = $em->getRepository('CoralScrumMainBundle:UserStory')->getMaxUserStoryId($projectId);
+            $userStoryDisplayId = is_null($userStoryDisplayId) ? 1 : $userStoryDisplayId + 1;
+            $userstory->setDisplayId($userStoryDisplayId);
             $em->persist($userstory);
             $em->flush();
 

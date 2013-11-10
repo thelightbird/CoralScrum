@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sprint
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="sprintId_uc", columns={"project_id", "displayId"})})
  * @ORM\Entity(repositoryClass="CoralScrum\MainBundle\Entity\SprintRepository")
  */
 class Sprint
@@ -20,6 +20,13 @@ class Sprint
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var \Integer
+     *
+     * @ORM\Column(name="displayId", type="integer")
+     */
+    private $displayId;
 
     /**
      * @var Project $project
@@ -54,7 +61,7 @@ class Sprint
 
     public function __toString()
     {
-        return "#".$this->id;
+        return "#".$this->displayId;
     }
 
     /**
@@ -65,6 +72,29 @@ class Sprint
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set displayId
+     *
+     * @param integer $displayId
+     * @return Sprint
+     */
+    public function setDisplayId($displayId)
+    {
+        $this->displayId = $displayId;
+    
+        return $this;
+    }
+
+    /**
+     * Get displayId
+     *
+     * @return integer 
+     */
+    public function getDisplayId()
+    {
+        return $this->displayId;
     }
 
     /**

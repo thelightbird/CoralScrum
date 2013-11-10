@@ -59,6 +59,9 @@ class SprintController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $sprintDisplayId = $em->getRepository('CoralScrumMainBundle:Sprint')->getMaxSprintId($projectId);
+            $sprintDisplayId = is_null($sprintDisplayId) ? 1 : $sprintDisplayId + 1;
+            $sprint->setDisplayId($sprintDisplayId);
             $em = $this->getDoctrine()->getManager();
             $em->persist($sprint);
             $em->flush();
