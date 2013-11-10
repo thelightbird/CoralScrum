@@ -10,6 +10,7 @@ use CoralScrum\MainBundle\Entity\Sprint;
 use CoralScrum\MainBundle\Form\SprintType;
 use CoralScrum\MainBundle\Services\Security;
 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * Sprint controller.
  *
@@ -59,12 +60,26 @@ class SprintController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $sprintDisplayId = $em->getRepository('CoralScrumMainBundle:Sprint')->getMaxSprintId($projectId);
+            $sprintId = $em->getRepository('CoralScrumMainBundle:Sprint')->getMaxSprintId($projectId);
+
+            $sprintDisplayId = $em->getRepository('CoralScrumMainBundle:Sprint')->getMaxSprintDisplayId($projectId);
             $sprintDisplayId = is_null($sprintDisplayId) ? 1 : $sprintDisplayId + 1;
             $sprint->setDisplayId($sprintDisplayId);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($sprint);
             $em->flush();
+
+            // Clone tasks undone of previous Sprint
+            $tasks = $em->getRepository('CoralScrumMainBundle:Task')->findTaskToCloneBySprintId($sprintId);
+
+            foreach ($tasks as $task) {
+                $cloneTask = clone $task;
+                $cloneTask->setSprint($sprint);
+                $em->persist($cloneTask);
+            }
+            $em->flush();
+            // -------------------------------------
 
             return $this->redirect($this->generateUrl('sprint_show', array(
                 'projectId' => $projectId,

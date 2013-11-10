@@ -163,10 +163,10 @@
                     $(this).append( $(ui.helper) );
                     var taskId = $(ui.helper).find("span.taskId").attr("data-id");
                     if ($(ui.helper).parent("td").hasClass("stateInProgress")) {
-                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "InProgress" });
+                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "InProgress", sprintId: {{ entity.id }} });
                     }
                     else if ($(ui.helper).parent("td").hasClass("stateDone")) {
-                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "Done" });
+                        $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "Done", sprintId: {{ entity.id }} });
                     }
                 }
             });

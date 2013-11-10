@@ -16,10 +16,10 @@ class SprintRepository extends EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT sp, us, t, u FROM CoralScrumMainBundle:Sprint sp
+                SELECT sp, us, ta, u FROM CoralScrumMainBundle:Sprint sp
                 LEFT JOIN sp.userStory us
-                LEFT JOIN us.task t
-                LEFT JOIN t.user u
+                LEFT JOIN us.task ta WITH ta.sprint = :sprintId
+                LEFT JOIN ta.user u
                 WHERE sp.id = :sprintId'
             )->setParameter('sprintId', $sprintId);
 
@@ -47,10 +47,20 @@ class SprintRepository extends EntityRepository
         }
     }
 
-    public function getMaxSprintId($projectId)
+    public function getMaxSprintDisplayId($projectId)
     {
         $qb = $this->createQueryBuilder('sp');
         $qb->select('max(sp.displayId)')
+           ->where('sp.project = :projectId')
+           ->setParameter('projectId', $projectId)
+           ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getMaxSprintId($projectId)
+    {
+        $qb = $this->createQueryBuilder('sp');
+        $qb->select('max(sp.id)')
            ->where('sp.project = :projectId')
            ->setParameter('projectId', $projectId)
            ;

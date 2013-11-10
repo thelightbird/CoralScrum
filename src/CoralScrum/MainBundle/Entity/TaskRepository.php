@@ -35,6 +35,19 @@ class TaskRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findTaskToCloneBySprintId($sprintId)
+    {
+        $qb = $this->createQueryBuilder('ta');
+        $qb->where('ta.sprint = :sprintId')
+           ->andWhere('ta.state IN (:state)')
+           ->setParameters(array(
+               'sprintId' => $sprintId,
+               'state'    => array(0, 1),
+            ))
+           ;
+        return $qb->getQuery()->getResult();
+    }
+
     public function countTaskDoneByTaskId($taskId)
     {
         $qb = $this->createQueryBuilder('t');
@@ -51,17 +64,19 @@ class TaskRepository extends EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countTaskNotDoneByTaskId($taskId)
+    public function countTaskNotDoneByTaskId($taskId, $sprintId)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('count(t2.id)')
            ->join('t.userStory', 'us')
            ->join('us.task', 't2')
            ->where('t.id = :taskId')
+           ->andWhere('t2.sprint = :sprintId')
            ->andWhere('t2.state IN (:state)')
            ->setParameters(array(
-               'taskId' => $taskId,
-               'state'  => array(0, 1),
+               'taskId'   => $taskId,
+               'sprintId' => $sprintId,
+               'state'    => array(0, 1),
             ))
            ;
         return $qb->getQuery()->getSingleScalarResult();

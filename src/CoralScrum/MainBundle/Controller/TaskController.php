@@ -79,6 +79,10 @@ class TaskController extends Controller
             $taskDisplayId = $em->getRepository('CoralScrumMainBundle:Task')->getMaxTaskId($projectId);
             $taskDisplayId = is_null($taskDisplayId) ? 1 : $taskDisplayId + 1;
             $task->setDisplayId($taskDisplayId);
+
+            $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+            $task->setSprint($sprint);
+
             $task->getUserStory()->setIsFinished(false);
             $em->persist($task);
             $em->flush();
@@ -222,6 +226,7 @@ class TaskController extends Controller
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) { // Ajax request
             $taskId = $request->request->get('taskId');
+            $sprintId = $request->request->get('sprintId');
 
             $user = $this->container->get('security.context')->getToken()->getUser();
             if (!is_object($user)) {
@@ -261,7 +266,7 @@ class TaskController extends Controller
 
                     // Update User Story isFinished
                     if ($taskState == "Done") {
-                        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId);
+                        $nbTaskNotDone = $em->getRepository('CoralScrumMainBundle:Task')->countTaskNotDoneByTaskId($taskId, $sprintId);
                         if ($nbTaskNotDone == 0) {
                             $task->getUserStory()->setIsFinished(true);
                             $em->flush();

@@ -29,6 +29,11 @@ class Task
     private $displayId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\Sprint")
+     **/
+    private $sprint;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CoralScrum\MainBundle\Entity\UserStory", inversedBy="task")
      **/
     private $userStory;
@@ -463,5 +468,28 @@ class Task
     public function getDependency()
     {
         return $this->dependency;
+    }
+
+    /**
+     * Set sprint
+     *
+     * @param \CoralScrum\MainBundle\Entity\Sprint $sprint
+     * @return Task
+     */
+    public function setSprint(\CoralScrum\MainBundle\Entity\Sprint $sprint = null)
+    {
+        $this->sprint = $sprint;
+    
+        return $this;
+    }
+
+    /**
+     * Get sprint
+     *
+     * @return \CoralScrum\MainBundle\Entity\Sprint 
+     */
+    public function getSprint()
+    {
+        return $this->sprint;
     }
 }
