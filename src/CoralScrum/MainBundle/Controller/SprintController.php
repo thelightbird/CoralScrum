@@ -170,6 +170,80 @@ class SprintController extends Controller
     }
 
     /**
+     * Displays stats (Burn Down Chart) for this Sprint
+     *
+     */
+    public function statsAction($projectId, $sprintId)
+    {
+        $isGranted = $this->get('csm_security')->isGranted($projectId);
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+
+        $em = $this->getDoctrine()->getManager();
+        $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+
+        $conn = $this->get('database_connection');
+        $sprintId = intval($sprintId);
+        $sql = '
+            SELECT SUM(ta.duration) AS sum_duration, ta.endDate AS end_date
+            FROM sprint_userstories sp_us
+            JOIN task ta ON sp_us.userstory_id = ta.userstory_id
+            WHERE sp_us.sprint_id = '.$sprintId.'
+            AND ta.sprint_id = '.$sprintId.'
+            GROUP BY YEAR(ta.endDate), MONTH(ta.endDate), DAY(ta.endDate)
+            ORDER BY ta.endDate
+        ';
+        $resBurnDownData = $conn->fetchAll($sql);
+
+
+        // get TotalDuration
+        $burnDownTotalDuration = 0;
+        foreach ($resBurnDownData as $res) {
+            $burnDownTotalDuration += $res['sum_duration'];
+        }
+        if ($burnDownTotalDuration == 0) {
+            $burnDownTotalDuration = 7;
+        }
+
+        // get BurnDownChart Data
+        $burnDownData = array();
+        $dayValue = $burnDownTotalDuration;
+        $now = new \DateTime("now");
+        $date = clone $sprint->getStartDate();
+        $sprintDuration = $sprint->getDuration();
+        for ($k=0; $k<$sprintDuration; $k++) {
+            if ($date > $now) {
+                break;
+            }
+            $burnDownData[$k] = $dayValue;
+            foreach ($resBurnDownData as $val) {
+                $time = strtotime($val['end_date']);
+                $sqlDate = date('Y-m-d', $time);
+                
+                if ($sqlDate == $date->format('Y-m-d')) {
+                    $burnDownData[$k] = $dayValue - $val['sum_duration'];
+                    $dayValue = $burnDownData[$k];
+                    break;
+                }
+            }
+            $date->modify('+1 days');
+        }
+
+        if (!$sprint) {
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
+        }
+
+        return $this->render('CoralScrumMainBundle:Sprint:stats.html.twig', array(
+            'entity'                => $sprint,
+            'sprintId'              => $sprintId,
+            'isGranted'             => $isGranted,
+            'projectId'             => $projectId,
+            'burnDownData'          => $burnDownData,
+            'isSprintFinished'      => $isSprintFinished,
+            'burnDownTotalDuration' => $burnDownTotalDuration,
+        ));
+    }
+
+    /**
      * Displays a form to edit an existing Sprint entity.
      *
      */

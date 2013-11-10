@@ -5,6 +5,7 @@ namespace CoralScrum\MainBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
@@ -89,7 +90,7 @@ class Security {
 
         $isCreator = $this->em->getRepository('CoralScrumMainBundle:Project')->isCreator($projectId, $user);
         if (!$isCreator) {
-            throw $this->createNotFoundException('Only the project creator can access this page.');
+            throw new NotFoundHttpException('Only the project creator can access this page.');
         }
 
         return $user;
@@ -103,7 +104,7 @@ class Security {
     {
         $sprint = $this->em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
         if (!$sprint) {
-            throw $this->createNotFoundException('Unable to find Sprint entity.');
+            throw new NotFoundHttpException('Unable to find Sprint entity.');
         }
 
         $startDate = $sprint->getStartDate();

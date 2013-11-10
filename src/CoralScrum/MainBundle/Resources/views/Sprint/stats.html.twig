@@ -1,0 +1,137 @@
+{% extends "CoralScrumMainBundle::index.html.twig" %}
+
+{% block menu %}
+    {% include "CoralScrumMainBundle:Main:menu.html.twig" %}
+{% endblock %}
+
+{% block container -%}
+    <h1>Sprint #{{ entity.displayId }} Stats</h1>
+
+    <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y H:i') }}</h3>
+    <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
+
+    <h2 class="chartTitle">Burn Down Chart</h2>
+    <div class="chart">
+    </div>
+
+    <a class="button" href="{{ path('sprint', { 'projectId': projectId }) }}">Back to Sprints</a>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/d3.v3.js') }}" type="text/javascript"></script>
+    <script>
+        var data = [
+            {%- for val in burnDownData -%}
+                {%- if not loop.first -%}
+                    , 
+                {% endif -%}
+                [ {{ loop.index0 }} , {{ val }} ]
+            {%- endfor -%}
+        ];
+
+
+        var margin = {top: 30, right: 30, bottom: 50, left: 50},
+            width = 500 - margin.left - margin.right,
+            height = 300 - margin.top - margin.bottom;
+
+
+        var x = d3.scale.linear().domain([0, {{ entity.duration }}]).range([0, width]),
+            y = d3.scale.linear().domain([0, {{ burnDownTotalDuration }}]).range([height, 0]);
+            xAxis = d3.svg.axis().scale(x).ticks(10)
+                      .tickFormat(d3.format("d"))
+                        .tickSubdivide(0),
+            yAxis = d3.svg.axis().scale(y).ticks(10).orient("left")
+                      .tickFormat(d3.format("d"))
+                        .tickSubdivide(0);
+            
+
+        var svg = d3.select(".chart").append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom);
+
+
+        // horizontal lines
+        svg.selectAll(".hline").data(d3.range({{ burnDownTotalDuration }})).enter()
+            .append("line")
+            .attr("y1", function (d) {
+            return d * (height / {{ burnDownTotalDuration }});
+        })
+            .attr("y2", function (d) {
+            return d * (height / {{ burnDownTotalDuration }});
+        })
+            .attr("x1", function (d) {
+            return 0;
+        })
+            .attr("x2", function (d) {
+            return width;
+        })
+        .style("stroke", "#eee")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        //vertical lines
+        svg.selectAll(".vline").data(d3.range({{ entity.duration+1 }})).enter()
+            .append("line")
+            .attr("x1", function (d) {
+            return d * (width / {{ entity.duration }});
+        })
+            .attr("x2", function (d) {
+            return d * (width / {{ entity.duration }});
+        })
+            .attr("y1", function (d) {
+            return 0;
+        })
+            .attr("y2", function (d) {
+            return height;
+        })
+        .style("stroke", "#eee")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        var line = d3.svg.line()
+            .x(function (d, i) {
+            return x(d[0]);
+        })
+            .y(function (d) {
+            return y(d[1]);
+        });
+
+        // Add the x-axis.
+        svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+          .call(xAxis);
+
+        // Label y-axis
+        svg.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "end")
+          .attr("x", width + margin.left)
+          .attr("y", height + margin.top + 30)
+          .text("Iteration Timeline (days)");
+
+        // Add the y-axis.
+        svg.append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+          .call(yAxis);
+
+        // Label x-axis
+        svg.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "end")
+          .attr("y", 25)
+          .attr("x", -margin.top )
+          
+          .attr("transform", "rotate(-90)")
+          .text("Sum of Task Estimates (days)");
+
+        svg.append("svg:path")
+          .attr("d", line(data))
+          .attr("class", "data1")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    </script>
+{% endblock %}

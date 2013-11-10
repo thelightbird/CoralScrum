@@ -6,6 +6,10 @@ sprint_show:
     pattern:  /{sprintId}/show
     defaults: { _controller: "CoralScrumMainBundle:Sprint:show" }
 
+sprint_stats:
+    pattern:  /{sprintId}/stats
+    defaults: { _controller: "CoralScrumMainBundle:Sprint:stats" }
+
 sprint_new:
     pattern:  /new
     defaults: { _controller: "CoralScrumMainBundle:Sprint:new" }

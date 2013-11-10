@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Stats</th>
                 <th>User Stories</th>
                 <th>Start Date</th>
                 <th>Duration (days)</th>
@@ -27,6 +28,7 @@
         {% for entity in entities %}
             <tr>
                 <td><a class="button" href="{{ path('sprint_show', { 'projectId': projectId, 'sprintId': entity.id }) }}">#{{ entity.displayId }}</a></td>
+                <td><a class="stats" href="{{ path('sprint_stats', { 'projectId': projectId, 'sprintId': entity.id }) }}"><img src="{{ asset('img/chart.png') }}" alt="" /></a></td>
                 <td>
                     <ul class="list">
                     {% for userstory in entity.userstory %}
