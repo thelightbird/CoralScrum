@@ -186,7 +186,7 @@ class SprintController extends Controller
         $sql = '
             SELECT SUM(ta.duration) AS sum_duration, ta.endDate AS end_date
             FROM sprint_userstories sp_us
-            JOIN task ta ON sp_us.userstory_id = ta.userstory_id
+            JOIN Task ta ON sp_us.userstory_id = ta.userstory_id
             WHERE sp_us.sprint_id = '.$sprintId.'
             AND ta.sprint_id = '.$sprintId.'
             GROUP BY YEAR(ta.endDate), MONTH(ta.endDate), DAY(ta.endDate)
