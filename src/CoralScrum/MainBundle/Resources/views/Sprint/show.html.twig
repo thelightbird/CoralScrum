@@ -46,7 +46,7 @@
                             {%- endif -%}
                         </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskId">#{{ task.displayId }}</span>
+                        <span data-id="{{ task.id }}" class="taskId">#{{ task.displayId }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
@@ -66,7 +66,7 @@
                             {%- endif -%}
                         </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskId">#{{ task.id }}</span>
+                        <span data-id="{{ task.id }}" class="taskId">#{{ task.id }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
@@ -86,7 +86,7 @@
                             {%- endif -%}
                         </span>
                         <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
-                        <span class="taskId">#{{ task.id }}</span>
+                        <span data-id="{{ task.id }}" class="taskId">#{{ task.id }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
                     </div>
@@ -161,7 +161,7 @@
                         'top': 'auto'
                     });
                     $(this).append( $(ui.helper) );
-                    var taskId = $(ui.helper).find("span.taskId").text().replace("#", "");
+                    var taskId = $(ui.helper).find("span.taskId").attr("data-id");
                     if ($(ui.helper).parent("td").hasClass("stateInProgress")) {
                         $.post("{{ path('task_edit_state', { 'projectId': projectId, 'sprintId': entity.id }) }}", { taskId: taskId, taskState: "InProgress" });
                     }
