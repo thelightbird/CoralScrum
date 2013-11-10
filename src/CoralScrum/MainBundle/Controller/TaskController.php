@@ -46,15 +46,18 @@ class TaskController extends Controller
         
         $isGranted = $this->get('csm_security')->isGranted($projectId);
 
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CoralScrumMainBundle:Task')->findByIdJoined($sprintId);
 
         return $this->render('CoralScrumMainBundle:Task:index.html.twig', array(
-            'entities'  => $entities,
-            'sprintId'  => $sprintId,
-            'isGranted' => $isGranted,
-            'projectId' => $projectId,
+            'entities'         => $entities,
+            'sprintId'         => $sprintId,
+            'isGranted'        => $isGranted,
+            'projectId'        => $projectId,
+            'isSprintFinished' => $isSprintFinished,
         ));
     }
     /**
@@ -138,6 +141,11 @@ class TaskController extends Controller
             throw new AccessDeniedException('You do not have access to this page.');
         }
 
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+        if ($isSprintFinished) {
+            throw new AccessDeniedException('This sprint is finished, no changes are allowed.');
+        }
+
         $em = $this->getDoctrine()->getManager();
         $nbUserStories = $em->getRepository('CoralScrumMainBundle:UserStory')->countBySprintId($sprintId);
 
@@ -165,6 +173,7 @@ class TaskController extends Controller
         $projectId = $this->getProjectId($sprintId);
         
         $isGranted = $this->get('csm_security')->isGranted($projectId);
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -177,11 +186,13 @@ class TaskController extends Controller
         $deleteForm = $this->createDeleteForm($projectId, $sprintId, $id);
 
         return $this->render('CoralScrumMainBundle:Task:show.html.twig', array(
-            'entity'      => $entity,
-            'sprintId'    => $sprintId,
-            'isGranted'   => $isGranted,
-            'projectId'   => $projectId,
-            'delete_form' => $deleteForm->createView(),        ));
+            'entity'           => $entity,
+            'sprintId'         => $sprintId,
+            'isGranted'        => $isGranted,
+            'projectId'        => $projectId,
+            'isSprintFinished' => $isSprintFinished,
+            'delete_form'      => $deleteForm->createView(),
+        ));
     }
 
     /**
@@ -195,6 +206,10 @@ class TaskController extends Controller
         $isGranted = $this->get('csm_security')->isGranted($projectId);
         if (!$isGranted) {
             throw new AccessDeniedException('You do not have access to this page.');
+        }
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+        if ($isSprintFinished) {
+            throw new AccessDeniedException('This sprint is finished, no changes are allowed.');
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -364,7 +379,12 @@ class TaskController extends Controller
         if (!$isGranted) {
             throw new AccessDeniedException('You do not have access to this page.');
         }
-        
+
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+        if ($isSprintFinished) {
+            throw new AccessDeniedException('This sprint is finished, no changes are allowed.');
+        }
+
         $em = $this->getDoctrine()->getManager();
         $task = $em->getRepository('CoralScrumMainBundle:Task')->find($id);
 

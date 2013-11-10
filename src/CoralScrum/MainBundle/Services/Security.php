@@ -94,4 +94,30 @@ class Security {
 
         return $user;
     }
+
+    /**
+     * Check if sprint is finished.
+     *
+     */
+    public function isSprintFinished($sprintId)
+    {
+        $sprint = $this->em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+        if (!$sprint) {
+            throw $this->createNotFoundException('Unable to find Sprint entity.');
+        }
+
+        $startDate = $sprint->getStartDate();
+        $duration = $sprint->getDuration();
+
+        $date = clone $startDate;
+        $date->modify('+'.$duration.' days');
+        $now = new \DateTime("now");
+
+        if ($date > $now) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }

@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CoralScrum\MainBundle\Entity\Sprint;
 use CoralScrum\MainBundle\Form\SprintType;
+use CoralScrum\MainBundle\Form\SprintEditType;
 use CoralScrum\MainBundle\Services\Security;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -145,6 +146,7 @@ class SprintController extends Controller
     public function showAction($projectId, $sprintId)
     {
         $isGranted = $this->get('csm_security')->isGranted($projectId);
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
         
         $em = $this->getDoctrine()->getManager();
         $tests = $em->getRepository('CoralScrumMainBundle:Test')->findBySprintId($sprintId);
@@ -157,12 +159,13 @@ class SprintController extends Controller
         $deleteForm = $this->createDeleteForm($projectId, $sprintId);
 
         return $this->render('CoralScrumMainBundle:Sprint:show.html.twig', array(
-            'tests'       => $tests,
-            'entity'      => $sprint,
-            'sprintId'    => $sprintId,
-            'isGranted'   => $isGranted,
-            'projectId'   => $projectId,
-            'delete_form' => $deleteForm->createView(),
+            'tests'            => $tests,
+            'entity'           => $sprint,
+            'sprintId'         => $sprintId,
+            'isGranted'        => $isGranted,
+            'projectId'        => $projectId,
+            'isSprintFinished' => $isSprintFinished,
+            'delete_form'      => $deleteForm->createView(),
         ));
     }
 
@@ -205,7 +208,7 @@ class SprintController extends Controller
     */
     private function createEditForm($projectId, Sprint $entity)
     {
-        $form = $this->createForm(new SprintType(), $entity, array(
+        $form = $this->createForm(new SprintEditType(), $entity, array(
             'action' => $this->generateUrl('sprint_update', array(
                 'projectId' => $projectId,
                 'sprintId'  => $entity->getId()

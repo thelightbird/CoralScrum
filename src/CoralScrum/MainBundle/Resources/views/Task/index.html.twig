@@ -7,7 +7,7 @@
 {% block container -%}
     <h1>Tasks list</h1>
 
-    {% if isGranted -%}
+    {% if isGranted and isSprintFinished == false -%}
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
     {%- endif %}
 
@@ -27,7 +27,7 @@
                 <th>Assign To</th>
                 <th>Dependencies</th>
                 <th>Commit Link</th>
-                {% if isGranted -%}
+                {% if isGranted and isSprintFinished == false -%}
                 <th>Actions</th>
                 {%- endif %}
             </tr>
@@ -35,7 +35,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a class="button" href="{{ path('task_show', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">#{{ entity.displayId }}</a></td>
+                <td>#{{ entity.displayId }}</td>
                 <td><a href="{{ path('userstory_show', { 'projectId': projectId, 'id': entity.userstory.id }) }}">{{ entity.userstory }}</a></td>
                 <td>{{ entity.title }}</td>
                 <td>{{ entity.description }}</td>
@@ -65,7 +65,7 @@
                     <a class="commit" target="_blank" href="{{ entity.commit }}">{{ entity.commit }}</a>
                     {%- endif -%}
                 </td>
-                {% if isGranted -%}
+                {% if isGranted and isSprintFinished == false -%}
                 <td>
                     <a class="edit" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}"></a>
                     <a class="delete" href=""></a>

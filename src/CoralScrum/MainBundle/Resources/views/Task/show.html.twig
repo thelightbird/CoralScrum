@@ -73,7 +73,7 @@
         </tbody>
     </table>
 
-    {% if isGranted -%}
+    {% if isGranted and isSprintFinished == false -%}
     <ul class="actionButtons">
         <li>
             <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>

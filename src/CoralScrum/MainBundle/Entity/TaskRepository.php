@@ -124,7 +124,8 @@ class TaskRepository extends EntityRepository
                 LEFT JOIN t.dependency t2
                 JOIN t.userStory us
                 JOIN us.sprint sp
-                WHERE sp.id = :sprintId'
+                WHERE sp.id = :sprintId
+                AND t.sprint = :sprintId'
             )->setParameter('sprintId', $sprintId);
 
         try {

@@ -6,14 +6,14 @@
 
 {% block container -%}
     <h1>Sprint #{{ entity.displayId }}
-        {% if isGranted -%}
+        {% if isGranted and isSprintFinished == false -%}
             <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
         {%- endif -%}
     </h1>
     <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y H:i') }}</h3>
     <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
 
-    {% if isGranted -%}
+    {% if isGranted and isSprintFinished == false -%}
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
     {%- endif %}
 
@@ -130,7 +130,7 @@
             $(".tablesorter").tablesorter();
 
 
-            {% if isGranted -%}
+            {% if isGranted and isSprintFinished == false -%}
             {% for userstory in entity.userstory %}
             $( ".postIt.id{{ userstory.id }}" )
             .draggable({
