@@ -211,7 +211,7 @@ class SprintController extends Controller
         $now = new \DateTime("now");
         $date = clone $sprint->getStartDate();
         $sprintDuration = $sprint->getDuration();
-        for ($k=0; $k<$sprintDuration; $k++) {
+        for ($k=0; $k<=$sprintDuration; $k++) {
             if ($date > $now) {
                 break;
             }
@@ -255,7 +255,12 @@ class SprintController extends Controller
         if (!$isGranted) {
             throw new AccessDeniedException('You do not have access to this page.');
         }
-        
+
+        $isSprintFinished = $this->get('csm_security')->isSprintFinished($sprintId);
+        if ($isSprintFinished) {
+            throw new AccessDeniedException('This sprint is finished, no changes are allowed.');
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);

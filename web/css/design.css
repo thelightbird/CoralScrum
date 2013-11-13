@@ -79,7 +79,7 @@ body {
 	font-family: sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family:"Segoe UI";
+	font-family:Ubuntu;
 } 
 h1 {
 	font-size: 22px;
@@ -800,7 +800,6 @@ header div.infos span.notif {
 }
 #mainContainer ul.projectSelection > li span.title {
 	font-size:13px;
-	font-family: "Segoe UI";
 	padding-top: 15px;
 	display: block;
 }

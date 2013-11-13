@@ -40,7 +40,9 @@
                 <td>{{ entity.duration }}</td>
                 {% if isGranted -%}
                 <td>
+                    {% if loop.last -%}
                     <a class="edit" href="{{ path('sprint_edit', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
+                    {%- endif %}
                     <a class="delete popupDialog" href="{{ path('sprint_delete', { 'projectId': projectId, 'sprintId': entity.id }) }}"></a>
                 </td>
                 {%- endif %}
