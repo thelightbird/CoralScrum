@@ -180,6 +180,7 @@ class SprintController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $sprint = $em->getRepository('CoralScrumMainBundle:Sprint')->find($sprintId);
+        $userContributions = $em->getRepository('CoralScrumMainBundle:Sprint')->getUserContributionsBySprintId($sprintId);
 
         $conn = $this->get('database_connection');
         $sprintId = intval($sprintId);
@@ -239,6 +240,7 @@ class SprintController extends Controller
             'projectId'             => $projectId,
             'burnDownData'          => $burnDownData,
             'isSprintFinished'      => $isSprintFinished,
+            'userContributions'     => $userContributions,
             'burnDownTotalDuration' => $burnDownTotalDuration,
         ));
     }
