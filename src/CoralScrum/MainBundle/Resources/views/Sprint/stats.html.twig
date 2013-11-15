@@ -27,7 +27,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/d3.v3.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
     <script>
         var data = [
             {%- for val in burnDownData -%}
