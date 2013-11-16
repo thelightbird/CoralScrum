@@ -8,7 +8,7 @@
     <h1>Sprint #{{ entity.displayId }} Stats</h1>
 
     <h3><span class="bold">Start Date:</span> {{ entity.startDate|date('d M Y H:i') }}</h3>
-    <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration < 1 ? 'day' : 'days' }}</h3>
+    <h3><span class="bold">Duration:</span> {{ entity.duration }} {{ entity.duration == 1 ? 'day' : 'days' }}</h3>
 
     <div class="chart">
         <h2 class="chartTitle">Burn Down Chart</h2>
@@ -156,7 +156,7 @@
         ];
 
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
-                width = 800 - margin.left - margin.right,
+                width = 560 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
             radius = Math.min(width, height) / 2;
 

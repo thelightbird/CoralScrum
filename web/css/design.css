@@ -973,6 +973,7 @@ header div.infos span.notif {
 }
 .postIt span.taskTitle {
 	color: #86522D;
+	margin: 0px;
 	margin-top: 3px;
 	font-size: 12px;
 	line-height: 12px;
