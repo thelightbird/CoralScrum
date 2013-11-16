@@ -67,7 +67,7 @@ class SprintRepository extends EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getUserContributionsBySprintId($sprintId)
+    public function getUserContributionsTaskDoneBySprintId($sprintId)
     {
         $query = $this->getEntityManager()
             ->createQuery('
@@ -79,6 +79,31 @@ class SprintRepository extends EntityRepository
                 JOIN us.task ta WITH ta.sprint = :sprintId
                 JOIN ta.user u
                 WHERE sp.id = :sprintId
+                AND ta.state = 2
+                GROUP BY u.id
+                ORDER BY totalDuration DESC'
+            )->setParameter('sprintId', $sprintId);
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function getUserContributionsTaskInProgressBySprintId($sprintId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT
+                    SUM(ta.duration) AS totalDuration,
+                    u.username, u.firstname, u.lastname
+                FROM CoralScrumMainBundle:Sprint sp
+                JOIN sp.userStory us
+                JOIN us.task ta WITH ta.sprint = :sprintId
+                JOIN ta.user u
+                WHERE sp.id = :sprintId
+                AND ta.state = 1
                 GROUP BY u.id
                 ORDER BY totalDuration DESC'
             )->setParameter('sprintId', $sprintId);

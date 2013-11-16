@@ -14,9 +14,15 @@
         <h2 class="chartTitle">Burn Down Chart</h2>
     </div>
 
-    {% if userContributions -%}
-    <div class="donut">
-        <h2 class="chartTitle">User Contributions Chart</h2>
+    {% if userContributionsTaskInProgress -%}
+    <div class="donut userTaskInProgress floatLeft">
+        <h2 class="chartTitle">User Contributions Chart for Tasks In Progress</h2>
+    </div>
+    {%- endif -%}
+
+    {% if userContributionsTaskDone -%}
+    <div class="donut userTaskDone">
+        <h2 class="chartTitle">User Contributions Chart for Tasks Done</h2>
     </div>
     {%- endif -%}
 
@@ -143,11 +149,11 @@
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
 
-{% if userContributions -%}
+{% if userContributionsTaskInProgress -%}
 /* Donut Chart
 --------------------------------------------------------------------------------------------------*/
         var data = [
-            {% for user in userContributions %}
+            {% for user in userContributionsTaskInProgress %}
                 {%- if not loop.first -%}
                     , 
                 {% endif -%}
@@ -156,7 +162,7 @@
         ];
 
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
-                width = 560 - margin.left - margin.right,
+                width = 550 - margin.left - margin.right,
                 height = 400 - margin.top - margin.bottom;
             radius = Math.min(width, height) / 2;
 
@@ -179,7 +185,82 @@
             .sort(null)
             .value(function(d) { return d.value; });
 
-        var svg = d3.select(".donut").append("svg")
+        var svg = d3.select(".userTaskInProgress").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + height/2 + "," + height/2 + ")");
+
+
+          var g = svg.selectAll(".arc")
+              .data(pie(data))
+            .enter().append("g")
+              .attr("class", "arc");
+
+          g.append("path")
+              .attr("d", arc)
+              .style("fill", function(d, i) { return color(i); });
+
+
+          var legend = svg.selectAll(".legend")
+              .data(pie(data))
+            .enter().append("g")
+              .attr("class", "legend")
+              .attr("transform", function(d, i) { return "translate(" + height/2 + "," + ((i * 15)-((height/2)-10)) + ")"; });
+
+          legend.append("rect")
+              .attr("x", 20)
+              .attr("y", 0)
+              .attr("width", 10)
+              .attr("height", 10)
+              .style("fill", function(d, i) { return color(i); });
+
+          legend.append("text")
+              .attr("x", 34)
+              .attr("y", 5)
+              .attr("dy", ".35em")
+              .text(function(d, i) { return data[i].label; });
+
+{%- endif -%}
+
+
+{% if userContributionsTaskDone -%}
+/* Donut Chart
+--------------------------------------------------------------------------------------------------*/
+        var data = [
+            {% for user in userContributionsTaskDone %}
+                {%- if not loop.first -%}
+                    , 
+                {% endif -%}
+                {"label":"{{ user["username"] }}", "value":{{ user["totalDuration"] }} }
+            {% endfor %}
+        ];
+
+            var margin = {top: 30, right: 30, bottom: 30, left: 30},
+                width = 550 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+            radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+            .range([
+                "#88cb9d", "#55b473", "#3b7e50",
+                "#84c8d4", "#4fb0c1", "#377b87",
+                "#7696d4", "#3b69c1", "#294987",
+                "#b28ad4", "#9157c1", "#653d87",
+                "#cb83ae", "#b44d8b", "#7e3661",
+                "#d4767f", "#c13b48", "#872932",
+                "#d6b678", "#c4963e", "#89692b"
+            ]);
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(radius - 80);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.value; });
+
+        var svg = d3.select(".userTaskDone").append("svg")
             .attr("width", width)
             .attr("height", height)
           .append("g")
