@@ -238,6 +238,7 @@ div.message {
 }
 div.error {
 	margin-top: 20px;
+	margin-bottom: 20px;
 	padding: 20px;
 	font-size: 16px;
 	line-height: 20px;
@@ -248,6 +249,7 @@ div.error {
 }
 div.flash-success {
 	margin-top: 20px;
+	margin-bottom: 20px;
 	padding: 20px;
 	font-size: 16px;
 	line-height: 20px;
@@ -393,6 +395,7 @@ table.tablesorter thead tr {
 
 .button {
 	padding: 6px 7px 5px;
+	background: #ffd16f;
 	background: linear-gradient(to top, #FFBC2D, #FFDE99);
 	border: 1px solid #EBAE41;
 }
@@ -411,6 +414,7 @@ button.redButton:hover {
 
 
 .redButton {
+	background: #f38484;
 	background: linear-gradient(to top, #DB6161, #FF9696);
 	border: 1px solid #CE3535;
 }
@@ -419,6 +423,7 @@ button.redButton:hover {
 }
 
 .greenButton {
+	background: #3fdb76;
 	background: linear-gradient(to top, #23BE61, #51EE83);
 	border: 1px solid #00941D;
 }
@@ -428,6 +433,7 @@ button.redButton:hover {
 }
 
 .blueButton {
+	background: #71c5f0;
 	background: linear-gradient(to top, #39A2D3, #8ED6FF);
 	border: 1px solid #2F8DD6;
 }
@@ -437,6 +443,7 @@ button.redButton:hover {
 }
 
 .orangeButton {
+	background: #fbc97f;
 	background: linear-gradient(to top, #F5AC4F, #FFDC9D);
 	border: 1px solid #CC8E1E;
 }
@@ -446,6 +453,7 @@ button.redButton:hover {
 }
 
 .violetButton {
+	background: #e084f5;
 	background: linear-gradient(to top, #C35EE6, #F39DFF);
 	border: 1px solid #AE30DA;
 }
@@ -773,7 +781,6 @@ header div.infos span.notif {
 #menu ul li {
 	float:left;
 	position:relative;
-	/*background: linear-gradient(to top, #dfdfdf, #e8e8e8);*/
 	background-color: #dadada;
 	border: 1px solid #fff;
 	border-right: 1px solid #b9b9b9;
