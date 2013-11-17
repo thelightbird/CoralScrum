@@ -74,9 +74,9 @@
     </table>
 
     {% if isGranted and isSprintFinished == false -%}
-    <ul class="actionButtons">
+    <ul class="actionButtons center">
         <li>
-            <a class="button" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
+            <a class="blueButton" href="{{ path('task_edit', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Edit</a>
         </li>
         <li>
             <a class="redButton popupDialog" href="{{ path('task_delete', { 'projectId': projectId, 'sprintId': sprintId, 'id': entity.id }) }}">Delete</a>

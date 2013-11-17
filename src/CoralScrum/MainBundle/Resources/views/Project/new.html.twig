@@ -1,7 +1,11 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    <div id="headband"></div>
+{% endblock %}
+
 {% block container -%}
-    <h1>Project creation</h1>
+    <h1>Add a new Project</h1>
 
     {{ form(form) }}
 

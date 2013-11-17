@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block container -%}
-    <h1>User Stories list</h1>
+    <h1>User Stories</h1>
 
     {% if isGranted -%}
     <a class="button" href="{{ path('userstory_new', { 'projectId': projectId }) }}">Create a new User Story</a>

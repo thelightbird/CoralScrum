@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block container -%}
-    <h1>Sprints list</h1>
+    <h1>Sprints</h1>
 
     {% if isGranted -%}
     <a class="button" href="{{ path('sprint_new', { 'projectId': projectId }) }}">Create a new Sprint</a>

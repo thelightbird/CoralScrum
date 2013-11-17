@@ -147,7 +147,8 @@ form input[type=checkbox] {
 	width: 230px;
 	text-align: center;
 }
-form input[type=submit] {
+form input[type=submit],
+form button[type=submit]:not(.redButton) {
 	border: 1px solid lightgrey;
 	background-color: #F1F1F1;
 	width: auto;
@@ -155,11 +156,15 @@ form input[type=submit] {
 	display: block;
 	margin: auto;
 	margin: 10px auto;
+	padding: 5px;
 }
-form input[type=submit]:hover {
+form input[type=submit]:hover,
+form button[type=submit]:not(.redButton):hover {
 	cursor:pointer;
+	background-color: #f9f9f9;
 }
-form input[type=submit]:active {
+form input[type=submit]:active,
+form button[type=submit]:not(.redButton):active {
 	border: 1px solid darkgrey;
 }
 form select {
@@ -238,6 +243,16 @@ div.error {
 	line-height: 20px;
 	background-color: #EEC1C1;
 	border: 1px solid #E07C7C;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: 500;
+}
+div.flash-success {
+	margin-top: 20px;
+	padding: 20px;
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #c1d7ee;
+	border: 1px solid #7baee0;
 	font-family: 'Ubuntu', sans-serif;
 	font-weight: 500;
 }
@@ -360,15 +375,14 @@ table.tablesorter thead tr {
 
 /* Buttons
 -------------------------------------------------------------- */
-a.button,
-a.redButton,
-a.greenButton,
-a.orangeButton,
-a.blueButton ,
-a.violetButton,
-button[type=submit] {
+.button,
+.redButton,
+.greenButton,
+.orangeButton,
+.blueButton ,
+.violetButton {
 	margin: 2px;
-	padding: 5px 7px 4px;
+	padding: 6px 7px 5px;
 	border-radius: 4px;
 	color: black;
 	font-size: 11px;
@@ -376,84 +390,89 @@ button[type=submit] {
 	text-decoration: none;
 	display: inline-block;
 }
-button[type=submit]:hover {
-	cursor: pointer;
-}
-a.button,
-button[type=submit] {
+
+.button {
 	padding: 6px 7px 5px;
 	background: linear-gradient(to top, #FFBC2D, #FFDE99);
 	border: 1px solid #EBAE41;
 }
-a.button:active,
-button[type=submit]:active {
+.button:active {
 	background: none;
 	background-color: #FFBC2D;
 }
 
-a.redButton {
+button.redButton {
+	margin: 0px;
+	padding: 4px;
+}
+button.redButton:hover {
+	cursor: pointer;
+}
+
+
+.redButton {
 	background: linear-gradient(to top, #DB6161, #FF9696);
 	border: 1px solid #CE3535;
 }
-a.redButton:active {
+.redButton:active {
 	background: #DB6161;
 }
 
-a.greenButton {
+.greenButton {
 	background: linear-gradient(to top, #23BE61, #51EE83);
 	border: 1px solid #00941D;
 }
-a.greenButton:active {
+.greenButton:active {
 	background: none;
 	background-color: #23BE61;
 }
 
-a.blueButton {
+.blueButton {
 	background: linear-gradient(to top, #39A2D3, #8ED6FF);
 	border: 1px solid #2F8DD6;
 }
-a.blueButton:active {
+.blueButton:active {
 	background: none;
 	background-color: #39A2D3;
 }
 
-a.orangeButton {
+.orangeButton {
 	background: linear-gradient(to top, #F5AC4F, #FFDC9D);
 	border: 1px solid #CC8E1E;
 }
-a.orangeButton:active {
+.orangeButton:active {
 	background: none;
 	background-color: #F5AC4F;
 }
 
-a.violetButton {
+.violetButton {
 	background: linear-gradient(to top, #C35EE6, #F39DFF);
 	border: 1px solid #AE30DA;
 }
-a.violetButton:active {
+.violetButton:active {
 	background: none;
 	background-color: #C35EE6;
 }
 
-a.edit,
-a.delete {
+.edit,
+.delete {
 	width: 20px;
 	height:20px;
 	display: inline-block;
 	margin: 2px;
 }
-a.edit {
+.edit {
 	background-image: url(./../img/edit.png)
 }
-a.delete {
+.delete {
 	background-image: url(./../img/delete.png)
 }
-a.edit:hover,
-a.delete:hover,
-a.stats:hover {
+.edit:hover,
+.delete:hover,
+.stats:hover {
 	opacity: 0.7;
 }
-h1 a.edit {
+h1 .edit {
 	vertical-align: -4px;
 }
 
@@ -721,14 +740,25 @@ header div.infos span.notif {
 }
 
 
+/* Headband
+-------------------------------------------------------------- */
+#headband {
+	width: 100%;
+	height: 120px;
+    background-image: url(".././img/header.png");
+    background-repeat: repeat-x;
+	background-position: center;
+}
+
+
+
 /* Menu
 -------------------------------------------------------------- */
 #menu {
 	width:100%;
-	background-color:#dedede;
 }
 #menu div.container {
-	margin-top:20px;
+	margin-top:81px;
     float:right;
     position:relative;
     left:-50%;
@@ -743,13 +773,15 @@ header div.infos span.notif {
 #menu ul li {
 	float:left;
 	position:relative;
-	background: linear-gradient(to top, #dfdfdf, #e8e8e8);
-	border: 1px solid #ccc;
+	/*background: linear-gradient(to top, #dfdfdf, #e8e8e8);*/
+	background-color: #dadada;
+	border: 1px solid #fff;
+	border-right: 1px solid #b9b9b9;
 	border-left: none;
 }
 #menu ul li:not(.selected):hover {
 	background: transparent;
-	background-color: #e8e8e8;
+	background-color: #e5e5e5;
 }
 #menu ul li.selected {
 	border-bottom-color: #ebebeb;
@@ -757,7 +789,7 @@ header div.infos span.notif {
 	background-color: #ebebeb;
 }
 #menu ul li:first-child {
-	border-left: 1px solid #ccc;
+	border-left: 1px solid #b9b9b9;
 	border-top-left-radius: 5px;
 }
 #menu ul li:last-child {
@@ -778,7 +810,7 @@ header div.infos span.notif {
 #mainContainer {
 	width: 100%;
 	background-color: #ebebeb;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid #fff;
 	margin-top: -1px;
 }
 
@@ -786,7 +818,6 @@ header div.infos span.notif {
 	width:1000px;
 	margin:auto;
 	margin-top: 10px;
-	padding-bottom: 100px;
 }
 
 
@@ -1057,10 +1088,6 @@ header div.infos span.notif {
 	padding-bottom: 6px;
 }
 
-ul.actionButtons {
-	text-align: center;
-	margin: auto;
-}
 ul.actionButtons li {
 	display: inline-block;
 	padding: 20px 40px;
@@ -1244,4 +1271,82 @@ path {
 .chart svg {
     background-color: #fff;
     border: 1px solid #ddd;
+}
+
+
+/* Footer
+-------------------------------------------------------------- */
+* {
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -182px;
+}
+.push {
+	height: 182px;
+	margin-top: 100px;
+}
+footer {
+	background-color: #1a1a1a;
+	width: 100%;
+	padding: 35px 0px;
+}
+
+footer ul {
+	width: 1000px;
+	margin: auto;
+	color: #cccccc;
+}
+
+footer ul li {
+	float: left;
+	height: 112px;
+	line-height:112px;
+	text-align: center;
+}
+footer ul li.first,
+footer ul li.third {
+	width: 24%;
+}
+footer ul li.second {
+	width: 51%;
+}
+
+footer ul li.second span { 
+	width:100%;
+	vertical-align:middle;
+	display:inline-block;
+	line-height:1.4;
+}
+
+footer ul li.third {
+	border-left: 1px solid #313131;
+}
+
+footer ul li.third div.border {
+	height: 112px;
+	border-left: 1px solid #000;
+}
+footer ul li.third div.container {
+	vertical-align: middle;
+	display: inline-block;
+	line-height: 1.4;
+}
+footer ul li.third img {
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+footer ul li.third a {
+	text-decoration: none;
+}
+footer ul li.third a:hover {
+	text-decoration: underline;
 }

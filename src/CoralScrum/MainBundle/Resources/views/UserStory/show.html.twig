@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block container -%}
-    <h1>UserStory</h1>
+
+    <h1>User Story</h1>
 
     <table class="cleanTab">
         <tbody>
@@ -54,10 +55,18 @@
         </tbody>
     </table>
 
-    <a class="button" href="{{ path('userstory', { 'projectId': projectId }) }}">Back to Backlog</a>
     {% if isGranted %}
-    <a class="button" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
-    {{ form(delete_form) }}
+    <ul class="actionButtons" style="margin-left:40px;">
+        <li>
+            <a class="blueButton" href="{{ path('userstory_edit', { 'projectId': projectId, 'id': entity.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            {{ form_widget(delete_form.submit, { 'attr': { 'class': 'redButton' } }) }}
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
     {% endif %}
 
+    <a class="button" href="{{ path('userstory', { 'projectId': projectId }) }}">Back to Backlog</a>
 {% endblock %}

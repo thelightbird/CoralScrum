@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block container -%}
-    <h1>Tests list</h1>
+    <h1>Tests</h1>
 
     {% if isGranted -%}
     <a class="button" href="{{ path('test_new', { 'projectId': projectId }) }}">Create a new Test</a>

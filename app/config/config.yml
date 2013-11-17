@@ -73,4 +73,7 @@ fos_user:
     registration:
         form:
             type: coral_scrum_user_registration
+    profile:
+        form:
+            type: coral_scrum_user_profile
 

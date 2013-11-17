@@ -9,6 +9,8 @@
 
 {% block body %}
 
+     <div class="wrapper">
+
         <header>
             <div class="container">
                 <div class="logo">
@@ -25,24 +27,26 @@
                 </div>
             </div>
         </header>
-        
+
         {% block menu %}
-            
+
         {% endblock %}
 
         <div id="mainContainer">
             <div class="container">
 
                 {% block container %}
-                    
+
                 {% endblock %}
             </div>
-            <div class="clear"></div>
+            <div class="clear push"></div>
         </div>
 
-        <div id="footer">
-            {% include "CoralScrumMainBundle:Main:footer.html.twig" %}
-        </div>
+    </div>
+
+    <footer>
+        {% include "CoralScrumMainBundle:Main:footer.html.twig" %}
+    </footer>
 
 {% endblock %}
 

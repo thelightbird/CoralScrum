@@ -1,3 +1,0 @@
-coral_scrum_user_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CoralScrumUserBundle:Default:index }

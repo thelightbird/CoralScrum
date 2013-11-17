@@ -12,6 +12,8 @@
 
 {% block body %}
 
+    <div class="wrapper">
+
         <header>
             <div class="container">
                 <div class="logo">
@@ -28,22 +30,7 @@
                 </div>
             </div>
         </header>
-        
-        {% block menu %}
-            
-        {% endblock %}
 
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <div id="mainContainer">
-            <div class="container">
-                <a class="button" href="{{ path('project') }}">Projects</a>
-                {% block container %}
-                {#{ render(controller("CoralScrumMainBundle:Project:index")) }#}
-                {% endblock %}
-            </div>
-        </div>
-
-        {% else %}
         <div id="homePage">
             <div class="containerTitle">
                 <h1>Welcome to Coral Scrum</h1>
@@ -89,11 +76,12 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <div class="clear"></div>
-        {% endif %}
 
-        <div id="footer">
-            {% include "CoralScrumMainBundle:Main:footer.html.twig" %}
-        </div>
+        <div class="clear push"></div>
+    </div>
+
+    <footer>
+        {% include "CoralScrumMainBundle:Main:footer.html.twig" %}
+    </footer>
 
 {% endblock %}

@@ -17,6 +17,8 @@
     <a class="button" href="{{ path('task_new', { 'projectId': projectId, 'sprintId': sprintId }) }}">Create a new Task</a>
     {%- endif %}
 
+    <a class="button" href="{{ path('sprint_stats', { 'projectId': projectId, 'sprintId': sprintId }) }}">View Sprint Stats</a>
+
     <table class="defaultTab tablesorter">
         <thead>
             <tr>

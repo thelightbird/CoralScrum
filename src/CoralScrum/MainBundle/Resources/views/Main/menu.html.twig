@@ -1,12 +1,13 @@
-	<div id="menu">
-		<div class="container">
-			<ul>
-				<li class="{% if app.request.get('_route') == 'project_show' %} selected{% endif %}"><a href="{{ path('project_show', { 'projectId': projectId }) }}">Overview</a></li>
-				<li class="{% if app.request.get('_route') == 'userstory' %} selected{% endif %}"><a href="{{ path('userstory', { 'projectId': projectId }) }}">Backlog</a></li>
-				<li class="{% if app.request.get('_route') == 'test' %} selected{% endif %}"><a href="{{ path('test', { 'projectId': projectId }) }}">Tests</a></li>
-				<li class="{% if app.request.get('_route') == 'sprint' %} selected{% endif %}"><a href="{{ path('sprint', { 'projectId': projectId }) }}">Sprints</a></li>
-			</ul>
+    <div id="headband">
+		<div id="menu">
+			<div class="container">
+				<ul>
+					<li class="{% if app.request.get('_route') == 'project_show' %} selected{% endif %}"><a href="{{ path('project_show', { 'projectId': projectId }) }}">Overview</a></li>
+					<li class="{% if app.request.get('_route') == 'userstory' %} selected{% endif %}"><a href="{{ path('userstory', { 'projectId': projectId }) }}">Backlog</a></li>
+					<li class="{% if app.request.get('_route') == 'test' %} selected{% endif %}"><a href="{{ path('test', { 'projectId': projectId }) }}">Tests</a></li>
+					<li class="{% if app.request.get('_route') == 'sprint' %} selected{% endif %}"><a href="{{ path('sprint', { 'projectId': projectId }) }}">Sprints</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
 		</div>
-		<div class="clear"></div>
-	</div>
-
+    </div>

@@ -1,7 +1,11 @@
 {% extends "CoralScrumMainBundle::index.html.twig" %}
 
+{% block menu %}
+    <div id="headband"></div>
+{% endblock %}
+
 {% block container -%}
-    <h1>Projects list</h1>
+    <h1>Projects</h1>
 
     <a class="button" href="{{ path('project_new') }}">Create a new Project</a>
 

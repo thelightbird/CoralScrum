@@ -12,6 +12,13 @@ services:
         tags:
             - { name: form.type, alias: coral_scrum_user_registration }
 
+
+    coral_scrum_user.profile.form.type:
+        class: CoralScrum\UserBundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: coral_scrum_user_profile }
+
     user_login_manager:
         class: 'CoralScrum\UserBundle\Services\LoginManager'
         arguments: ['@security.context', '@doctrine']
