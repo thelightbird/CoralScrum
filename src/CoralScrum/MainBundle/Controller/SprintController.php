@@ -183,6 +183,7 @@ class SprintController extends Controller
         $userContributionsTaskDone = $em->getRepository('CoralScrumMainBundle:Sprint')->getUserContributionsTaskDoneBySprintId($sprintId);
         $userContributionsTaskInProgress = $em->getRepository('CoralScrumMainBundle:Sprint')->getUserContributionsTaskInProgressBySprintId($sprintId);
 
+        // Burndown Chart Task Estimates
         $conn = $this->get('database_connection');
         $sprintId = intval($sprintId);
         $sql = '
@@ -198,17 +199,17 @@ class SprintController extends Controller
 
 
         // get TotalDuration
-        $burnDownTotalDuration = 0;
+        $burndownTotalDuration = 0;
         foreach ($resBurnDownData as $res) {
-            $burnDownTotalDuration += $res['sum_duration'];
+            $burndownTotalDuration += $res['sum_duration'];
         }
-        if ($burnDownTotalDuration == 0) {
-            $burnDownTotalDuration = 7;
+        if ($burndownTotalDuration == 0) {
+            $burndownTotalDuration = 7;
         }
 
         // get BurnDownChart Data
-        $burnDownData = array();
-        $dayValue = $burnDownTotalDuration;
+        $burndownData = array();
+        $dayValue = $burndownTotalDuration;
         $now = new \DateTime("now");
         $date = clone $sprint->getStartDate();
         $sprintDuration = $sprint->getDuration();
@@ -216,14 +217,14 @@ class SprintController extends Controller
             if ($date > $now) {
                 break;
             }
-            $burnDownData[$k] = $dayValue;
+            $burndownData[$k] = $dayValue;
             foreach ($resBurnDownData as $val) {
                 $time = strtotime($val['end_date']);
                 $sqlDate = date('Y-m-d', $time);
                 
                 if ($sqlDate == $date->format('Y-m-d')) {
-                    $burnDownData[$k] = $dayValue - $val['sum_duration'];
-                    $dayValue = $burnDownData[$k];
+                    $burndownData[$k] = $dayValue - $val['sum_duration'];
+                    $dayValue = $burndownData[$k];
                     break;
                 }
             }
@@ -239,9 +240,9 @@ class SprintController extends Controller
             'sprintId'              => $sprintId,
             'isGranted'             => $isGranted,
             'projectId'             => $projectId,
-            'burnDownData'          => $burnDownData,
+            'burndownData'          => $burndownData,
             'isSprintFinished'      => $isSprintFinished,
-            'burnDownTotalDuration' => $burnDownTotalDuration,
+            'burndownTotalDuration' => $burndownTotalDuration,
             'userContributionsTaskDone'       => $userContributionsTaskDone,
             'userContributionsTaskInProgress' => $userContributionsTaskInProgress,
         ));

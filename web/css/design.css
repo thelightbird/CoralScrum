@@ -64,6 +64,9 @@ table {
 .floatLeft {
 	float: left;
 }
+.floatRight {
+	float: right;
+}
 
 html, body {
 	height: 100%;

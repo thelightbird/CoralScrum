@@ -7,6 +7,12 @@
 {% block container -%}
     <h1>User Stories</h1>
 
+    {% set backlogDifficulty = 0 %}
+    {% for userstory in entities %}
+        {% set backlogDifficulty = backlogDifficulty + userstory.difficulty %}
+    {% endfor %}
+    <h3><span class="bold">Backlog difficulty:</span> {{ backlogDifficulty }}</h3>
+
     {% if isGranted -%}
     <a class="button" href="{{ path('userstory_new', { 'projectId': projectId }) }}">Create a new User Story</a>
     {%- endif %}
