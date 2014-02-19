@@ -825,8 +825,9 @@ header div.infos span.notif {
 }
 
 #mainContainer div.container {
-	width:1000px;
-	margin:auto;
+	width: auto;
+	min-width: 1000px;
+	margin: auto 50px;
 	margin-top: 10px;
 }
 
