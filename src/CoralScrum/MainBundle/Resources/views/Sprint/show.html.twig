@@ -53,7 +53,7 @@
                             <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
                             {%- endif -%}
                         </span>
-                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskDuration">Estimated duration: {{ task.duration }}</span>
                         <span data-id="{{ task.id }}" class="taskId">#{{ task.displayId }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
@@ -73,7 +73,7 @@
                             <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
                             {%- endif -%}
                         </span>
-                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskDuration">Estimated duration: {{ task.duration }}</span>
                         <span data-id="{{ task.id }}" class="taskId">#{{ task.displayId }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
@@ -93,7 +93,7 @@
                             <img title="This task is a bug." src="{{ asset('img/bug.png') }}" alt=""/>
                             {%- endif -%}
                         </span>
-                        <span class="taskDuration">Estimed duration: {{ task.duration }}</span>
+                        <span class="taskDuration">Estimated duration: {{ task.duration }}</span>
                         <span data-id="{{ task.id }}" class="taskId">#{{ task.displayId }}</span>
                         <span class="taskTitle">{{ task.title }}</span>
                         <span class="taskDesc">{{ task.description|length > 120 ? task.description[:120] ~ '...' : task.description }}</span>
@@ -125,7 +125,7 @@
     </table>
 
     <a class="button" href="{{ path('sprint', { 'projectId': projectId }) }}">Back to Sprints</a>
-    
+
 {% endblock %}
 
 
